@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import suite from "@/assets/gallery-suite.jpg";
-import boardroom from "@/assets/gallery-boardroom.jpg";
-import grounds from "@/assets/gallery-grounds.jpg";
-import clinical from "@/assets/gallery-clinical.jpg";
+import suite from "@/assets/gallery-suite-v2.jpg";
+import boardroom from "@/assets/gallery-boardroom-v2.jpg";
+import grounds from "@/assets/gallery-grounds-v2.jpg";
+import clinical from "@/assets/gallery-clinical-v2.jpg";
 
 /**
  * v1.5 — every panel is now a button that opens an editorial lightbox with
@@ -90,8 +90,8 @@ function FramePanel({
   return (
     <figure
       ref={ref}
-      className={`group relative overflow-hidden bg-card transition-all duration-1000 ease-out ${
-        inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+      className={`gallery-panel group relative overflow-hidden bg-card transition-all duration-[1500ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
       } ${className}`}
       style={{ transitionDelay: `${delay}ms` }}
     >
@@ -109,15 +109,6 @@ function FramePanel({
             width={1280}
             height={960}
             className="w-full h-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-105"
-          />
-          {/* Unified color grade — cool slate shadows, warm amber midtones, soft-light blend */}
-          <div
-            className="absolute inset-0 pointer-events-none mix-blend-soft-light"
-            style={{
-              background:
-                "linear-gradient(140deg, color-mix(in oklab, var(--navy) 22%, transparent) 0%, transparent 50%, color-mix(in oklab, var(--amber) 16%, transparent) 100%)",
-            }}
-            aria-hidden
           />
         </div>
         <div
@@ -182,17 +173,17 @@ function Lightbox({ frame, onClose }: { frame: Frame; onClose: () => void }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 lg:p-10 animate-[lbFade_220ms_ease-out]"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 lg:p-10 lb-fade"
       role="dialog"
       aria-modal="true"
       aria-label={frame.title}
     >
       <button
-        className="absolute inset-0 bg-navy/85 backdrop-blur-sm"
+        className="absolute inset-0 bg-navy/85 lb-backdrop"
         onClick={onClose}
         aria-label="Close"
       />
-      <div className="relative max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-px bg-border max-h-[92vh] overflow-y-auto">
+      <div className="relative max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-0 max-h-[92vh] overflow-y-auto lb-panel">
         <div className="lg:col-span-7 bg-navy">
           <img
             src={frame.src}
@@ -240,7 +231,15 @@ function Lightbox({ frame, onClose }: { frame: Frame; onClose: () => void }) {
         </svg>
       </button>
       <style>{`
-        @keyframes lbFade { from { opacity: 0; } to { opacity: 1; } }
+        /* Lightbox curtain — 380ms scale-from-95% on the panel + backdrop blur ramp 0→8px. */
+        @keyframes lbBackdrop { from { backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); opacity: 0; } to { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); opacity: 1; } }
+        @keyframes lbPanel    { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .lb-fade     { animation: lbBackdrop 380ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+        .lb-backdrop { animation: lbBackdrop 380ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+        .lb-panel    { animation: lbPanel 380ms cubic-bezier(0.22, 1, 0.36, 1) both; transform-origin: center; }
+        @media (prefers-reduced-motion: reduce) {
+          .lb-fade, .lb-backdrop, .lb-panel { animation: none !important; }
+        }
       `}</style>
     </div>
   );
@@ -275,7 +274,7 @@ export function Gallery() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
+        <div className="gallery-grid grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
           <FramePanel
             frame={frames[0]}
             className="lg:col-span-7 lg:row-span-2 aspect-[4/5] lg:aspect-auto lg:min-h-[680px]"
@@ -300,6 +299,17 @@ export function Gallery() {
             onOpen={() => setOpenFrame(frames[3])}
           />
         </div>
+
+        {/* Magic moment: hovering one panel desaturates its siblings to focus the eye. */}
+        <style>{`
+          @media (hover: hover) and (pointer: fine) {
+            .gallery-grid:hover .gallery-panel { filter: saturate(0.4) brightness(0.92); transition: filter 600ms cubic-bezier(0.22, 1, 0.36, 1); }
+            .gallery-grid .gallery-panel:hover { filter: saturate(1) brightness(1); }
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .gallery-grid:hover .gallery-panel { filter: none; }
+          }
+        `}</style>
 
         <div className="mt-16 lg:mt-24">
           <dl className="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8">

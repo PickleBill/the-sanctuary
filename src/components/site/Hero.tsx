@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import heroAerial from "@/assets/hero-estate-aerial.jpg";
+import heroAerial from "@/assets/hero-signature.jpg";
 
 /**
  * v1.6 — repositioned. Privacy is the floor, not the headline.
@@ -116,9 +116,36 @@ function MistCanvas() {
   );
 }
 
+function useIdlePulse(thresholdMs = 8000) {
+  const [idle, setIdle] = useState(false);
+  useEffect(() => {
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return;
+    let timer = window.setTimeout(() => setIdle(true), thresholdMs);
+    const reset = () => {
+      setIdle(false);
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => setIdle(true), thresholdMs);
+    };
+    window.addEventListener("scroll", reset, { passive: true });
+    window.addEventListener("mousemove", reset, { passive: true });
+    window.addEventListener("touchstart", reset, { passive: true });
+    window.addEventListener("keydown", reset);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("scroll", reset);
+      window.removeEventListener("mousemove", reset);
+      window.removeEventListener("touchstart", reset);
+      window.removeEventListener("keydown", reset);
+    };
+  }, [thresholdMs]);
+  return idle;
+}
+
 export function Hero() {
   const [revealed, setRevealed] = useState(false);
   const scrollY = useParallax();
+  const idle = useIdlePulse(8000);
 
   useEffect(() => {
     const t = setTimeout(() => setRevealed(true), 80);
@@ -189,7 +216,7 @@ export function Hero() {
                 revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
               style={{
-                fontSize: "clamp(2.375rem, 1.4rem + 5.2vw, 5.75rem)",
+                fontSize: "clamp(2.0rem, 1.2rem + 5.2vw, 5.75rem)",
                 lineHeight: 1.05,
                 letterSpacing: "-0.022em",
                 fontWeight: 500,
@@ -233,15 +260,11 @@ export function Hero() {
               <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
                 <button
                   onClick={() => scrollToId("concierge-form")}
-                  className="group relative w-full sm:w-auto bg-amber text-amber-foreground px-8 py-[18px] sm:py-5 min-h-[52px] hover:-translate-y-0.5 transition-transform duration-500 overflow-hidden"
+                  className="group cta-glow relative w-full sm:w-auto bg-amber text-amber-foreground px-8 py-[18px] sm:py-5 min-h-[52px] hover:-translate-y-0.5 transition-transform duration-500 overflow-hidden"
                 >
                   <span className="small-caps tracking-[0.22em] text-[12px] relative z-10">
                     Request the Clinical Dossier
                   </span>
-                  <span
-                    aria-hidden
-                    className="absolute left-4 right-4 bottom-2 h-px bg-amber-foreground/60 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
-                  />
                 </button>
                 <a
                   href="tel:+18005550199"
@@ -257,7 +280,7 @@ export function Hero() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     aria-hidden
-                    className="opacity-80"
+                    className={`opacity-80 ${idle ? "phone-idle-pulse" : ""}`}
                   >
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z" />
                   </svg>
@@ -311,8 +334,32 @@ export function Hero() {
           animation: heroDrift 90s ease-in-out infinite;
           will-change: transform;
         }
+        /* Detail 1 — amber inner-glow on hero CTA hover (replaces scale-x rule). */
+        .cta-glow { transition: box-shadow 700ms cubic-bezier(0.22, 1, 0.36, 1), transform 500ms ease; }
+        .cta-glow:hover {
+          box-shadow:
+            inset 0 0 0 1px color-mix(in oklab, var(--amber-foreground) 35%, transparent),
+            inset 0 0 24px color-mix(in oklab, var(--amber-foreground) 22%, transparent),
+            0 8px 30px -10px color-mix(in oklab, var(--amber) 65%, transparent);
+        }
+        /* Detail 2 — phone icon idle pulse, only after 8s of no input. */
+        @keyframes phonePulse {
+          0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 transparent); }
+          50%      { transform: scale(1.12); filter: drop-shadow(0 0 6px color-mix(in oklab, var(--amber) 70%, transparent)); }
+        }
+        .phone-idle-pulse { animation: phonePulse 1.2s cubic-bezier(0.4, 0, 0.6, 1); animation-iteration-count: infinite; animation-delay: 0s; animation-direction: normal; }
+        .phone-idle-pulse { animation-duration: 1.2s; animation-iteration-count: infinite; animation-name: phonePulse; }
+        /* Pulse every 4s: 1.2s active + 2.8s rest, by re-using infinite with longer keyframe pause */
+        @keyframes phonePulse4s {
+          0%   { transform: scale(1); filter: none; }
+          7.5% { transform: scale(1.12); filter: drop-shadow(0 0 6px color-mix(in oklab, var(--amber) 70%, transparent)); }
+          15%  { transform: scale(1); filter: none; }
+          100% { transform: scale(1); filter: none; }
+        }
+        .phone-idle-pulse { animation: phonePulse4s 4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
         @media (prefers-reduced-motion: reduce) {
           .hero-drift, [class*="animate-["] { animation: none !important; transform: scale(1.02) !important; }
+          .phone-idle-pulse, .cta-glow { animation: none !important; }
         }
       `}</style>
     </section>

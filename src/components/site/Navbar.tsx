@@ -71,12 +71,12 @@ export function Navbar() {
             </button>
           ))}
           <span className="h-4 w-px bg-border" aria-hidden />
-          <button
-            onClick={() => scrollToId("leadership")}
+          <Link
+            to="/professionals"
             className="text-xs tracking-[0.2em] uppercase font-medium text-foreground/70 hover:text-amber transition-colors"
           >
             Healthcare Professionals
-          </button>
+          </Link>
         </nav>
 
         <div className="hidden lg:flex items-center gap-5">
@@ -122,15 +122,13 @@ export function Navbar() {
                 {s.label}
               </button>
             ))}
-            <button
-              onClick={() => {
-                setOpen(false);
-                setTimeout(() => scrollToId("leadership"), 50);
-              }}
+            <Link
+              to="/professionals"
+              onClick={() => setOpen(false)}
               className="text-left text-xs tracking-[0.2em] uppercase font-medium text-foreground/70"
             >
               Healthcare Professionals
-            </button>
+            </Link>
             <a
               href="tel:+18005550199"
               className="text-left text-xs tracking-[0.2em] uppercase font-medium text-amber"

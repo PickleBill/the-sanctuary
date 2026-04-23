@@ -53,4 +53,5 @@ export type ResonanceReading = {
   clinical: string;
   holistic: string;
   intent_signal: "contemplating" | "advocating" | "professional" | "comparing" | "guarded";
+  fallback?: boolean;
 };

@@ -26,6 +26,10 @@ export function Resonance() {
             "ss_intent",
             JSON.stringify({ signal: result.intent_signal, at: Date.now() }),
           );
+          localStorage.setItem(
+            "ss_resonance",
+            JSON.stringify({ text: text.trim(), reading: result.reading }),
+          );
         } catch {}
       } catch {
         setError("A quiet line — please try again, or call our 24/7 intake.");

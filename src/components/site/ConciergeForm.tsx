@@ -85,9 +85,7 @@ export function ConciergeForm() {
       <div className="mx-auto max-w-5xl px-6 lg:px-10 py-24 lg:py-32">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           <div className="lg:col-span-5">
-            <p className="eyebrow mb-5">
-              <span className="luxe-rule mr-3" /> Concierge
-            </p>
+            <p className="eyebrow mb-5">Concierge</p>
             <h2
               className="font-serif text-foreground mb-7 hang-punct"
               style={{
@@ -219,6 +217,20 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function SuccessCard({ dossierUrl }: { dossierUrl: string | null }) {
   const [copied, setCopied] = useState(false);
+  const [bodyShown, setBodyShown] = useState(false);
+
+  // Closing rhyme: 900ms filament-draw across the bottom edge, then content fades in.
+  // Echoes the hero's signature filament burn-in.
+  useEffect(() => {
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      setBodyShown(true);
+      return;
+    }
+    const t = window.setTimeout(() => setBodyShown(true), 900);
+    return () => window.clearTimeout(t);
+  }, []);
+
   const onCopy = async () => {
     try {
       await navigator.clipboard.writeText(window.location.origin);
@@ -227,46 +239,57 @@ function SuccessCard({ dossierUrl }: { dossierUrl: string | null }) {
     } catch {}
   };
   return (
-    <div className="border border-border bg-secondary p-8 sm:p-10 lg:p-12 animate-[fadeUp_700ms_cubic-bezier(0.22,1,0.36,1)]">
-      <p className="small-caps text-amber text-[11px] tracking-[0.32em] mb-5">Received</p>
-      <h3
-        className="font-serif text-foreground mb-5 hang-punct"
-        style={{ fontSize: "var(--text-h3)", lineHeight: 1.1, fontWeight: 500 }}
-      >
-        Thank you.
-      </h3>
-      <p className="text-foreground/85 leading-relaxed mb-4 max-w-md editorial-italic" style={{ fontSize: "var(--text-lead)" }}>
-        A clinician will be on the line within four hours, often sooner.
-      </p>
-      <p className="text-muted-foreground leading-relaxed mb-8 max-w-md">
-        The conversation begins privately, on your terms. Nothing is recorded until you instruct us to proceed.
-      </p>
-      <div className="flex flex-col sm:flex-row gap-3">
-        {dossierUrl && (
-          <a
-            href={dossierUrl}
-            download
-            className="w-full sm:w-auto border border-amber/60 px-6 py-4 min-h-[52px] small-caps text-[11px] tracking-[0.28em] text-foreground hover:bg-amber hover:text-amber-foreground transition-colors duration-500 text-center flex items-center justify-center"
-          >
-            Download the Clinical Dossier
-          </a>
-        )}
-        <button
-          type="button"
-          onClick={onCopy}
-          className="w-full sm:w-auto border border-border px-6 py-4 min-h-[52px] small-caps text-[11px] tracking-[0.28em] text-foreground hover:border-amber hover:text-amber transition-colors duration-500"
+    <div className="relative border border-border bg-secondary p-8 sm:p-10 lg:p-12 overflow-hidden">
+      {/* Filament-draw — closing rhyme to the hero. */}
+      <span aria-hidden className="success-filament absolute left-0 right-0 bottom-0 h-px bg-amber origin-left" />
+
+      <div className={`transition-opacity duration-700 ease-out ${bodyShown ? "opacity-100" : "opacity-0"}`}>
+        <p className="small-caps text-amber text-[11px] tracking-[0.32em] mb-5">Received</p>
+        <h3
+          className="font-serif text-foreground mb-5 hang-punct"
+          style={{ fontSize: "var(--text-h3)", lineHeight: 1.1, fontWeight: 500 }}
         >
-          {copied ? "Link copied" : "Forward to your advisor"}
-        </button>
+          Thank you.
+        </h3>
+        <p className="text-foreground/85 leading-relaxed mb-4 max-w-md editorial-italic" style={{ fontSize: "var(--text-lead)" }}>
+          A clinician will be on the line within four hours, often sooner.
+        </p>
+        <p className="text-muted-foreground leading-relaxed mb-8 max-w-md">
+          The conversation begins privately, on your terms. Nothing is recorded until you instruct us to proceed.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3">
+          {dossierUrl && (
+            <a
+              href={dossierUrl}
+              download
+              className="w-full sm:w-auto border border-amber/60 px-6 py-4 min-h-[52px] small-caps text-[11px] tracking-[0.28em] text-foreground hover:bg-amber hover:text-amber-foreground transition-colors duration-500 text-center flex items-center justify-center"
+            >
+              Download the Clinical Dossier
+            </a>
+          )}
+          <button
+            type="button"
+            onClick={onCopy}
+            className="w-full sm:w-auto border border-border px-6 py-4 min-h-[52px] small-caps text-[11px] tracking-[0.28em] text-foreground hover:border-amber hover:text-amber transition-colors duration-500"
+          >
+            {copied ? "Link copied" : "Forward to your advisor"}
+          </button>
+        </div>
+        <p className="mt-8 text-xs text-muted-foreground italic max-w-md leading-relaxed">
+          For urgent matters, our 24/7 intake line is{" "}
+          <a href="tel:+18005550199" className="text-foreground hover:text-amber transition-colors tabular">
+            +1 (800) 555-0199
+          </a>
+          .
+        </p>
       </div>
-      <p className="mt-8 text-xs text-muted-foreground italic max-w-md leading-relaxed">
-        For urgent matters, our 24/7 intake line is{" "}
-        <a href="tel:+18005550199" className="text-foreground hover:text-amber transition-colors tabular">
-          +1 (800) 555-0199
-        </a>
-        .
-      </p>
-      <style>{`@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }`}</style>
+      <style>{`
+        @keyframes successFilament { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+        .success-filament { animation: successFilament 900ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+        @media (prefers-reduced-motion: reduce) {
+          .success-filament { animation: none !important; transform: scaleX(1); }
+        }
+      `}</style>
     </div>
   );
 }

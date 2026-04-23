@@ -29,7 +29,9 @@ const slides = [
 
 function scrollToId(id: string) {
   const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (!el) return;
+  const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
 }
 
 export function Hero() {
@@ -47,7 +49,10 @@ export function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-navy">
+    <section
+      className="relative flex items-center overflow-hidden bg-navy"
+      style={{ minHeight: "100svh" }}
+    >
       {/* Layered slides with Ken Burns drift */}
       {slides.map((s, i) => (
         <img
@@ -98,7 +103,7 @@ export function Hero() {
               revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
             }`}
           >
-            <span className="luxe-rule mr-3" /> <span className="small-caps">Sanctuary Southeast</span> · Blue Ridge, North Carolina
+            <span className="luxe-rule mr-3" /> Blue Ridge, North Carolina
           </p>
           <h1
             className={`font-serif text-ivory mb-8 transition-all duration-1000 delay-150 hang-punct ${
@@ -146,7 +151,7 @@ export function Hero() {
               </button>
               <a
                 href="tel:+18005550199"
-                className="w-full sm:w-auto px-2 py-3 min-h-[44px] text-ivory/90 hover:text-amber transition-colors duration-500 flex items-center justify-center sm:justify-start gap-3"
+                className="w-full sm:w-auto px-2 py-3 min-h-[48px] text-ivory/90 hover:text-amber transition-colors duration-500 flex items-center justify-center sm:justify-start gap-3"
               >
                 <span className="luxe-rule" aria-hidden />
                 <span className="small-caps tracking-[0.22em] text-[12px]">
@@ -156,7 +161,7 @@ export function Hero() {
             </div>
             <button
               onClick={() => scrollToId("leadership")}
-              className="mt-6 text-[11px] tracking-[0.24em] uppercase font-medium text-ivory/55 hover:text-amber transition-colors duration-500 underline underline-offset-[6px] decoration-ivory/25 hover:decoration-amber"
+              className="mt-6 py-2 min-h-[36px] text-[11px] tracking-[0.24em] uppercase font-medium text-ivory/55 hover:text-amber transition-colors duration-500 underline underline-offset-[6px] decoration-ivory/25 hover:decoration-amber"
             >
               For Healthcare Professionals
             </button>

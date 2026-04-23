@@ -11,7 +11,9 @@ const sections = [
 
 function scrollToId(id: string) {
   const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (!el) return;
+  const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
 }
 
 export function Navbar() {
@@ -113,7 +115,7 @@ export function Navbar() {
             className="px-6 py-7 flex flex-col"
             style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 1.75rem)" }}
           >
-            <p className="small-caps text-amber/80 text-[11px] tracking-[0.32em] mb-4">
+            <p className="small-caps text-amber text-[11px] tracking-[0.24em] mb-4">
               Discover
             </p>
             <div className="flex flex-col divide-y divide-border/60">

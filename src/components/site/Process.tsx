@@ -66,7 +66,7 @@ export function Process() {
           {/* Center filament */}
           <svg
             aria-hidden
-            className="absolute left-[26px] md:left-[31px] top-2 bottom-2 w-px overflow-visible"
+            className="absolute left-[25px] md:left-[31px] top-2 bottom-2 w-px overflow-visible"
             preserveAspectRatio="none"
           >
             <line
@@ -101,16 +101,16 @@ function Step({
   return (
     <li
       ref={ref}
-      className={`relative pl-20 md:pl-28 pb-14 lg:pb-16 last:pb-0 transition-all duration-1000 ease-out ${
+      className={`relative pl-[72px] md:pl-28 pb-12 lg:pb-16 last:pb-0 transition-all duration-1000 ease-out ${
         inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
       }`}
       style={{ transitionDelay: `${index * 120}ms` }}
     >
       {/* Numeral plate */}
-      <div className="absolute left-0 top-0 w-[54px] md:w-[64px] h-[54px] md:h-[64px] flex items-center justify-center bg-primary border border-amber/40">
+      <div className="absolute left-0 top-0 w-[52px] md:w-[64px] h-[52px] md:h-[64px] flex items-center justify-center bg-primary border border-amber/40">
         <span
-          className="font-serif text-amber"
-          style={{ fontSize: "var(--text-h4)", fontWeight: 400 }}
+          className="font-serif text-amber tabular"
+          style={{ fontSize: "clamp(1.25rem, 0.9rem + 1vw, 1.75rem)", fontWeight: 400 }}
         >
           {step.num}
         </span>
@@ -122,13 +122,13 @@ function Step({
       >
         {step.title}
       </h3>
-      <p className="text-sm lg:text-base text-primary-foreground/75 leading-relaxed max-w-2xl mb-4">
+      <p className="text-[15px] lg:text-base text-primary-foreground/75 leading-relaxed max-w-2xl mb-4">
         {step.desc}
       </p>
       <p className="flex items-start gap-3 max-w-2xl">
-        <span className="luxe-rule mt-2 shrink-0" aria-hidden />
-        <span className="editorial-italic text-xs lg:text-[13px] text-primary-foreground/55 leading-relaxed">
-          <span className="small-caps text-amber/70 not-italic mr-2 tracking-[0.18em]">
+        <span className="luxe-rule mt-[10px] shrink-0" aria-hidden />
+        <span className="editorial-italic text-[12px] lg:text-[13px] text-primary-foreground/55 leading-relaxed">
+          <span className="small-caps text-amber/80 not-italic mr-2 tracking-[0.22em] text-[10px]">
             Privacy invariant
           </span>
           {step.invariant}

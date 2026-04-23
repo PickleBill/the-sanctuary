@@ -40,10 +40,10 @@ export function Resonance() {
   return (
     <section
       id="resonance"
-      className="py-28 lg:py-40 bg-secondary scroll-mt-24"
+      className="py-24 sm:py-28 lg:py-40 bg-secondary scroll-mt-24"
     >
       <div className="mx-auto max-w-4xl px-6 lg:px-10">
-        <div className="text-center mb-12 lg:mb-14">
+        <div className="text-center mb-10 sm:mb-12 lg:mb-14">
           <p className="eyebrow mb-5">
             <span className="luxe-rule mr-3" /> A Quiet Question
           </p>
@@ -55,7 +55,7 @@ export function Resonance() {
             <br />
             <span className="editorial-italic text-foreground/70">in a single sentence?</span>
           </h2>
-          <p className="mt-6 text-muted-foreground max-w-xl mx-auto leading-relaxed">
+          <p className="mt-6 text-muted-foreground max-w-xl mx-auto leading-relaxed text-[15px] sm:text-base">
             We will reflect your words back through the lens of our program — one clinical, one holistic — so you can see whether our cadence resonates with yours.
           </p>
         </div>
@@ -71,24 +71,30 @@ export function Resonance() {
               maxLength={600}
               rows={3}
               placeholder="What would the next chapter ask of you?"
-              className="w-full bg-background border-b-2 border-border px-1 py-3 text-foreground text-lg placeholder:text-muted-foreground/60 focus:outline-none focus:border-amber transition-colors resize-none editorial-italic"
+              className="w-full bg-background border-b-2 border-border px-1 py-3 text-foreground text-base sm:text-lg placeholder:text-muted-foreground/60 focus:outline-none focus:border-amber transition-colors resize-none editorial-italic"
             />
           </label>
 
-          <div className="mt-6 flex items-center justify-between gap-4">
+          <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <p className="text-xs text-muted-foreground tabular">
               {text.length}/600 — your words are not stored unless you proceed.
             </p>
             <button
               type="submit"
               disabled={isPending}
-              className="bg-primary text-primary-foreground px-8 py-4 text-[11px] tracking-[0.28em] uppercase font-semibold hover:bg-amber transition-colors duration-500 disabled:opacity-60"
+              className="w-full sm:w-auto bg-primary text-primary-foreground px-8 py-4 min-h-[52px] text-[11px] tracking-[0.28em] uppercase font-semibold hover:bg-amber transition-colors duration-500 disabled:opacity-60"
             >
-              {isPending ? "Reading…" : "Receive a Reading"}
+              {isPending ? (
+                <span className="editorial-italic normal-case tracking-normal text-sm">Listening…</span>
+              ) : (
+                "Receive a Reading"
+              )}
             </button>
           </div>
 
-          {error && <p className="mt-4 text-sm text-destructive">{error}</p>}
+          {error && (
+            <p className="mt-4 text-sm text-destructive editorial-italic">{error}</p>
+          )}
         </form>
 
         {reading && (
@@ -127,19 +133,20 @@ export function Resonance() {
               </div>
             </div>
 
-            <div className="mt-10 flex flex-col sm:flex-row gap-4">
+            <div className="mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4">
               <button
                 onClick={() => {
                   const el = document.getElementById("concierge-form");
                   if (el) el.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="bg-amber text-amber-foreground px-7 py-4 text-[11px] tracking-[0.28em] uppercase font-semibold hover:-translate-y-0.5 transition-transform duration-500"
+                className="w-full sm:w-auto bg-amber text-amber-foreground px-7 py-4 min-h-[52px] text-[11px] tracking-[0.28em] uppercase font-semibold hover:-translate-y-0.5 transition-transform duration-500"
               >
                 Continue Privately
               </button>
               <a
                 href="/clinical-dossier.pdf"
-                className="border border-border px-7 py-4 text-[11px] tracking-[0.28em] uppercase font-medium text-foreground hover:border-amber hover:text-amber transition-colors duration-500 text-center"
+                download
+                className="w-full sm:w-auto border border-border px-7 py-4 min-h-[52px] text-[11px] tracking-[0.28em] uppercase font-medium text-foreground hover:border-amber hover:text-amber transition-colors duration-500 text-center flex items-center justify-center"
               >
                 Download the Clinical Dossier
               </a>

@@ -67,8 +67,8 @@ function Frame({
         aria-hidden
       />
       <figcaption className="absolute bottom-0 left-0 right-0 p-6 lg:p-8 text-ivory">
-        <p className="eyebrow text-amber mb-2">{title.split(" ")[0]}</p>
-        <h3 className="font-serif text-xl lg:text-2xl mb-2">{title}</h3>
+        <p className="small-caps text-amber mb-2 text-[11px] tracking-[0.32em]">{title.split(" ")[0]}</p>
+        <h3 className="font-serif text-xl lg:text-2xl mb-2" style={{ fontWeight: 500, lineHeight: 1.15 }}>{title}</h3>
         <p className="text-sm text-ivory/80 max-w-md leading-relaxed">{caption}</p>
       </figcaption>
     </figure>

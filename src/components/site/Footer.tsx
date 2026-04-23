@@ -39,7 +39,7 @@ export function Footer() {
           </div>
 
           <div>
-            <p className="eyebrow mb-5">Discover</p>
+            <p className="small-caps text-amber/80 mb-5 text-[11px] tracking-[0.32em]">Discover</p>
             <ul className="space-y-3 text-sm">
               <li><button onClick={() => scrollToId("gallery")} className="hover:text-amber transition-colors">The Estate</button></li>
               <li><button onClick={() => scrollToId("synergy")} className="hover:text-amber transition-colors">Approach</button></li>
@@ -50,9 +50,9 @@ export function Footer() {
           </div>
 
           <div>
-            <p className="eyebrow mb-5">Professionals</p>
+            <p className="small-caps text-amber/80 mb-5 text-[11px] tracking-[0.32em]">Professionals</p>
             <ul className="space-y-3 text-sm">
-              <li><button onClick={() => scrollToId("leadership")} className="hover:text-amber transition-colors">Healthcare Professionals</button></li>
+              <li><Link to="/professionals" className="hover:text-amber transition-colors">For Healthcare Professionals</Link></li>
               <li><button onClick={() => scrollToId("concierge-form")} className="hover:text-amber transition-colors">Referral Inquiries</button></li>
               <li><button onClick={() => scrollToId("concierge-form")} className="hover:text-amber transition-colors">Encrypted Document Exchange</button></li>
               <li><Link to="/privacy-policy" className="hover:text-amber transition-colors">Privacy Policy</Link></li>

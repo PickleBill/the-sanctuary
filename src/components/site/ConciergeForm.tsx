@@ -102,25 +102,7 @@ export function ConciergeForm() {
 
           <div className="lg:col-span-7">
             {submitted ? (
-              <div className="border border-border bg-secondary p-10 lg:p-12">
-                <p className="eyebrow mb-5">Received</p>
-                <h3 className="font-serif text-2xl lg:text-3xl text-foreground mb-5">
-                  Thank you.
-                </h3>
-                <p className="text-muted-foreground leading-relaxed mb-8">
-                  Your request has been encrypted and sent. A member of our
-                  executive concierge team will contact you within four hours
-                  using your preferred method.
-                </p>
-                {dossierUrl && (
-                  <a
-                    href={dossierUrl}
-                    className="inline-block border border-amber/60 px-7 py-4 text-[11px] tracking-[0.28em] uppercase font-medium text-foreground hover:bg-amber hover:text-amber-foreground transition-colors duration-500"
-                  >
-                    Download the Clinical Dossier
-                  </a>
-                )}
-              </div>
+              <SuccessCard dossierUrl={dossierUrl} />
             ) : (
               <form onSubmit={onSubmit} className="space-y-6" noValidate>
                 <Field label="Name">
@@ -205,10 +187,60 @@ export function ConciergeForm() {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="block text-[10px] tracking-[0.28em] uppercase text-muted-foreground mb-2">
+      <span className="small-caps block text-[11px] tracking-[0.32em] text-muted-foreground mb-2">
         {label}
       </span>
       {children}
     </label>
+  );
+}
+
+function SuccessCard({ dossierUrl }: { dossierUrl: string | null }) {
+  const [copied, setCopied] = useState(false);
+  const onCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.origin);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2400);
+    } catch {}
+  };
+  return (
+    <div className="border border-border bg-secondary p-8 sm:p-10 lg:p-12">
+      <p className="small-caps text-amber text-[11px] tracking-[0.32em] mb-5">Received</p>
+      <h3
+        className="font-serif text-foreground mb-5"
+        style={{ fontSize: "var(--text-h3)", lineHeight: 1.1, fontWeight: 500 }}
+      >
+        Thank you.
+      </h3>
+      <p className="text-muted-foreground leading-relaxed mb-8 max-w-md">
+        Your request has been encrypted and sent. A member of our executive concierge team will contact you within four hours using your preferred method.
+      </p>
+      <div className="flex flex-col sm:flex-row gap-3">
+        {dossierUrl && (
+          <a
+            href={dossierUrl}
+            download
+            className="w-full sm:w-auto border border-amber/60 px-6 py-4 min-h-[52px] small-caps text-[11px] tracking-[0.28em] text-foreground hover:bg-amber hover:text-amber-foreground transition-colors duration-500 text-center flex items-center justify-center"
+          >
+            Download the Clinical Dossier
+          </a>
+        )}
+        <button
+          type="button"
+          onClick={onCopy}
+          className="w-full sm:w-auto border border-border px-6 py-4 min-h-[52px] small-caps text-[11px] tracking-[0.28em] text-foreground hover:border-amber hover:text-amber transition-colors duration-500"
+        >
+          {copied ? "Link copied" : "Forward to your advisor"}
+        </button>
+      </div>
+      <p className="mt-8 text-xs text-muted-foreground italic max-w-md leading-relaxed">
+        For urgent matters, our 24/7 intake line is{" "}
+        <a href="tel:+18005550199" className="text-foreground hover:text-amber transition-colors tabular">
+          +1 (800) 555-0199
+        </a>
+        .
+      </p>
+    </div>
   );
 }

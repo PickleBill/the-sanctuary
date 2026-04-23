@@ -101,10 +101,11 @@ export function Hero() {
               revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
             style={{
-              fontSize: "var(--text-h1)",
+              fontSize: "clamp(2.25rem, 1.6rem + 4vw, 5.5rem)",
               lineHeight: 1.04,
               letterSpacing: "-0.022em",
               fontWeight: 500,
+              maxWidth: "16ch",
             }}
           >
             Swiss-standard clinical discretion
@@ -116,43 +117,43 @@ export function Hero() {
             </span>
           </h1>
           <p
-            className={`text-ivory/85 max-w-2xl mb-12 transition-all duration-1000 delay-300 ${
+            className={`text-lead text-ivory/85 max-w-2xl mb-10 sm:mb-12 transition-all duration-1000 delay-300 ${
               revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
-            style={{ fontSize: "var(--text-lead)", lineHeight: 1.5, fontWeight: 400 }}
+            style={{ color: "color-mix(in oklab, var(--ivory) 88%, transparent)" }}
           >
             A private medical-wellness retreat for the high-functioning leader who refuses to compromise on privacy or care. One family in residence at a time.
           </p>
 
-          {/* Three-part quiet CTA strip */}
+          {/* Three-part quiet CTA strip — stacks on mobile */}
           <div
-            className={`flex flex-col sm:flex-row sm:items-stretch gap-3 sm:gap-0 sm:divide-x divide-ivory/20 transition-all duration-1000 delay-500 ${
+            className={`flex flex-col sm:flex-row sm:items-stretch gap-px sm:gap-0 sm:divide-x divide-ivory/20 transition-all duration-1000 delay-500 ${
               revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
             <button
               onClick={() => scrollToId("concierge-form")}
-              className="bg-amber text-amber-foreground px-8 py-5 text-[11px] tracking-[0.3em] uppercase font-semibold hover:-translate-y-0.5 transition-transform duration-500"
+              className="bg-amber text-amber-foreground px-7 py-5 min-h-[56px] hover:-translate-y-0.5 transition-transform duration-500"
             >
-              <span className="small-caps tracking-[0.18em]" style={{ fontSize: "0.95em" }}>
+              <span className="small-caps tracking-[0.2em] text-[12px]">
                 Request the Clinical Dossier
               </span>
             </button>
             <button
               onClick={() => scrollToId("leadership")}
-              className="border border-ivory/30 sm:border-0 text-ivory px-8 py-5 text-[11px] tracking-[0.3em] uppercase font-medium hover:bg-ivory/5 transition-colors duration-500"
+              className="bg-navy/40 sm:bg-transparent text-ivory px-7 py-5 min-h-[56px] hover:bg-ivory/5 transition-colors duration-500 backdrop-blur-sm"
             >
-              <span className="small-caps tracking-[0.18em]" style={{ fontSize: "0.95em" }}>
+              <span className="small-caps tracking-[0.2em] text-[12px]">
                 For Healthcare Professionals
               </span>
             </button>
             <a
               href="tel:+18005550199"
-              className="border border-ivory/30 sm:border-0 text-ivory/90 px-8 py-5 text-[11px] tracking-[0.3em] uppercase font-medium hover:text-amber transition-colors duration-500 flex items-center justify-center sm:justify-start gap-3"
+              className="bg-navy/40 sm:bg-transparent text-ivory/90 px-7 py-5 min-h-[56px] hover:text-amber transition-colors duration-500 flex items-center justify-center sm:justify-start gap-3 backdrop-blur-sm"
             >
               <span className="luxe-rule" aria-hidden />
-              <span className="small-caps tracking-[0.18em]" style={{ fontSize: "0.95em" }}>
-                Speak With Intake — 24/7
+              <span className="small-caps tracking-[0.2em] text-[12px]">
+                Speak With Intake · 24/7
               </span>
             </a>
           </div>

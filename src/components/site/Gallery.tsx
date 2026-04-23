@@ -274,7 +274,7 @@ export function Gallery() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
+        <div className="gallery-grid grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
           <FramePanel
             frame={frames[0]}
             className="lg:col-span-7 lg:row-span-2 aspect-[4/5] lg:aspect-auto lg:min-h-[680px]"
@@ -299,6 +299,17 @@ export function Gallery() {
             onOpen={() => setOpenFrame(frames[3])}
           />
         </div>
+
+        {/* Magic moment: hovering one panel desaturates its siblings to focus the eye. */}
+        <style>{`
+          @media (hover: hover) and (pointer: fine) {
+            .gallery-grid:hover .gallery-panel { filter: saturate(0.4) brightness(0.92); transition: filter 600ms cubic-bezier(0.22, 1, 0.36, 1); }
+            .gallery-grid .gallery-panel:hover { filter: saturate(1) brightness(1); }
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .gallery-grid:hover .gallery-panel { filter: none; }
+          }
+        `}</style>
 
         <div className="mt-16 lg:mt-24">
           <dl className="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8">

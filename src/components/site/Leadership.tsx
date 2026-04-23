@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import medical from "@/assets/leader-medical-director.jpg";
-import clinical from "@/assets/leader-clinical-director.jpg";
+import medical from "@/assets/leader-medical-director-v2.jpg";
+import clinical from "@/assets/leader-clinical-director-v2.jpg";
 
 /**
  * v1.5 — Leadership configured via a single LEADERS object so swapping in real
@@ -105,7 +105,7 @@ export function Leadership() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-10 lg:gap-px md:bg-transparent lg:bg-border">
           {LEADERS.map((l, i) => (
             <LeaderCard
               key={l.role}
@@ -164,24 +164,7 @@ function LeaderCard({
               loading="lazy"
               width={1024}
               height={1280}
-              className="w-full h-full object-cover transition-transform duration-[1400ms] ease-out hover:scale-[1.04] portrait-grade"
-            />
-            {/* Unified portrait grade — cool slate shadows, warm amber midtones */}
-            <div
-              className="absolute inset-0 pointer-events-none mix-blend-soft-light"
-              style={{
-                background:
-                  "linear-gradient(140deg, color-mix(in oklab, var(--navy) 18%, transparent) 0%, transparent 45%, color-mix(in oklab, var(--amber) 14%, transparent) 100%)",
-              }}
-              aria-hidden
-            />
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "linear-gradient(180deg, transparent 65%, color-mix(in oklab, var(--navy) 16%, transparent) 100%)",
-              }}
-              aria-hidden
+              className="w-full h-full object-cover transition-transform duration-[1400ms] ease-out hover:scale-[1.04]"
             />
           </div>
         </div>

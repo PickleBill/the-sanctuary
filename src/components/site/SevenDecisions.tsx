@@ -167,59 +167,86 @@ function DecisionCard({
   emphasis?: boolean;
 }) {
   const { ref, inView } = useInView<HTMLDivElement>();
+  const [open, setOpen] = useState(false);
   return (
     <div
       ref={ref}
-      className={`bg-background ${className} ${
-        emphasis ? "p-10 lg:p-14" : "p-8 lg:p-10"
-      } transition-all duration-1000 ease-out ${
+      className={`bg-background ${className} transition-all duration-1000 ease-out ${
         inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
       }`}
     >
-      {/* Weight indicator + label — small-caps, tabular */}
-      <div className="flex items-baseline justify-between mb-6">
-        <p className="small-caps text-foreground/55 text-[11px] tracking-[0.24em]">
-          {d.label}
-        </p>
-        <p
-          className="tabular text-foreground/35 text-[11px]"
-          aria-label={`${d.weight} percent of the decision`}
-        >
-          {String(d.weight).padStart(2, "0")}
-          <span className="text-foreground/25"> / 100</span>
-        </p>
-      </div>
-
-      {/* Headline — same roman-then-italic pattern as section heads,
-           scaled down. Hanging punctuation for optical alignment. */}
-      <h3
-        className="font-serif text-foreground mb-5 hang-punct"
-        style={{
-          fontSize: emphasis
-            ? "clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem)"
-            : "var(--text-h4)",
-          lineHeight: 1.12,
-          letterSpacing: "-0.018em",
-          fontWeight: 500,
-        }}
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className={`w-full text-left ${
+          emphasis ? "p-10 lg:p-14" : "p-8 lg:p-10"
+        } group transition-colors hover:bg-secondary/40`}
       >
-        {d.headline}
-        {d.italic ? (
-          <span
-            className="block editorial-italic text-foreground/65"
-            style={{ fontWeight: 400 }}
+        {/* Weight indicator + label — small-caps, tabular */}
+        <div className="flex items-baseline justify-between mb-6">
+          <p className="small-caps text-foreground/55 text-[11px] tracking-[0.24em]">
+            {d.label}
+          </p>
+          <p
+            className="tabular text-foreground/35 text-[11px]"
+            aria-label={`${d.weight} percent of the decision`}
           >
-            {d.italic}
-          </span>
-        ) : null}
-      </h3>
+            {String(d.weight).padStart(2, "0")}
+            <span className="text-foreground/25"> / 100</span>
+          </p>
+        </div>
 
-      <p
-        className="text-muted-foreground leading-relaxed max-w-prose"
-        style={{ fontSize: "var(--text-small)" }}
-      >
-        {d.body}
-      </p>
+        {/* Headline — same roman-then-italic pattern as section heads */}
+        <h3
+          className="font-serif text-foreground mb-5 hang-punct"
+          style={{
+            fontSize: emphasis
+              ? "clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem)"
+              : "var(--text-h4)",
+            lineHeight: 1.12,
+            letterSpacing: "-0.018em",
+            fontWeight: 500,
+          }}
+        >
+          {d.headline}
+          {d.italic ? (
+            <span
+              className="block editorial-italic text-foreground/65"
+              style={{ fontWeight: 400 }}
+            >
+              {d.italic}
+            </span>
+          ) : null}
+        </h3>
+
+        {/* Expand affordance — quiet amber line + caption that flips on open */}
+        <div className="flex items-center gap-3">
+          <span
+            className={`block h-px bg-amber transition-all duration-500 ${
+              open ? "w-16" : "w-8 group-hover:w-12"
+            }`}
+            aria-hidden
+          />
+          <span className="small-caps text-foreground/55 group-hover:text-amber transition-colors text-[10px] tracking-[0.28em]">
+            {open ? "Less" : "More"}
+          </span>
+        </div>
+
+        {/* Inline expansion — height-animated, smooth, respects reduced-motion via global guard */}
+        <div
+          className={`overflow-hidden transition-[max-height,opacity,margin] duration-500 ease-out ${
+            open ? "max-h-96 opacity-100 mt-6" : "max-h-0 opacity-0 mt-0"
+          }`}
+        >
+          <p
+            className="text-muted-foreground leading-relaxed max-w-prose"
+            style={{ fontSize: "var(--text-small)" }}
+          >
+            {d.body}
+          </p>
+        </div>
+      </button>
     </div>
   );
 }

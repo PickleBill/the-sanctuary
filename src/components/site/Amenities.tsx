@@ -122,23 +122,28 @@ export function Amenities() {
           </div>
         </div>
 
-        {/* Mobile: vertical timeline. Counter is set on its own line above the title to prevent collision with the Roman numeral. */}
+        {/* Mobile: vertical timeline. Numeral and counter share a baseline so
+            the title gets to start higher on the card — no more 80px of empty
+            space before the headline. */}
         <ol className="md:hidden grid grid-cols-1 gap-px bg-border">
           {items.map((it, i) => (
             <li key={it.num} className="bg-background px-6 py-8 group">
-              <p className="small-caps text-muted-foreground/70 text-[10px] tracking-[0.32em] tabular mb-5">
-                <span className="text-amber/80">{String(i + 1).padStart(2, "0")}</span>
-                <span className="text-muted-foreground/40"> / {String(items.length).padStart(2, "0")}</span>
-              </p>
-              <p
-                className="font-serif text-amber leading-none mb-5"
-                style={{ fontSize: "clamp(2.25rem, 8vw, 3rem)", fontWeight: 400, letterSpacing: "-0.02em" }}
-              >
-                {it.num}
-              </p>
+              <div className="flex items-baseline justify-between mb-5">
+                <p
+                  className="font-serif text-amber leading-none"
+                  style={{ fontSize: "clamp(2rem, 7vw, 2.5rem)", fontWeight: 400, letterSpacing: "-0.02em" }}
+                >
+                  {it.num}
+                </p>
+                <p className="small-caps text-muted-foreground/70 text-[10px] tracking-[0.32em] tabular">
+                  <span className="text-amber/80">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="text-muted-foreground/40"> / {String(items.length).padStart(2, "0")}</span>
+                </p>
+              </div>
+              <span aria-hidden className="block w-8 h-px bg-amber/60 mb-5" />
               <h3
-                className="font-serif mb-3 text-foreground"
-                style={{ fontSize: "var(--text-h4)", lineHeight: 1.15, fontWeight: 500 }}
+                className="font-serif mb-3 text-foreground hang-punct"
+                style={{ fontSize: "var(--text-h4)", lineHeight: 1.18, fontWeight: 500 }}
               >
                 {it.title}
               </h3>

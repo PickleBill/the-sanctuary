@@ -29,3 +29,4 @@ Impeccable framework vendored at .impeccable/ — use its 18 commands as design 
 - [Impeccable framework](mem://design/impeccable) — Vendored design framework at .impeccable/, 18 commands, project context in .impeccable.md
 - [Known noise](mem://design/known-noise) — Browser-extension hydration warnings (Grammarly __gcruniqueid) — harmless, do not chase
 - [Critique v2](mem://design/critique-v2) — Honest persona scoring at v1.4, recalibrated 7=publishable scale, all sub-8 sections fixed
+- [Retro v0→v2.1](mem://retro/v0-to-v2) — Full project retrospective: arc, what worked, what burned cycles, honest answers on Impeccable scripts and research uploads, recommendation against branching, three "next time" rules

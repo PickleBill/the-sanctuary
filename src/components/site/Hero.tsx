@@ -90,24 +90,36 @@ export function Hero() {
       <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10 pt-32 pb-24 w-full">
         <div className="max-w-3xl">
           <p
-            className={`eyebrow text-amber mb-6 transition-all duration-1000 ${
+            className={`eyebrow text-amber mb-7 transition-all duration-1000 ${
               revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
             }`}
           >
-            <span className="luxe-rule mr-3" /> Sanctuary Southeast — Blue Ridge, North Carolina
+            <span className="luxe-rule mr-3" /> <span className="small-caps">Sanctuary Southeast</span> · Blue Ridge, North Carolina
           </p>
           <h1
-            className={`font-serif text-ivory text-4xl sm:text-5xl lg:text-7xl leading-[1.04] mb-7 transition-all duration-1000 delay-150 ${
+            className={`font-serif text-ivory mb-8 transition-all duration-1000 delay-150 ${
               revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
+            style={{
+              fontSize: "var(--text-h1)",
+              lineHeight: 1.04,
+              letterSpacing: "-0.022em",
+              fontWeight: 500,
+            }}
           >
             Swiss-standard clinical discretion
-            <span className="block text-amber/90 italic font-normal">in the Blue Ridge.</span>
+            <span
+              className="block text-amber/90 editorial-italic"
+              style={{ fontWeight: 400 }}
+            >
+              in the Blue Ridge.
+            </span>
           </h1>
           <p
-            className={`text-ivory/85 text-lg lg:text-xl max-w-2xl leading-relaxed font-light mb-10 transition-all duration-1000 delay-300 ${
+            className={`text-ivory/85 max-w-2xl mb-12 transition-all duration-1000 delay-300 ${
               revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
+            style={{ fontSize: "var(--text-lead)", lineHeight: 1.5, fontWeight: 400 }}
           >
             A private medical-wellness retreat for the high-functioning leader who refuses to compromise on privacy or care. One family in residence at a time.
           </p>
@@ -120,21 +132,28 @@ export function Hero() {
           >
             <button
               onClick={() => scrollToId("concierge-form")}
-              className="bg-amber text-amber-foreground px-8 py-5 text-[11px] tracking-[0.28em] uppercase font-semibold hover:-translate-y-0.5 transition-transform duration-500"
+              className="bg-amber text-amber-foreground px-8 py-5 text-[11px] tracking-[0.3em] uppercase font-semibold hover:-translate-y-0.5 transition-transform duration-500"
             >
-              Request the Clinical Dossier
+              <span className="small-caps tracking-[0.18em]" style={{ fontSize: "0.95em" }}>
+                Request the Clinical Dossier
+              </span>
             </button>
             <button
               onClick={() => scrollToId("leadership")}
-              className="border border-ivory/30 sm:border-0 text-ivory px-8 py-5 text-[11px] tracking-[0.28em] uppercase font-medium hover:bg-ivory/5 transition-colors duration-500"
+              className="border border-ivory/30 sm:border-0 text-ivory px-8 py-5 text-[11px] tracking-[0.3em] uppercase font-medium hover:bg-ivory/5 transition-colors duration-500"
             >
-              For Healthcare Professionals
+              <span className="small-caps tracking-[0.18em]" style={{ fontSize: "0.95em" }}>
+                For Healthcare Professionals
+              </span>
             </button>
             <a
               href="tel:+18005550199"
-              className="border border-ivory/30 sm:border-0 text-ivory/90 px-8 py-5 text-[11px] tracking-[0.28em] uppercase font-medium hover:text-amber transition-colors duration-500 flex items-center justify-center sm:justify-start gap-3"
+              className="border border-ivory/30 sm:border-0 text-ivory/90 px-8 py-5 text-[11px] tracking-[0.3em] uppercase font-medium hover:text-amber transition-colors duration-500 flex items-center justify-center sm:justify-start gap-3"
             >
-              <span className="luxe-rule" aria-hidden /> Speak With Intake — 24/7
+              <span className="luxe-rule" aria-hidden />
+              <span className="small-caps tracking-[0.18em]" style={{ fontSize: "0.95em" }}>
+                Speak With Intake — 24/7
+              </span>
             </a>
           </div>
         </div>
@@ -154,7 +173,7 @@ export function Hero() {
             />
           ))}
         </div>
-        <span className="text-ivory/70 text-[10px] tracking-[0.4em] uppercase font-medium">
+        <span className="text-ivory/70 small-caps text-[11px] tracking-[0.32em]">
           {slides[index].label}
         </span>
       </div>

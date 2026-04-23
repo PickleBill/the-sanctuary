@@ -7,7 +7,9 @@ import { ChairmansCottage } from "@/components/site/ChairmansCottage";
 import { Resonance } from "@/components/site/Resonance";
 import { Amenities } from "@/components/site/Amenities";
 import { Leadership } from "@/components/site/Leadership";
+import { SevenDecisions } from "@/components/site/SevenDecisions";
 import { Process } from "@/components/site/Process";
+import { Objections } from "@/components/site/Objections";
 import { ConciergeForm } from "@/components/site/ConciergeForm";
 import { Footer } from "@/components/site/Footer";
 
@@ -45,7 +47,9 @@ function Index() {
         <Resonance />
         <Amenities />
         <Leadership />
+        <SevenDecisions />
         <Process />
+        <Objections />
         <ConciergeForm />
       </main>
       <Footer />

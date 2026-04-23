@@ -173,17 +173,17 @@ function Lightbox({ frame, onClose }: { frame: Frame; onClose: () => void }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 lg:p-10 animate-[lbFade_220ms_ease-out]"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 lg:p-10 lb-fade"
       role="dialog"
       aria-modal="true"
       aria-label={frame.title}
     >
       <button
-        className="absolute inset-0 bg-navy/85 backdrop-blur-sm"
+        className="absolute inset-0 bg-navy/85 lb-backdrop"
         onClick={onClose}
         aria-label="Close"
       />
-      <div className="relative max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-px bg-border max-h-[92vh] overflow-y-auto">
+      <div className="relative max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-0 max-h-[92vh] overflow-y-auto lb-panel">
         <div className="lg:col-span-7 bg-navy">
           <img
             src={frame.src}
@@ -231,7 +231,15 @@ function Lightbox({ frame, onClose }: { frame: Frame; onClose: () => void }) {
         </svg>
       </button>
       <style>{`
-        @keyframes lbFade { from { opacity: 0; } to { opacity: 1; } }
+        /* Lightbox curtain — 380ms scale-from-95% on the panel + backdrop blur ramp 0→8px. */
+        @keyframes lbBackdrop { from { backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); opacity: 0; } to { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); opacity: 1; } }
+        @keyframes lbPanel    { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .lb-fade     { animation: lbBackdrop 380ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+        .lb-backdrop { animation: lbBackdrop 380ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+        .lb-panel    { animation: lbPanel 380ms cubic-bezier(0.22, 1, 0.36, 1) both; transform-origin: center; }
+        @media (prefers-reduced-motion: reduce) {
+          .lb-fade, .lb-backdrop, .lb-panel { animation: none !important; }
+        }
       `}</style>
     </div>
   );

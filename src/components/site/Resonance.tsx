@@ -84,8 +84,8 @@ export function Resonance() {
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 maxLength={600}
-                rows={3}
-                placeholder="What would the next chapter ask of you?"
+                rows={4}
+                placeholder="What would a good week here look like?"
                 className="w-full bg-background px-1 py-3 text-foreground text-base sm:text-lg placeholder:text-muted-foreground/60 focus:outline-none resize-none editorial-italic border-0"
               />
               <span

@@ -4,6 +4,7 @@ import { Hero } from "@/components/site/Hero";
 import { Gallery } from "@/components/site/Gallery";
 import { SynergyMap } from "@/components/site/SynergyMap";
 import { Amenities } from "@/components/site/Amenities";
+import { Leadership } from "@/components/site/Leadership";
 import { Process } from "@/components/site/Process";
 import { ConciergeForm } from "@/components/site/ConciergeForm";
 import { Footer } from "@/components/site/Footer";
@@ -11,17 +12,17 @@ import { Footer } from "@/components/site/Footer";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Sanctuary Southeast | Private Executive Recovery Retreat" },
+      { title: "Sanctuary Southeast | Private Medical-Wellness Retreat in the Blue Ridge" },
       {
         name: "description",
         content:
-          "Discrete, ultra-luxury addiction recovery for executives and high-net-worth individuals in the Southeast. Clinical excellence meets five-star hospitality.",
+          "Swiss-standard clinical discretion in the Blue Ridge. A private medical-wellness retreat for executives and high-net-worth families. One family in residence at a time.",
       },
-      { property: "og:title", content: "Sanctuary Southeast | Private Executive Recovery Retreat" },
+      { property: "og:title", content: "Sanctuary Southeast | Private Medical-Wellness Retreat in the Blue Ridge" },
       {
         property: "og:description",
         content:
-          "Discrete, ultra-luxury addiction recovery for executives and high-net-worth individuals. Clinical excellence meets five-star hospitality.",
+          "Swiss-standard clinical discretion in the Blue Ridge. One family in residence at a time.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -39,6 +40,7 @@ function Index() {
         <Gallery />
         <SynergyMap />
         <Amenities />
+        <Leadership />
         <Process />
         <ConciergeForm />
       </main>

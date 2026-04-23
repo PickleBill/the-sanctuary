@@ -1,125 +1,105 @@
 
 
-# Sanctuary Southeast — The Honest Reset
+# Sanctuary v1.5 — Sharpen, Anchor, Convert
 
-You're right. The site reads "tasteful but not arresting." The Impeccable pass shipped at the **token** layer (font, scale, color) but never executed at the **composition** layer (where things actually feel expensive). Mobile has real overlap bugs. The CTA hierarchy is three co-equal buttons, which means there isn't one. And we're still missing the single most important thing the investor brief makes clear: **the Chairman's Cottage** — the productized one-client offering that beats Paracelsus on price and beats every Southeast competitor on category.
-
-This plan re-sequences the work into four short, shippable phases. Each phase ends in something publishable. Phase A is the firefight (mobile bugs + CTA + the missing product). Phase B is the real Impeccable pass done at the composition layer. Phase C ingests the investor research into the actual page content. Phase D is the audit + critique we've been deferring.
+You gave me a great mixed bag: real bugs (mobile hero, dead buttons), strategic asks (one signature image, real MD name), and conversion wins (HIPAA/credential trust block at the form). Below is the prioritized plan — ordered by **leverage on the buyer's decision**, not by what's easiest.
 
 ---
 
-## What I just ingested from the Volume II brief
+## Priority stack (why this order)
 
-Saved to `mem://research/investor-thesis-vol2.md` and added to Core memory:
+The investor brief says Privacy 30% + Speed 20% + Clinical reputation 15% = **65% of the decision**. So:
 
-- **Pricing architecture (NEW, was missing):** $95K residential / $150K Chairman's Cottage / $200K full single-client. Inelastic above $85K, elastic below.
-- **The seven decision criteria with weights** — Privacy 30%, Speed-of-admission 20%, Clinical reputation 15%, Business continuity 12%, Family program 10%, Location 8%, Aftercare 5%. **Privacy and speed together are half the decision.** The site under-weights both right now.
-- **The ten objections** — these are the real copy spine the site is missing. "I can't be gone 30 days." "People will find out." "Swiss is the gold standard." Each has a known counter.
-- **The Chairman's Cottage** — single-client cottage with secure workspace, the answer to objection #1. This is the product wedge. It has no representation on the site today.
-- **The cover-story infrastructure** — Sanctuary Wellness & Longevity Institute DBA, discreet invoicing, mail-forwarding, dual email. This is a productized differentiator no competitor names publicly.
-- **Speed-of-admission as a public commitment** — "30-minute clinician callback, 24–96 hour decision window." The site mentions 24/7 intake but doesn't make the speed promise concrete.
-- **Catchment is "Blue Ridge corridor + 400-mile radius"** — Atlanta, Charlotte, Nashville, Knoxville, Richmond. Not just WNC.
-- **The competitive map** — Caron Ocean Drive ($75K, FL) is the *only* direct peer. Pavillon (Mill Spring, $35K, nonprofit) is the geographic neighbor we differentiate from. Paracelsus ($109K/wk Swiss) is the international reference we beat on logistics.
+1. **Anchor the brand visually** (one signature hero) — this is the single most-remembered surface
+2. **Trust block at the form** (HIPAA, 42 CFR Part 2, licensure, consent) — this is where conversion lives
+3. **Real Medical Director identity** — clinical reputation, but blocked on you (see Decision Point below)
+4. **Wire every dead button** — credibility floor; one dead link at this price point destroys trust
+5. **Mobile hero polish** — what you're staring at right now
+6. **Visual imagery level-up** — Gallery + Leadership portraits regenerated to one consistent visual language
 
-These now drive copy, IA, and CTAs.
+I'm folding `/distill`, `/quieter`, `/colorize`, `/harden` into the work as I go — they're lenses, not separate phases.
 
 ---
 
-## Phase A — The Firefight (one push, ships immediately)
+## Decision Point — Medical Director (need your call)
 
-Goal: fix what's actually broken on the screen in front of you, and install the missing product wedge.
+Project memory says: *"Names are withheld at the request of our principals."* That's currently a feature, not a bug — it reads as discretion. You're now asking to put a real name + verified photo in.
 
-1. **Single primary CTA, everywhere.** Today there are three co-equal buttons in the Hero. Collapse to one primary (`Request the Clinical Dossier`) + one quiet secondary (`Speak with Intake — 24/7 · (800) 555-0199`). Healthcare Professionals link demotes to a small underlined link below the CTA pair. Same hierarchy in Navbar, sticky on mobile.
+**Three paths. Pick one:**
 
-2. **Mobile overlap + density audit.** Walk every section at 402px and fix:
-   - Hero headline measure (16ch is too tight on small screens — break differently)
-   - SynergyMap mobile rows: the synthesis chip overlaps the next row's eyebrow
-   - Resonance textarea: focus border-bottom is being clipped by parent padding
-   - Amenities mobile: Roman numerals + counter `01 / 05` collide on narrow screens
-   - Navbar mobile drawer: the 24/7 chip + Private Consultation button are stacked too close to the bottom safe-area
-   - Footer column collapse on mobile is fine but the small-caps labels are below 11px effective size
+| Path | What ships | Tradeoff |
+|---|---|---|
+| **A. Real person, real photo** | You give me name + credentials + headshot URL, I wire it in cleanly | Best for credibility, but you must have the person signed |
+| **B. Verified-but-named-on-request** | Keep "[Name forthcoming]" + add a "Credentials verified by [NAMI / state board]. Identity disclosed under NDA on request." line | Stays consistent with current discretion posture |
+| **C. Composite advisory board card** | Show 3-4 *advisors* by name (people who'd be on the medical advisory board, easier to recruit than an MD) + keep MD/Clinical Director redacted | Buys credibility without requiring a hired MD |
 
-3. **Install the Chairman's Cottage section.** New component `<ChairmansCottage />` between SynergyMap and Resonance. Single editorial paragraph, one quiet line: *"For the principal who cannot be away. A detached cottage. One guest. Secure workspace. Encrypted comms. Same clinical team."* No pricing on the public site. This is the answer to the #1 objection and it's currently invisible.
-
-4. **Speed-of-admission as a published commitment.** New micro-block in the footer-adjacent "Invariants" rail: *"30-minute clinician callback. 24–72 hour admission window. One conversation, one principal."*
-
-5. **Console hydration warning.** Confirmed it's the Grammarly extension injecting `__gcruniqueid` on form fields — harmless, no fix needed. Document this in `mem://design/known-noise.md` so we don't chase it again.
-
-**What ships:** A v1.1 that is mobile-correct, has one obvious primary action, and finally has the Chairman's Cottage on the page.
+**My recommendation: B for now, A as soon as you have a signed MD.** I'll build B in this push and leave a single-line config swap so going to A later is a 30-second edit.
 
 ---
 
-## Phase B — Impeccable, at the Composition Layer
+## What ships in this push (v1.5)
 
-Goal: execute the design framework where it actually matters — *how the page is composed*, not just what font it's set in.
+### 1. Single signature hero photograph
+- Pick **one** image (recommend `hero-estate-aerial.jpg` — the twilight aerial is the most "Architectural Digest" of the four)
+- Remove the rotation entirely. Remove slide indicators. Remove the four labels.
+- Replace with a **single still + slow Ken Burns drift** (90s cycle, imperceptible)
+- Strengthen vignette so the headline + CTA always have a guaranteed contrast floor regardless of viewport
+- Mobile: re-tune gradient stops so headline never sits over a bright sky band
 
-I'll run six of the eighteen Impeccable commands, in this order, on the four highest-value surfaces (Hero, SynergyMap, Chairman's Cottage, Leadership). Each command produces a concrete change list, not a vibe.
+### 2. Trust + Consent block at the Concierge Form
+A new component `<TrustRail />` directly above the form, four quiet plates:
+- **HIPAA Posture** — *"This intake form does not collect PHI. Clinical conversations occur on encrypted channels off this site."*
+- **42 CFR Part 2** — *"Substance-use treatment records receive heightened federal protection. We comply with both."*
+- **Licensure** — *"Licensed by the North Carolina Department of Health and Human Services. Joint Commission accreditation in process."* (placeholder until real)
+- **No Referral Fees** — *"We do not pay or accept referral fees. Anti-kickback compliant under 42 USC §1320a-7b."*
 
-1. **`/distill`** — for each section, identify the one thing it must communicate. Strip everything else. Today most sections try to say two or three things and end up saying nothing memorably.
-2. **`/shape`** — re-balance the section grids. The Hero text column is currently a left-aligned 3xl block in a 7xl container; it floats. Either commit to an asymmetric weighted grid (60/40) or center the content and let the background carry the asymmetry.
-3. **`/typeset`** — the Literata pass set the *family*, not the *typesetting*. Real typesetting: hung punctuation on the Hero headline, optical letter-spacing on small-caps eyebrows (currently uniform 0.32em is heavy for 11px), drop-cap or display-figure on Process numerals, true italics on first-line "lead" paragraphs only.
-4. **`/animate`** — current motion is "fade up on scroll." Replace with two intentional patterns: (1) Hero Ken Burns drift (already in), (2) **filament-draw** on SynergyMap rows (the amber line draws left-to-right at row entry, 1200ms ease-out). Nothing else moves. Stillness is the brand.
-5. **`/quieter`** — reduce visual weight by 20% across the board. Specifically: Hero gradient overlay is too heavy (the photos are doing nothing); SynergyMap ambient amber glow is amateur-hour; Amenities hover-to-primary-color is too "SaaS." Replace with quieter equivalents.
-6. **`/colorize`** — the amber is currently used as decoration. Restrict it to: (1) the eyebrow rule, (2) the active filament/node, (3) the primary CTA. Everywhere else amber appears (Hero "in the Blue Ridge.", section titles, dividers), demote to ivory/foreground at varied opacity. The single-accent rule from `.impeccable.md` is being violated by the site itself.
+Plus inline microcopy under the submit button:
+*"By submitting, you consent to a one-time outreach by our intake team within four hours. No record is created until you instruct us to proceed. We do not sell, share, or retain your information for marketing."*
 
-**What ships:** A v1.2 that finally feels expensive, not just tasteful.
+### 3. Wire every dead button
+Audit pass on every clickable element:
+- **Gallery estate panels** (Suite, Boardroom, Grounds, Clinical) → click opens an editorial lightbox with the full image + a 2-3 sentence longer caption + "Speak with intake" link
+- **Hero slide indicators** → removed (no rotation anymore)
+- **Footer links, Navbar links** → verified all scroll-to-id targets resolve
+- **"Encrypted document exchange"** in Leadership → routes to /professionals#encrypted-exchange anchor (or to form with role pre-selected as "Medical Professional")
+- **Seven Decisions cards** → each becomes an inline accordion that expands one paragraph of detail (currently they look clickable but aren't)
+
+### 4. Medical Director — Path B
+- Keep names redacted but add a **"Credentials Verified" trust badge** under each leader card (small-caps, amber rule)
+- Add line: *"Identity disclosed under mutual NDA. Verification available to licensed referring clinicians on request."*
+- Wire the badge to a tiny modal explaining what's verified (board certifications, DEA, state license — all checked but not displayed)
+- Leave a `LEADERS` config object so swapping in real names later is one edit
+
+### 5. Mobile hero polish (what you're seeing right now)
+- Headline `maxWidth: 22ch` is still breaking awkwardly at 402px → drop to 18ch on mobile, 22ch desktop
+- Eyebrow + headline stack: tighten gap from `mb-7` to `mb-5` on mobile
+- Slide indicators (now removed) → reclaim the space for a cleaner scroll cue
+- "Speak With Intake · 24/7" pill on mobile: full-width with phone icon, currently feels orphaned
+- The "For Healthcare Professionals" link: move to a permanent slot in the navbar instead of dangling under the CTAs
+
+### 6. Visual imagery level-up
+The existing photos are good but inconsistent (different lens, different time-of-day, different processing). Two options — pick one:
+
+- **Option A (fast):** Re-grade the four gallery images to one LUT (cooler shadows, warmer mid-amber, lifted blacks) so they read as one brand. ~30 min of `/colorize` work in code on overlay layers, no AI regen.
+- **Option B (impeccable):** Regenerate all four gallery images + both leader portraits using `google/gemini-3-pro-image-preview` with a unified prompt: *"editorial Architectural Digest, cinematic golden-hour, shallow depth of field, warm amber accents on cool slate, 4:5"*. Slower but lands the brand visually.
+
+**My recommendation: A in this push, B in a follow-up dedicated to imagery.**
 
 ---
 
-## Phase C — Investor Research → Page Content
+## Out of scope for this push (acknowledged, not forgotten)
 
-Goal: take what the brief teaches us about how the buyer actually decides, and bake it into the copy/IA.
-
-1. **The Seven Decisions panel** — new section after Leadership. Seven small editorial cards, each one keyed to a decision criterion with its weight made implicit through visual emphasis (bigger plates for Privacy 30% and Speed 20%, smaller for Aftercare 5%). Each card answers, in one sentence, how Sanctuary handles that criterion. This is the page section that interventionists and family-office advisors will screenshot and forward.
-
-2. **"What clients ask before they say yes"** — convert three of the ten objections into a quiet FAQ-style accordion at the bottom of the page. Pick the three highest-leverage:
-   - *"I can't be away from work for 30 days."* → Chairman's Cottage answer
-   - *"People will find out."* → cover-story + 42 CFR Part 2 answer
-   - *"Swiss is the gold standard."* → Paracelsus comparison without naming them ("a domestic equivalent at sixty percent of the Zurich rate, with no visa logistics")
-
-3. **/professionals upgrade** — add the **Referral Protocol Card** the brief implies: 30-min callback, named clinician on the line, signed BAA in 24 hours, no kickback. The current /professionals page has the right ideas but reads like a policy page. Re-set it as a one-page reference card a referring physician would actually print.
-
-4. **Geography upgrade** — the brief makes clear our catchment is Atlanta + Charlotte + Nashville + Knoxville + Richmond, not just WNC. Add a quiet line in the Hero or Process section: *"A 90-minute drive from Charlotte. A direct flight from Atlanta, Nashville, or New York via Asheville Regional."*
-
-5. **Cover-story line** — single italic line in the Process section, treated as a footnote: *"For correspondence and travel, we operate as the Sanctuary Wellness & Longevity Institute."* That's all. The discretion is the message.
-
-**What ships:** A v1.3 whose content reflects what the buyer actually weighs.
+- Joint Commission accreditation badge (waiting on real status)
+- Real Joint Commission / NAATP / LegitScript logos (waiting on actual certifications)
+- A real Medical Director name + photo (Path A — waiting on you)
+- Site-specific photography of the actual WNC parcel (parcel not chosen)
+- Magic-link auth on /professionals encrypted exchange (Phase 5 work)
 
 ---
 
-## Phase D — Audit + Critique (real this time)
+## What I need from you to start
 
-Goal: stop self-grading 8/10. Use the framework to find what's actually broken.
+Just answer this one thing in your reply: **A, B, or C on the Medical Director.**
 
-1. **`/audit`** (technical) — WCAG AA contrast check on amber/ivory and amber/navy combos (the `text-amber/80` calls are suspect against navy). Tap targets at 402px confirmed ≥48px. `prefers-reduced-motion` honored on Ken Burns + filament-draw. og:image generated (1200×630, hero estate photo, set on `/` and `/professionals` only). Lighthouse mobile: target ≥90 perf, 100 a11y.
-2. **`/critique`** (UX) — score against the three personas in `.impeccable.md` *honestly*. Anything below 8 gets fixed. Last time everything scored 8–9 and the user is sitting here saying it's not compelling — that's a calibration failure. Recalibrate: 7 = "publishable." 8 = "memorable." 9 = "screenshot-worthy." 10 = "forwarded unprompted."
-3. **`/critique` mobile-only pass** at 402px and 360px (smaller iPhones still exist).
-4. **Save findings** to `mem://design/critique-v2.md` (replacing v1 which was too generous).
-
-**What ships:** v1.4. Publishable to advisors with confidence.
-
----
-
-## Sequencing & timing
-
-- **Phase A** — one push. Ship today.
-- **Phase B** — one push. Ship after A is verified on mobile.
-- **Phase C** — one push. Ship after B.
-- **Phase D** — one push. Findings + fixes in the same turn.
-
-Four pushes, four shippable increments. We do not ship Phase D and then start finding more work. After D the site is publishable to advisors and the next work is Phase 4 (Affirmation Threads) or real clinical leadership names — both of which depend on you, not on me.
-
-## Memory updates this turn
-
-- `mem://research/investor-thesis-vol2.md` — new, the brief's actionable findings (pricing tiers, decision criteria, objections, Chairman's Cottage product spec, cover-story infrastructure, catchment geography)
-- `mem://index.md` — Core gets two new lines: "$95K/$150K/$200K tier architecture, never shown publicly" and "Chairman's Cottage is the product wedge against Paracelsus and Caron Ocean Drive"
-- `mem://design/known-noise.md` — new, documents the Grammarly hydration warning so we don't re-investigate
-- `mem://design/critique-v2.md` — written during Phase D, replaces critique-v1
-
-## What I will NOT do without you
-
-- Pick a real Medical Director name (still placeholder)
-- Choose a specific WNC parcel (Polk, Henderson, Transylvania still on the table per the brief)
-- Publish pricing publicly (the brief is explicit: never on the marketing site)
-- Add testimonials, before/after, celebrity references (hard bans)
+Everything else I'll execute. If you don't answer I'll proceed with **Path B** (verified-on-request) since it's reversible and matches the current discretion posture.
 

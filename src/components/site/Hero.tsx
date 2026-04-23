@@ -161,6 +161,9 @@ export function Hero() {
               For Healthcare Professionals
             </button>
           </div>
+          </div>
+          {/* Right column intentionally empty — negative space lets the photo carry */}
+          <div className="hidden lg:block lg:col-span-4 xl:col-span-5" aria-hidden />
         </div>
       </div>
 

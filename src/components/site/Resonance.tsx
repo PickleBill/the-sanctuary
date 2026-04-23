@@ -84,8 +84,8 @@ export function Resonance() {
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 maxLength={600}
-                rows={3}
-                placeholder="What would the next chapter ask of you?"
+                rows={4}
+                placeholder="What would a good week here look like?"
                 className="w-full bg-background px-1 py-3 text-foreground text-base sm:text-lg placeholder:text-muted-foreground/60 focus:outline-none resize-none editorial-italic border-0"
               />
               <span
@@ -141,7 +141,7 @@ export function Resonance() {
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-border max-w-2xl">
               <div className="bg-background p-6">
-                <p className="small-caps text-amber/80 text-[10px] tracking-[0.32em] mb-2">
+                <p className="small-caps text-muted-foreground/70 text-[10px] tracking-[0.32em] mb-2">
                   Clinical
                 </p>
                 <p className="font-serif text-foreground" style={{ fontSize: "var(--text-h4)", fontWeight: 500 }}>
@@ -149,7 +149,7 @@ export function Resonance() {
                 </p>
               </div>
               <div className="bg-background p-6">
-                <p className="small-caps text-amber/80 text-[10px] tracking-[0.32em] mb-2">
+                <p className="small-caps text-muted-foreground/70 text-[10px] tracking-[0.32em] mb-2">
                   Holistic
                 </p>
                 <p className="font-serif text-foreground" style={{ fontSize: "var(--text-h4)", fontWeight: 500 }}>

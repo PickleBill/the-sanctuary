@@ -25,7 +25,7 @@ const frames: Frame[] = [
     caption:
       "Single-occupancy residence wings with bespoke linens, library nooks, and a personal concierge.",
     long:
-      "Each suite is dressed for a single principal. Bespoke linens, an in-room library curated to the guest's interests, blackout drapes for jet-lagged arrivals, and a concierge who is the same person from check-in to discharge. There is no front desk. There is no posted schedule.",
+      "Each suite is dressed for a single principal. Bespoke linens, an in-room library curated to the guest's interests, blackout drapes for jet-lagged arrivals, and a concierge who is the same person from check-in to discharge. There is no front desk. There is no posted schedule. The room your assistant would book if she knew exactly what you needed.",
   },
   {
     src: grounds,
@@ -33,7 +33,7 @@ const frames: Frame[] = [
     caption:
       "Two hundred acres of oak-shaded gardens, walking meditations, and quiet water.",
     long:
-      "Two hundred and twelve acres of mature white-oak canopy, a stocked pond, three miles of soft-surface walking trails, and a meditation pavilion sited where the morning mist breaks across the ridge. The land does most of the work.",
+      "Two hundred and twelve acres of mature white-oak canopy, a stocked pond, three miles of soft-surface walking trails, and a meditation pavilion sited where the morning mist breaks across the ridge. You will walk this ridge more than you expect to. The land does most of the work.",
   },
   {
     src: boardroom,
@@ -41,7 +41,7 @@ const frames: Frame[] = [
     caption:
       "Sound-proofed, encrypted spaces for uninterrupted leadership.",
     long:
-      "Acoustically sealed, hardened against signal interception, with redundant fiber and a secure video stack vetted by an outside firm. Built for the principal who cannot disappear. Scheduled use windows protect the rest of the program.",
+      "Acoustically sealed, hardened against signal interception, with redundant fiber and a secure video stack vetted by an outside firm. Built for the principal who cannot disappear. Scheduled use windows protect the rest of the program — for the calls you can't miss, and the discipline to use it sparingly.",
   },
   {
     src: clinical,
@@ -49,7 +49,7 @@ const frames: Frame[] = [
     caption:
       "Five-star medical environments staffed by board-certified specialists.",
     long:
-      "Procedure room, infusion bay, and recovery suite finished to a standard most hospitals cannot match. Board-certified physicians on the estate; sub-specialty consults arranged within twenty-four hours when called for.",
+      "Procedure room, infusion bay, and recovery suite finished to a standard most hospitals cannot match. Board-certified physicians on the estate; sub-specialty consults arranged within twenty-four hours when called for. Medicine, dressed like hospitality.",
   },
 ];
 
@@ -268,11 +268,11 @@ export function Gallery() {
             >
               A sanctuary
               <span className="block editorial-italic text-foreground/70" style={{ fontWeight: 400 }}>
-                of unrivaled privacy.
+                worth coming to.
               </span>
             </h2>
             <p className="text-muted-foreground leading-relaxed max-w-xl" style={{ fontSize: "var(--text-body)" }}>
-              Two hundred private acres in the Blue Ridge — gated, sealed, and composed for a single family in residence at a time. Stone-and-cedar architecture, century-old oaks, and an infinity pool that reads the ridgeline.
+              Two hundred private acres in the Blue Ridge — gated, composed for a single family in residence at a time. Stone-and-cedar architecture, century-old oaks, an infinity pool that reads the ridgeline, and a dining room that fills, most nights, with quiet conversation.
             </p>
           </div>
         </div>

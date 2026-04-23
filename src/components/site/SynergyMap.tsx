@@ -103,7 +103,7 @@ function Plate({
       ].join(" ")}
     >
       <div className="flex items-baseline gap-3 lg:flex-row-reverse lg:[&>*]:order-none">
-        <span className="small-caps text-amber/80 text-[10px] tracking-[0.32em]">
+        <span className="small-caps text-ivory/45 text-[10px] tracking-[0.32em]">
           {side === "clinical" ? "Clinical" : "Holistic"} · <span className="tabular">{index}</span>
         </span>
       </div>

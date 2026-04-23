@@ -3,28 +3,28 @@ import { useEffect, useRef, useState } from "react";
 const items = [
   {
     num: "I",
-    title: "Ironclad Privacy",
-    desc: "Universal NDAs for every staff member, encrypted communication channels, and private arrival protocols ensure your presence is known only to those you choose.",
+    title: "Discretion, by default",
+    desc: "Universal NDAs, encrypted channels, private arrival. The privacy is so complete you stop thinking about it — which is the point.",
   },
   {
     num: "II",
-    title: "Business Continuity",
-    desc: "Sound-proof private offices, satellite-grade internet, and secure conferencing keep critical leadership operations uninterrupted throughout your stay.",
+    title: "The work, when it must continue",
+    desc: "A sound-proof private office, satellite-grade fiber, and a secure conference stack — for the calls you cannot miss. Used sparingly, by design.",
   },
   {
     num: "III",
-    title: "Bespoke Re-Engagement",
-    desc: "Curated activities — fly fishing on private waters, championship golf, equestrian work — restore identity and confidence beyond the clinical container.",
+    title: "Things worth doing again",
+    desc: "Fly fishing on private water. A round at a quiet course. An hour with a horse who doesn't care what you do for a living.",
   },
   {
     num: "IV",
-    title: "Personal Chef & Nutrition",
-    desc: "Private chef cuisine designed by metabolic and functional dietitians. Every meal is a clinical instrument, plated as hospitality.",
+    title: "Food you would order on purpose",
+    desc: "A private chef working from a metabolic dietitian's brief. Plated as hospitality. Designed as medicine. You will eat better here than at home.",
   },
   {
     num: "V",
-    title: "Family Integration",
-    desc: "Discrete on-site lodging for spouses or principals' counsel, with private family-systems sessions led by senior clinicians.",
+    title: "Family, brought back into the room",
+    desc: "On-site lodging for spouses and counsel. Family-systems sessions led by senior clinicians. The conversation you've been postponing, made possible.",
   },
 ];
 
@@ -70,7 +70,7 @@ export function Amenities() {
               className="text-muted-foreground leading-relaxed max-w-xl"
               style={{ fontSize: "var(--text-body)" }}
             >
-              Five quiet commitments that distinguish a clinical container from a hotel with therapy.
+              Five quiet commitments — some clinical, some hospitable, all designed to make a serious month of work feel like a place you would want to come back to.
             </p>
           </div>
         </div>

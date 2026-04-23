@@ -5,7 +5,9 @@ import { Gallery } from "@/components/site/Gallery";
 import { SynergyMap } from "@/components/site/SynergyMap";
 import { ChairmansCottage } from "@/components/site/ChairmansCottage";
 import { Resonance } from "@/components/site/Resonance";
+import { PeerCohort } from "@/components/site/PeerCohort";
 import { Amenities } from "@/components/site/Amenities";
+import { DayHere } from "@/components/site/DayHere";
 import { Leadership } from "@/components/site/Leadership";
 import { SevenDecisions } from "@/components/site/SevenDecisions";
 import { Process } from "@/components/site/Process";
@@ -45,7 +47,9 @@ function Index() {
         <SynergyMap />
         <ChairmansCottage />
         <Resonance />
+        <PeerCohort />
         <Amenities />
+        <DayHere />
         <Leadership />
         <SevenDecisions />
         <Process />

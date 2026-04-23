@@ -101,12 +101,29 @@ export function Navbar() {
 
         <button
           onClick={() => setOpen((v) => !v)}
-          className="lg:hidden p-2 text-foreground"
-          aria-label="Toggle menu"
+          className="lg:hidden -mr-2 p-2 text-foreground hover:text-amber transition-colors"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
         >
-          <span className="block w-6 h-px bg-current mb-1.5" />
-          <span className="block w-6 h-px bg-current mb-1.5" />
-          <span className="block w-4 h-px bg-current ml-auto" />
+          {/* Editorial hamburger: two equal hairlines + an amber rule.
+              Replaces the previous broken-looking 3-line / asymmetric mark. */}
+          <span className="relative block w-6 h-[14px]">
+            <span
+              className={`absolute left-0 right-0 h-px bg-current transition-all duration-300 ${
+                open ? "top-[6px] rotate-45" : "top-0"
+              }`}
+            />
+            <span
+              className={`absolute left-0 right-0 h-px bg-amber transition-all duration-300 ${
+                open ? "top-[6px] opacity-0" : "top-[6px] opacity-100"
+              }`}
+            />
+            <span
+              className={`absolute left-0 right-0 h-px bg-current transition-all duration-300 ${
+                open ? "top-[6px] -rotate-45" : "top-[12px]"
+              }`}
+            />
+          </span>
         </button>
       </div>
 

@@ -80,14 +80,22 @@ export function ChairmansCottage() {
             The recovery does not pause.
           </p>
 
+          {/* Three quiet facts — value + label, not bare labels. Reads as a
+              ledger of commitments rather than an empty header strip. */}
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-px bg-ivory/10 border-y border-ivory/10">
             {[
-              { label: "Detached residence" },
-              { label: "Secure private office" },
-              { label: "Same clinical team" },
+              { value: "One", label: "Detached residence" },
+              { value: "Hardened", label: "Encrypted workspace" },
+              { value: "Same", label: "Clinical team" },
             ].map((item) => (
-              <div key={item.label} className="bg-navy px-6 py-7">
-                <p className="small-caps text-ivory/60 text-[11px] tracking-[0.28em]">
+              <div key={item.label} className="bg-navy px-6 py-8">
+                <p
+                  className="font-serif text-ivory leading-none mb-3"
+                  style={{ fontSize: "var(--text-h3)", fontWeight: 500, letterSpacing: "-0.018em" }}
+                >
+                  {item.value}
+                </p>
+                <p className="small-caps text-ivory/55 text-[11px] tracking-[0.28em]">
                   {item.label}
                 </p>
               </div>

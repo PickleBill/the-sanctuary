@@ -68,19 +68,19 @@ export function PeerCohort() {
             </span>
           </h2>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             <div className="lg:col-span-7">
               <p
                 className="text-foreground/85 leading-relaxed mb-6"
                 style={{ fontSize: "var(--text-lead)", lineHeight: 1.55 }}
               >
-                In any given residence, the guest before you was likely a founder mid-raise, a managing partner, a surgeon, a public official, a head of household whose name you would recognize. They sat in this chair. They walked these trails. They left with a number to call when the next hard week arrived.
+                In any given residence, the guest before you was likely a founder mid-raise, a managing partner, a surgeon, a public official, a head of household whose name you would recognize. They sat in this chair. They walked these trails. They left with people they still text.
               </p>
               <p
                 className="text-muted-foreground leading-relaxed mb-10"
                 style={{ fontSize: "var(--text-body)" }}
               >
-                You will not be the first. You will not be the last. That is the quiet relief of being here.
+                You will not be the first. You will not be the last. That is the quiet relief of being here — a room full of people who already know the weight you walked in with, and who are not impressed by it.
               </p>
 
               <div
@@ -98,21 +98,22 @@ export function PeerCohort() {
               </p>
             </div>
 
-            {/* Right column — sequential role descriptors */}
+            {/* Right column — sequential role descriptors. Mobile uses a single
+                column so each role gets readable padding and sits as its own line. */}
             <div className="lg:col-span-5">
               <p className="small-caps text-muted-foreground/70 text-[11px] tracking-[0.28em] mb-7">
                 Recent residents — by category only
               </p>
-              <ul className="grid grid-cols-2 gap-px bg-border">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-border">
                 {ROLES.map((role, i) => (
                   <li
                     key={role}
-                    className={`bg-background px-5 py-6 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    className={`bg-background px-5 py-5 sm:py-6 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] flex items-center gap-4 sm:block ${
                       visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
                     }`}
                     style={{ transitionDelay: `${300 + i * 140}ms` }}
                   >
-                    <span className="block w-6 h-px bg-amber mb-3" aria-hidden />
+                    <span className="block w-6 h-px bg-amber sm:mb-3 shrink-0" aria-hidden />
                     <span
                       className="font-serif text-foreground"
                       style={{ fontSize: "var(--text-h4)", fontWeight: 500, letterSpacing: "-0.012em" }}
@@ -123,7 +124,7 @@ export function PeerCohort() {
                 ))}
               </ul>
               <p className="mt-6 text-xs text-muted-foreground italic leading-relaxed">
-                We never confirm whether a particular person has been a guest. We never deny it either. That posture is the policy.
+                We never confirm whether a particular person has been a guest. We never deny it either. Some of them now refer their friends.
               </p>
             </div>
           </div>

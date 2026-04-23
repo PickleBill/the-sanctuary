@@ -81,63 +81,96 @@ export function DayHere() {
           </div>
         </div>
 
-        {/* Timeline */}
+        {/* Timeline.
+            Desktop (sm+): hour gutter + spine + node + line.
+            Mobile: hour rides above the line on its own row, sentence gets
+            the full container width — no more 14ch overflow. */}
         <ol className="relative mx-auto max-w-3xl">
-          {/* Vertical spine — drawn from top */}
+          {/* Vertical spine — desktop only. On mobile we use per-item top borders. */}
           <span
             aria-hidden
-            className={`absolute left-[5.5rem] sm:left-[7rem] top-2 bottom-2 w-px bg-border origin-top transition-transform duration-[1600ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            className={`hidden sm:block absolute left-[7rem] top-2 bottom-2 w-px bg-border origin-top transition-transform duration-[1600ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
               visible ? "scale-y-100" : "scale-y-0"
             }`}
           />
           {MOMENTS.map((m, i) => (
             <li
               key={m.hour}
-              className={`relative grid grid-cols-[5rem_auto_1fr] sm:grid-cols-[6.5rem_auto_1fr] gap-4 sm:gap-6 py-6 sm:py-8 transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+              className={`relative transition-all duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
                 visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
-              }`}
+              } ${i > 0 ? "border-t border-border/50 sm:border-t-0" : ""}`}
               style={{ transitionDelay: `${300 + i * 220}ms` }}
             >
-              {/* Hour */}
-              <div className="text-right pt-1">
-                <span className="small-caps text-amber text-[12px] tracking-[0.28em] tabular">
-                  {m.hour}
-                </span>
-                {/* Filament out from hour */}
-                <span
-                  aria-hidden
-                  className={`block h-px bg-amber/60 mt-2 ml-auto origin-right transition-transform duration-[800ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                    visible ? "scale-x-100" : "scale-x-0"
-                  }`}
+              {/* Mobile layout: hour as a header row, sentence underneath full-width. */}
+              <div className="sm:hidden py-7">
+                <div className="flex items-center gap-3 mb-3">
+                  <span
+                    aria-hidden
+                    className={`block w-1.5 h-1.5 rotate-45 bg-amber transition-all duration-700 ${
+                      visible ? "opacity-100 scale-100" : "opacity-0 scale-50"
+                    }`}
+                    style={{ transitionDelay: `${500 + i * 220}ms` }}
+                  />
+                  <span className="small-caps text-amber text-[11px] tracking-[0.28em] tabular">
+                    {m.hour}
+                  </span>
+                  <span
+                    aria-hidden
+                    className={`flex-1 h-px bg-amber/35 origin-left transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                      visible ? "scale-x-100" : "scale-x-0"
+                    }`}
+                    style={{ transitionDelay: `${650 + i * 220}ms` }}
+                  />
+                </div>
+                <p
+                  className="font-serif editorial-italic text-foreground/85"
                   style={{
-                    width: "1.5rem",
-                    transitionDelay: `${500 + i * 220}ms`,
+                    fontSize: "clamp(1.125rem, 0.95rem + 1.5vw, 1.375rem)",
+                    fontWeight: 400,
+                    lineHeight: 1.42,
                   }}
-                />
+                >
+                  {m.line}
+                </p>
               </div>
 
-              {/* Node */}
-              <div className="relative flex items-start pt-2">
-                <span
-                  aria-hidden
-                  className={`block w-2 h-2 rotate-45 bg-amber transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                    visible ? "opacity-100 scale-100" : "opacity-0 scale-50"
-                  }`}
-                  style={{ transitionDelay: `${600 + i * 220}ms` }}
-                />
+              {/* Desktop layout: hour gutter + node + sentence. */}
+              <div className="hidden sm:grid grid-cols-[6.5rem_auto_1fr] gap-6 py-8">
+                <div className="text-right pt-1">
+                  <span className="small-caps text-amber text-[12px] tracking-[0.28em] tabular">
+                    {m.hour}
+                  </span>
+                  <span
+                    aria-hidden
+                    className={`block h-px bg-amber/60 mt-2 ml-auto origin-right transition-transform duration-[800ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                      visible ? "scale-x-100" : "scale-x-0"
+                    }`}
+                    style={{
+                      width: "1.5rem",
+                      transitionDelay: `${500 + i * 220}ms`,
+                    }}
+                  />
+                </div>
+                <div className="relative flex items-start pt-2">
+                  <span
+                    aria-hidden
+                    className={`block w-2 h-2 rotate-45 bg-amber transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                      visible ? "opacity-100 scale-100" : "opacity-0 scale-50"
+                    }`}
+                    style={{ transitionDelay: `${600 + i * 220}ms` }}
+                  />
+                </div>
+                <p
+                  className="font-serif editorial-italic text-foreground/85"
+                  style={{
+                    fontSize: "clamp(1.25rem, 0.95rem + 0.85vw, 1.5rem)",
+                    fontWeight: 400,
+                    lineHeight: 1.4,
+                  }}
+                >
+                  {m.line}
+                </p>
               </div>
-
-              {/* Editorial line */}
-              <p
-                className="font-serif editorial-italic text-foreground/85 leading-snug"
-                style={{
-                  fontSize: "clamp(1.125rem, 0.95rem + 0.85vw, 1.5rem)",
-                  fontWeight: 400,
-                  lineHeight: 1.35,
-                }}
-              >
-                {m.line}
-              </p>
             </li>
           ))}
         </ol>

@@ -151,12 +151,14 @@ export function Hero() {
         <MistCanvas />
       </div>
 
-      {/* Vignette stack — re-tuned for guaranteed headline contrast on mobile */}
+      {/* Vignette stack — re-tuned for guaranteed headline contrast on mobile.
+          Heavier left-side wash so the headline column stays legible regardless
+          of where bright sky pixels happen to land at narrow viewports. */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, color-mix(in oklab, var(--navy) 62%, transparent) 0%, color-mix(in oklab, var(--navy) 28%, transparent) 38%, color-mix(in oklab, var(--navy) 82%, transparent) 100%)",
+            "linear-gradient(180deg, color-mix(in oklab, var(--navy) 70%, transparent) 0%, color-mix(in oklab, var(--navy) 36%, transparent) 42%, color-mix(in oklab, var(--navy) 88%, transparent) 100%)",
           transform: `translate3d(0, ${vignetteY}px, 0)`,
         }}
         aria-hidden
@@ -165,17 +167,17 @@ export function Hero() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse at 25% 55%, transparent 32%, color-mix(in oklab, var(--navy) 50%, transparent) 100%)",
+            "radial-gradient(ellipse at 22% 50%, color-mix(in oklab, var(--navy) 35%, transparent) 0%, transparent 55%, color-mix(in oklab, var(--navy) 55%, transparent) 100%)",
         }}
         aria-hidden
       />
 
-      {/* Asymmetric weighted grid */}
-      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10 pt-32 pb-24 w-full">
+      {/* Asymmetric weighted grid — pt tuned for fixed navbar (h-20 = 80px). */}
+      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10 pt-28 sm:pt-32 pb-28 lg:pb-32 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           <div className="lg:col-span-8 xl:col-span-7">
             <p
-              className={`eyebrow mb-5 lg:mb-7 transition-all duration-1000 ${
+              className={`eyebrow mb-6 lg:mb-7 transition-all duration-1000 ${
                 revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
               }`}
             >
@@ -183,12 +185,12 @@ export function Hero() {
             </p>
 
             <h1
-              className={`font-serif text-ivory mb-6 lg:mb-8 transition-all duration-1000 delay-150 hang-punct ${
+              className={`font-serif text-ivory mb-7 lg:mb-9 transition-all duration-1000 delay-150 hang-punct ${
                 revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
               style={{
-                fontSize: "clamp(2.5rem, 1.7rem + 4.4vw, 5.75rem)",
-                lineHeight: 1.04,
+                fontSize: "clamp(2.375rem, 1.4rem + 5.2vw, 5.75rem)",
+                lineHeight: 1.05,
                 letterSpacing: "-0.022em",
                 fontWeight: 500,
               }}
@@ -202,41 +204,40 @@ export function Hero() {
               </span>
             </h1>
 
-            {/* Filament burn-in — brand signature motion, fires once */}
+            {/* Filament burn-in — brand signature, fires once. Single horizontal
+                rule in the hero; keeps the silence around the lede. */}
             <span
               aria-hidden
-              className={`block h-px bg-amber mb-7 lg:mb-9 transition-all duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] delay-500 ${
-                revealed ? "w-24 opacity-100" : "w-0 opacity-0"
+              className={`block h-px bg-amber mb-8 lg:mb-9 transition-all duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] delay-500 ${
+                revealed ? "w-20 sm:w-24 opacity-100" : "w-0 opacity-0"
               }`}
             />
 
             <p
-              className={`text-ivory/85 max-w-xl mb-9 sm:mb-12 transition-all duration-1000 delay-300 leading-relaxed ${
+              className={`text-ivory/85 max-w-xl mb-10 sm:mb-12 transition-all duration-1000 delay-300 leading-relaxed ${
                 revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
               style={{
                 fontSize: "var(--text-lead)",
-                color: "color-mix(in oklab, var(--ivory) 88%, transparent)",
+                color: "color-mix(in oklab, var(--ivory) 90%, transparent)",
               }}
             >
-              A private medical-wellness sanctuary in the Blue Ridge for high-functioning leaders. Clinical depth. Restorative beauty. The quiet company of others who&rsquo;ve sat in your chair.
+              A private medical-wellness sanctuary in the Blue Ridge — for high-functioning leaders, in the company of peers who&rsquo;ve sat in the same chair. The work is real. The week is yours.
             </p>
 
-            {/* CTAs — primary amber + intake line + new tertiary "see what a week looks like" */}
             <div
               className={`transition-all duration-1000 delay-500 ${
                 revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
                 <button
                   onClick={() => scrollToId("concierge-form")}
-                  className="group relative w-full sm:w-auto bg-amber text-amber-foreground px-8 py-5 min-h-[56px] hover:-translate-y-0.5 transition-transform duration-500 overflow-hidden"
+                  className="group relative w-full sm:w-auto bg-amber text-amber-foreground px-8 py-[18px] sm:py-5 min-h-[52px] hover:-translate-y-0.5 transition-transform duration-500 overflow-hidden"
                 >
                   <span className="small-caps tracking-[0.22em] text-[12px] relative z-10">
                     Request the Clinical Dossier
                   </span>
-                  {/* Filament underline — draws on hover */}
                   <span
                     aria-hidden
                     className="absolute left-4 right-4 bottom-2 h-px bg-amber-foreground/60 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
@@ -244,7 +245,7 @@ export function Hero() {
                 </button>
                 <a
                   href="tel:+18005550199"
-                  className="w-full sm:w-auto px-2 py-3 min-h-[48px] text-ivory/90 hover:text-amber transition-colors duration-500 flex items-center justify-center sm:justify-start gap-3"
+                  className="w-full sm:w-auto px-2 py-3 min-h-[44px] text-ivory/90 hover:text-amber transition-colors duration-500 flex items-center justify-center sm:justify-start gap-3"
                 >
                   <svg
                     width="14"
@@ -266,12 +267,14 @@ export function Hero() {
                 </a>
               </div>
 
-              {/* Tertiary — quiet text link to "A Day Here" */}
+              {/* Tertiary — small-caps, not italic body. Reads as a navigation
+                  cue rather than a sentence floating in space. */}
               <button
                 onClick={() => scrollToId("day-here")}
-                className="mt-7 sm:mt-8 text-ivory/55 hover:text-amber transition-colors duration-500 italic text-[15px] flex items-center gap-2 group"
+                className="mt-8 sm:mt-9 text-ivory/55 hover:text-amber transition-colors duration-500 small-caps text-[11px] tracking-[0.24em] flex items-center gap-3 group"
               >
-                <span>or — see what a week here actually looks like</span>
+                <span aria-hidden className="block w-6 h-px bg-ivory/30 group-hover:bg-amber transition-colors" />
+                <span>See a day here</span>
                 <span aria-hidden className="inline-block transition-transform duration-500 group-hover:translate-x-1">→</span>
               </button>
             </div>
@@ -280,10 +283,11 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator — desktop only; on mobile the tertiary "See a day here"
+          link does the same job and the small viewport doesn't need a second cue. */}
       <button
         onClick={() => scrollToId("gallery")}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 text-ivory/70 small-caps text-[11px] tracking-[0.4em] flex flex-col items-center gap-3 group"
+        className="hidden lg:flex absolute bottom-10 left-1/2 -translate-x-1/2 z-10 text-ivory/70 small-caps text-[11px] tracking-[0.4em] flex-col items-center gap-3 group"
         aria-label="Scroll to estate"
       >
         <span className="group-hover:text-amber transition-colors">Scroll</span>

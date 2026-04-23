@@ -341,8 +341,9 @@ export function SynergyMap() {
           </div>
         </div>
 
-        {/* Credibility strip */}
-        <div className="mt-32 lg:mt-40 grid grid-cols-1 sm:grid-cols-3 gap-px bg-white/10 border-y border-white/10">
+        {/* Credibility strip — pulled closer (mt-20 instead of mt-32) so it
+            reads as the closer of the same thought, not a stranded footer. */}
+        <div className="mt-20 lg:mt-24 grid grid-cols-1 sm:grid-cols-3 gap-px bg-white/10 border-y border-white/10">
           {[
             { figure: "4:1", label: "Staff-to-Guest Ratio" },
             { figure: "90", label: "Day Median Program" },

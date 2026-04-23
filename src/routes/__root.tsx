@@ -28,19 +28,19 @@ export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Sanctuary Southeast offers an ultra-luxury executive recovery retreat for high-net-worth individuals." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Sanctuary Southeast offers an ultra-luxury executive recovery retreat for high-net-worth individuals." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Lovable App" },
-      { name: "twitter:description", content: "Sanctuary Southeast offers an ultra-luxury executive recovery retreat for high-net-worth individuals." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ddea1172-0cbf-4f41-8d92-e1ca8513a27f/id-preview-dbfc4fb4--14cfc7e9-e959-4f21-9f32-73470da14fa9.lovable.app-1776973559523.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ddea1172-0cbf-4f41-8d92-e1ca8513a27f/id-preview-dbfc4fb4--14cfc7e9-e959-4f21-9f32-73470da14fa9.lovable.app-1776973559523.png" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
+      { name: "theme-color", content: "#0F172A" },
+      // No og:image at root — leaf routes set their own per the TanStack rule.
+      // Per-route head() concatenates with root, and a root og:image would
+      // pollute every page (e.g. /privacy-policy gets the homepage hero).
+      // Default title/description are minimal placeholders; every leaf overrides.
+      { title: "Sanctuary Southeast" },
+      {
+        name: "description",
+        content:
+          "A private medical-wellness retreat in the Blue Ridge of Western North Carolina. One family in residence at a time.",
+      },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       {

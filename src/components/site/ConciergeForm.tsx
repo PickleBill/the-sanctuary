@@ -81,22 +81,38 @@ export function ConciergeForm() {
       className="py-28 lg:py-40 bg-background scroll-mt-24"
     >
       <div className="mx-auto max-w-5xl px-6 lg:px-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           <div className="lg:col-span-5">
-            <p className="eyebrow mb-5"><span className="luxe-rule mr-3" /> Concierge</p>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl text-foreground mb-6">
-              Initiate Your Private Consultation.
+            <p className="eyebrow mb-5">
+              <span className="luxe-rule mr-3" /> Concierge
+            </p>
+            <h2
+              className="font-serif text-foreground mb-7 hang-punct"
+              style={{
+                fontSize: "clamp(1.875rem, 1.5rem + 2.4vw, 3rem)",
+                lineHeight: 1.08,
+                letterSpacing: "-0.02em",
+                fontWeight: 500,
+              }}
+            >
+              Begin a private
+              <span className="block editorial-italic text-foreground/70" style={{ fontWeight: 400 }}>
+                conversation.
+              </span>
             </h2>
-            <p className="text-muted-foreground leading-relaxed">
+            <p
+              className="text-muted-foreground leading-relaxed max-w-md"
+              style={{ fontSize: "var(--text-body)" }}
+            >
               All inquiries are handled with absolute confidentiality by our
               executive intake team. No records are created until you instruct
               us to proceed.
             </p>
 
-            <div className="mt-10 space-y-4 text-sm text-muted-foreground">
-              <p className="flex gap-3"><span className="text-amber">◆</span> 24/7 secure intake line</p>
-              <p className="flex gap-3"><span className="text-amber">◆</span> Encrypted messaging available</p>
-              <p className="flex gap-3"><span className="text-amber">◆</span> Response within four hours</p>
+            <div className="mt-10 space-y-3 text-[14px] text-muted-foreground">
+              <p className="flex gap-3"><span className="text-amber" aria-hidden>◆</span> 24/7 secure intake line</p>
+              <p className="flex gap-3"><span className="text-amber" aria-hidden>◆</span> Encrypted messaging available</p>
+              <p className="flex gap-3"><span className="text-amber" aria-hidden>◆</span> Response within four hours</p>
             </div>
           </div>
 

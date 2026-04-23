@@ -11,7 +11,7 @@ export function Footer() {
       {/* Invariants rail — speed-of-admission as a published commitment */}
       <div className="border-b border-primary-foreground/10">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 py-10 lg:py-12">
-          <p className="small-caps text-amber/80 text-[11px] tracking-[0.28em] mb-5">
+          <p className="small-caps text-amber text-[11px] tracking-[0.24em] mb-5">
             <span className="luxe-rule mr-3 align-middle" /> Our Invariants
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-10">
@@ -48,7 +48,7 @@ export function Footer() {
             </p>
 
             <div className="mt-8 space-y-2">
-              <p className="eyebrow text-amber/80 mb-3">24/7 Intake</p>
+              <p className="eyebrow text-amber mb-3">24/7 Intake</p>
               <a
                 href="tel:+18005550199"
                 className="block font-serif text-2xl text-primary-foreground hover:text-amber transition-colors tabular"
@@ -68,7 +68,7 @@ export function Footer() {
           </div>
 
           <div>
-            <p className="small-caps text-amber/80 mb-5 text-[12px] tracking-[0.28em]">Discover</p>
+            <p className="small-caps text-amber mb-5 text-[12px] tracking-[0.24em]">Discover</p>
             <ul className="space-y-3 text-sm">
               <li><button onClick={() => scrollToId("gallery")} className="hover:text-amber transition-colors">The Estate</button></li>
               <li><button onClick={() => scrollToId("synergy")} className="hover:text-amber transition-colors">Approach</button></li>
@@ -80,7 +80,7 @@ export function Footer() {
           </div>
 
           <div>
-            <p className="small-caps text-amber/80 mb-5 text-[12px] tracking-[0.28em]">Professionals</p>
+            <p className="small-caps text-amber mb-5 text-[12px] tracking-[0.24em]">Professionals</p>
             <ul className="space-y-3 text-sm">
               <li><Link to="/professionals" className="hover:text-amber transition-colors">For Healthcare Professionals</Link></li>
               <li><button onClick={() => scrollToId("concierge-form")} className="hover:text-amber transition-colors">Referral Inquiries</button></li>

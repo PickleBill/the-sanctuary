@@ -42,30 +42,43 @@ export function Resonance() {
       id="resonance"
       className="py-24 sm:py-28 lg:py-40 bg-secondary scroll-mt-24"
     >
-      <div className="mx-auto max-w-4xl px-6 lg:px-10">
-        <div className="text-center mb-10 sm:mb-12 lg:mb-14">
-          <p className="eyebrow mb-5">
-            <span className="luxe-rule mr-3" /> A Quiet Question
-          </p>
-          <h2
-            className="font-serif text-foreground"
-            style={{ fontSize: "var(--text-h2)", lineHeight: 1.08, fontWeight: 500 }}
-          >
-            What would restoration mean,
-            <br />
-            <span className="editorial-italic text-foreground/70">in a single sentence?</span>
-          </h2>
-          <p className="mt-6 text-muted-foreground max-w-xl mx-auto leading-relaxed text-[15px] sm:text-base">
-            We will reflect your words back through the lens of our program — one clinical, one holistic — so you can see whether our cadence resonates with yours.
-          </p>
+      <div className="mx-auto max-w-5xl px-6 lg:px-10">
+        {/* /shape: header in 8/12 columns; same family as every other section */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-12 lg:mb-16">
+          <div className="lg:col-span-8">
+            <p className="eyebrow mb-5">
+              <span className="luxe-rule mr-3" /> A Quiet Question
+            </p>
+            <h2
+              className="font-serif text-foreground mb-7 hang-punct"
+              style={{
+                fontSize: "clamp(2rem, 1.5rem + 3vw, 3.75rem)",
+                lineHeight: 1.06,
+                letterSpacing: "-0.02em",
+                fontWeight: 500,
+              }}
+            >
+              What would restoration mean,
+              <span className="block editorial-italic text-foreground/70" style={{ fontWeight: 400 }}>
+                in a single sentence?
+              </span>
+            </h2>
+            <p
+              className="text-muted-foreground leading-relaxed max-w-xl"
+              style={{ fontSize: "var(--text-body)" }}
+            >
+              We will reflect your words back through the lens of our program — one clinical, one holistic — so you can see whether our cadence resonates with yours.
+            </p>
+          </div>
         </div>
 
         <form onSubmit={onSubmit} className="mb-10">
-          <label className="block">
-            <span className="small-caps text-[11px] tracking-[0.32em] text-muted-foreground mb-3 block">
+          <label className="block group">
+            <span className="small-caps text-[11px] tracking-[0.24em] text-muted-foreground mb-3 block">
               In your own words
             </span>
-            {/* Wrapper carries the focus border so it isn't clipped by parent padding */}
+            {/* Wrapper carries the focus border so it isn't clipped by parent padding.
+                Use group-focus-within (the parent label has `group`) for the amber line. */}
             <div className="relative pb-1">
               <textarea
                 value={text}
@@ -81,8 +94,8 @@ export function Resonance() {
               />
               <span
                 aria-hidden
-                className="absolute left-0 bottom-0 h-px bg-amber transition-all duration-500 origin-left peer-focus:w-full w-0 group-focus-within:w-full"
-                style={{ width: text.length > 0 ? "100%" : undefined }}
+                className="absolute left-0 bottom-0 h-px bg-amber transition-[width] duration-500 origin-left group-focus-within:w-full"
+                style={{ width: text.length > 0 ? "100%" : "0%" }}
               />
             </div>
           </label>

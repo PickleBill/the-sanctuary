@@ -46,16 +46,33 @@ export function Amenities() {
   return (
     <section id="amenities" className="py-28 lg:py-40 bg-background scroll-mt-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <div className="max-w-2xl mb-12 lg:mb-16">
-          <p className="eyebrow mb-5">
-            <span className="luxe-rule mr-3" /> Executive Amenities
-          </p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-foreground">
-            Designed for the modern leader.
-          </h2>
-          <p className="mt-6 text-muted-foreground text-base lg:text-lg leading-relaxed">
-            Five quiet commitments that distinguish a clinical container from a hotel with therapy. <span className="hidden md:inline">Drag to explore.</span>
-          </p>
+        {/* /shape: header in 8/12 columns; matches every other section */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-12 lg:mb-16">
+          <div className="lg:col-span-8">
+            <p className="eyebrow mb-5">
+              <span className="luxe-rule mr-3" /> Executive Amenities
+            </p>
+            <h2
+              className="font-serif text-foreground mb-7 hang-punct"
+              style={{
+                fontSize: "clamp(2rem, 1.5rem + 3vw, 3.75rem)",
+                lineHeight: 1.06,
+                letterSpacing: "-0.02em",
+                fontWeight: 500,
+              }}
+            >
+              Designed for the
+              <span className="block editorial-italic text-foreground/70" style={{ fontWeight: 400 }}>
+                modern leader.
+              </span>
+            </h2>
+            <p
+              className="text-muted-foreground leading-relaxed max-w-xl"
+              style={{ fontSize: "var(--text-body)" }}
+            >
+              Five quiet commitments that distinguish a clinical container from a hotel with therapy.
+            </p>
+          </div>
         </div>
 
         {/* Desktop: horizontal ledger */}

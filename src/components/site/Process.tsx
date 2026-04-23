@@ -108,19 +108,30 @@ function Step({
     >
       {/* Numeral plate */}
       <div className="absolute left-0 top-0 w-[54px] md:w-[64px] h-[54px] md:h-[64px] flex items-center justify-center bg-primary border border-amber/40">
-        <span className="font-serif text-amber text-xl md:text-2xl">{step.num}</span>
+        <span
+          className="font-serif text-amber"
+          style={{ fontSize: "var(--text-h4)", fontWeight: 400 }}
+        >
+          {step.num}
+        </span>
       </div>
 
-      <h3 className="font-serif text-xl lg:text-2xl text-primary-foreground mb-3">
+      <h3
+        className="font-serif text-primary-foreground mb-3"
+        style={{ fontSize: "var(--text-h4)", lineHeight: 1.2, fontWeight: 500 }}
+      >
         {step.title}
       </h3>
       <p className="text-sm lg:text-base text-primary-foreground/75 leading-relaxed max-w-2xl mb-4">
         {step.desc}
       </p>
-      <p className="text-[11px] tracking-[0.2em] uppercase text-amber/80 flex items-start gap-3 max-w-2xl">
+      <p className="flex items-start gap-3 max-w-2xl">
         <span className="luxe-rule mt-2 shrink-0" aria-hidden />
-        <span className="font-medium normal-case tracking-normal text-xs lg:text-[13px] text-primary-foreground/60 italic">
-          Privacy invariant — {step.invariant}
+        <span className="editorial-italic text-xs lg:text-[13px] text-primary-foreground/55 leading-relaxed">
+          <span className="small-caps text-amber/70 not-italic mr-2 tracking-[0.18em]">
+            Privacy invariant
+          </span>
+          {step.invariant}
         </span>
       </p>
     </li>

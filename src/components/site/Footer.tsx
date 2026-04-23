@@ -22,7 +22,7 @@ export function Footer() {
               <p className="eyebrow text-amber/80 mb-3">24/7 Intake</p>
               <a
                 href="tel:+18005550199"
-                className="block font-serif text-2xl text-primary-foreground hover:text-amber transition-colors"
+                className="block font-serif text-2xl text-primary-foreground hover:text-amber transition-colors tabular"
               >
                 +1 (800) 555-0199
               </a>

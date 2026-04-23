@@ -72,14 +72,20 @@ export function Amenities() {
                   className="bg-background snap-start group transition-colors duration-700 hover:bg-primary w-[420px] lg:w-[480px] p-10 lg:p-12 flex flex-col"
                 >
                   <div className="flex items-baseline justify-between mb-8">
-                    <p className="font-serif text-amber text-4xl lg:text-5xl leading-none">
+                    <p
+                      className="font-serif text-amber leading-none"
+                      style={{ fontSize: "var(--text-h2)", fontWeight: 400, letterSpacing: "-0.02em" }}
+                    >
                       {it.num}
                     </p>
-                    <p className="eyebrow text-muted-foreground/70 group-hover:text-ivory/60 transition-colors text-[10px]">
+                    <p className="small-caps text-muted-foreground/70 group-hover:text-ivory/60 transition-colors text-[11px] tracking-[0.24em] tabular">
                       {String(i + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
                     </p>
                   </div>
-                  <h3 className="font-serif text-2xl lg:text-3xl text-foreground group-hover:text-ivory mb-5 transition-colors">
+                  <h3
+                    className="font-serif text-foreground group-hover:text-ivory mb-5 transition-colors"
+                    style={{ fontSize: "var(--text-h4)", lineHeight: 1.15, fontWeight: 500 }}
+                  >
                     {it.title}
                   </h3>
                   <p className="text-sm lg:text-base text-muted-foreground leading-relaxed group-hover:text-ivory/80 transition-colors">
@@ -104,12 +110,22 @@ export function Amenities() {
           {items.map((it, i) => (
             <li key={it.num} className="bg-background p-8 group">
               <div className="flex items-baseline justify-between mb-5">
-                <p className="font-serif text-amber text-3xl">{it.num}</p>
-                <p className="eyebrow text-muted-foreground/70 text-[10px]">
+                <p
+                  className="font-serif text-amber"
+                  style={{ fontSize: "var(--text-h3)", fontWeight: 400 }}
+                >
+                  {it.num}
+                </p>
+                <p className="small-caps text-muted-foreground/70 text-[11px] tracking-[0.24em] tabular">
                   {String(i + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
                 </p>
               </div>
-              <h3 className="font-serif text-xl mb-3 text-foreground">{it.title}</h3>
+              <h3
+                className="font-serif mb-3 text-foreground"
+                style={{ fontSize: "var(--text-h4)", lineHeight: 1.15, fontWeight: 500 }}
+              >
+                {it.title}
+              </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{it.desc}</p>
             </li>
           ))}

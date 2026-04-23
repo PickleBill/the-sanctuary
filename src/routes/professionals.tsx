@@ -268,3 +268,40 @@ function Stat({ figure, label }: { figure: string; label: string }) {
     </div>
   );
 }
+
+function ProtocolCommitment({
+  figure,
+  title,
+  body,
+}: {
+  figure: string;
+  title: string;
+  body: string;
+}) {
+  return (
+    <div className="p-8 lg:p-10">
+      <p
+        className="font-serif text-amber tabular mb-3"
+        style={{
+          fontSize: "clamp(1.75rem, 1.4rem + 1.4vw, 2.25rem)",
+          lineHeight: 1,
+          letterSpacing: "-0.02em",
+          fontWeight: 500,
+        }}
+      >
+        {figure}
+      </p>
+      <h3
+        className="font-serif text-foreground mb-2"
+        style={{
+          fontSize: "var(--text-h4)",
+          letterSpacing: "-0.014em",
+          fontWeight: 500,
+        }}
+      >
+        {title}
+      </h3>
+      <p className="text-muted-foreground text-[14px] leading-relaxed">{body}</p>
+    </div>
+  );
+}

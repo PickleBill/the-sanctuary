@@ -254,9 +254,7 @@ export function Gallery() {
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16 lg:mb-20">
           <div className="lg:col-span-8">
-            <p className="eyebrow mb-5">
-              <span className="luxe-rule mr-3" /> The Estate
-            </p>
+            <p className="eyebrow mb-5">The Estate</p>
             <h2
               className="font-serif text-foreground mb-7 hang-punct"
               style={{
@@ -303,26 +301,19 @@ export function Gallery() {
           />
         </div>
 
-        <div className="mt-16 lg:mt-20 border-t border-b border-border">
-          <dl className="grid grid-cols-2 lg:grid-cols-4">
-            {stats.map((s, i) => (
-              <div
-                key={s.label}
-                className={`py-8 lg:py-10 px-6 ${
-                  i < stats.length - 1 ? "lg:border-r border-border" : ""
-                } ${i % 2 === 0 ? "border-r lg:border-r" : ""} ${
-                  i < 2 ? "border-b lg:border-b-0" : ""
-                }`}
-              >
-                <dt className="small-caps text-muted-foreground/70 mb-3 text-[11px] tracking-[0.24em]">
-                  {s.label}
-                </dt>
+        <div className="mt-16 lg:mt-24">
+          <dl className="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8">
+            {stats.map((s) => (
+              <div key={s.label}>
                 <dd
-                  className="font-serif text-foreground tabular"
-                  style={{ fontSize: "var(--text-h3)", lineHeight: 1.05, fontWeight: 500 }}
+                  className="font-serif text-foreground tabular mb-3"
+                  style={{ fontSize: "var(--text-h3)", lineHeight: 1, fontWeight: 500 }}
                 >
                   {s.value}
                 </dd>
+                <dt className="small-caps text-muted-foreground/70 text-[11px] tracking-[0.24em]">
+                  {s.label}
+                </dt>
               </div>
             ))}
           </dl>

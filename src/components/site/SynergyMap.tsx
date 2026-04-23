@@ -175,9 +175,7 @@ export function SynergyMap() {
         {/* Heading — /distill: one thing this section says is "two disciplines, one program."
             Strip the "Hover any modality…" instruction; let interaction be discovered. */}
         <div className="max-w-3xl mx-auto text-center mb-16 lg:mb-24">
-          <p className="eyebrow mb-5 !text-amber">
-            <span className="luxe-rule mr-3" /> The Synergy Map
-          </p>
+          <p className="eyebrow mb-5 !text-amber">The Synergy Map</p>
           <h2
             className="font-serif text-ivory leading-[1.06]"
             style={{
@@ -199,16 +197,6 @@ export function SynergyMap() {
 
         {/* Canvas */}
         <div className="relative">
-          {/* Centerline axis (desktop only) */}
-          <div
-            aria-hidden
-            className="hidden lg:block absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-px"
-            style={{
-              background:
-                "linear-gradient(to bottom, transparent, color-mix(in oklab, var(--amber) 50%, transparent) 12%, color-mix(in oklab, var(--amber) 50%, transparent) 88%, transparent)",
-            }}
-          />
-
           {/* Column headers */}
           <div className="hidden lg:grid grid-cols-[1fr_auto_1fr] gap-0 mb-2">
             <div className="text-right pr-10">
@@ -341,18 +329,14 @@ export function SynergyMap() {
           </div>
         </div>
 
-        {/* Credibility strip — pulled closer (mt-20 instead of mt-32) so it
-            reads as the closer of the same thought, not a stranded footer. */}
-        <div className="mt-20 lg:mt-24 grid grid-cols-1 sm:grid-cols-3 gap-px bg-white/10 border-y border-white/10">
+        {/* Credibility strip — pure typographic, no borders per v2.0 subtraction pass */}
+        <div className="mt-24 lg:mt-28 grid grid-cols-1 sm:grid-cols-3 gap-y-10 gap-x-8">
           {[
             { figure: "4:1", label: "Staff-to-Guest Ratio" },
             { figure: "90", label: "Day Median Program" },
             { figure: "1", label: "Guest in Residence at a Time" },
           ].map((stat) => (
-            <div
-              key={stat.label}
-              className="bg-navy px-8 py-12 text-center"
-            >
+            <div key={stat.label} className="text-center">
               <p
                 className="font-serif text-ivory mb-3 tabular"
                 style={{ fontSize: "var(--text-h2)", lineHeight: 1, fontWeight: 500 }}

@@ -46,9 +46,7 @@ export function Resonance() {
         {/* /shape: header in 8/12 columns; same family as every other section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-12 lg:mb-16">
           <div className="lg:col-span-8">
-            <p className="eyebrow mb-5">
-              <span className="luxe-rule mr-3" /> A Quiet Question
-            </p>
+            <p className="eyebrow mb-5">A Quiet Question</p>
             <h2
               className="font-serif text-foreground mb-7 hang-punct"
               style={{

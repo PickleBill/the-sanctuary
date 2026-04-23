@@ -39,9 +39,7 @@ export function ChairmansCottage() {
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-          <p className="eyebrow !text-amber mb-7">
-            <span className="luxe-rule mr-3" /> The Chairman&rsquo;s Cottage
-          </p>
+          <p className="eyebrow !text-amber mb-7">The Chairman&rsquo;s Cottage</p>
 
           <h2
             className="font-serif text-ivory leading-[1.08]"
@@ -56,13 +54,6 @@ export function ChairmansCottage() {
               cannot be away.
             </span>
           </h2>
-
-          <div
-            aria-hidden
-            className={`mt-10 h-px bg-amber/70 transition-[width] duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              visible ? "w-24" : "w-0"
-            }`}
-          />
 
           <p
             className="mt-10 text-ivory/85 leading-[1.65] max-w-2xl"
@@ -80,15 +71,14 @@ export function ChairmansCottage() {
             The recovery does not pause.
           </p>
 
-          {/* Three quiet facts — value + label, not bare labels. Reads as a
-              ledger of commitments rather than an empty header strip. */}
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-px bg-ivory/10 border-y border-ivory/10">
+          {/* Three quiet facts — pure whitespace rhythm per v2.0 subtraction pass */}
+          <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-y-8 gap-x-8">
             {[
               { value: "One", label: "Detached residence" },
               { value: "Hardened", label: "Encrypted workspace" },
               { value: "Same", label: "Clinical team" },
             ].map((item) => (
-              <div key={item.label} className="bg-navy px-6 py-8">
+              <div key={item.label}>
                 <p
                   className="font-serif text-ivory leading-none mb-3"
                   style={{ fontSize: "var(--text-h3)", fontWeight: 500, letterSpacing: "-0.018em" }}

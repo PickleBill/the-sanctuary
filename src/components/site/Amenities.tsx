@@ -49,9 +49,7 @@ export function Amenities() {
         {/* /shape: header in 8/12 columns; matches every other section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-12 lg:mb-16">
           <div className="lg:col-span-8">
-            <p className="eyebrow mb-5">
-              <span className="luxe-rule mr-3" /> Executive Amenities
-            </p>
+            <p className="eyebrow mb-5">Executive Amenities</p>
             <h2
               className="font-serif text-foreground mb-7 hang-punct"
               style={{
@@ -113,12 +111,12 @@ export function Amenities() {
             </ol>
           </div>
 
-          {/* Progress rule */}
-          <div className="mt-10 h-px bg-border relative">
-            <div
-              className="absolute left-0 top-0 h-px bg-amber transition-[width] duration-300"
-              style={{ width: `${Math.max(8, progress * 100)}%` }}
-            />
+          {/* Numeric counter only — no progress rule per v2.0 subtraction pass */}
+          <div className="mt-10 flex justify-end">
+            <p className="small-caps text-muted-foreground/60 text-[11px] tracking-[0.28em] tabular">
+              <span className="text-amber/80">{String(Math.round(progress * (items.length - 1)) + 1).padStart(2, "0")}</span>
+              <span className="text-muted-foreground/40"> / {String(items.length).padStart(2, "0")}</span>
+            </p>
           </div>
         </div>
 
@@ -140,7 +138,6 @@ export function Amenities() {
                   <span className="text-muted-foreground/40"> / {String(items.length).padStart(2, "0")}</span>
                 </p>
               </div>
-              <span aria-hidden className="block w-8 h-px bg-amber/60 mb-5" />
               <h3
                 className="font-serif mb-3 text-foreground hang-punct"
                 style={{ fontSize: "var(--text-h4)", lineHeight: 1.18, fontWeight: 500 }}

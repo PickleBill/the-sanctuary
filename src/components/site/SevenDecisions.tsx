@@ -105,9 +105,7 @@ export function SevenDecisions() {
         {/* Header — same asymmetric 8/12 pattern */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16 lg:mb-20">
           <div className="lg:col-span-8">
-            <p className="eyebrow mb-5">
-              <span className="luxe-rule mr-3" /> What Principals Weigh
-            </p>
+            <p className="eyebrow mb-5">What Principals Weigh</p>
             <h2
               className="font-serif text-foreground mb-7 hang-punct"
               style={{

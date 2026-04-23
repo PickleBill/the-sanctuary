@@ -181,7 +181,7 @@ export function Hero() {
                 revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
               }`}
             >
-              <span className="luxe-rule mr-3" /> Blue Ridge, North Carolina
+              Blue Ridge, North Carolina
             </p>
 
             <h1

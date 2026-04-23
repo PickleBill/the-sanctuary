@@ -84,9 +84,7 @@ export function Leadership() {
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16 lg:mb-20">
           <div className="lg:col-span-8">
-            <p className="eyebrow mb-5">
-              <span className="luxe-rule mr-3" /> Clinical Leadership
-            </p>
+            <p className="eyebrow mb-5">Clinical Leadership</p>
             <h2
               className="font-serif text-foreground mb-7 hang-punct"
               style={{
@@ -209,9 +207,9 @@ function LeaderCard({
           <p className="text-[13px] text-muted-foreground italic leading-relaxed mb-6">
             {leader.formerly}
           </p>
-          <blockquote className="border-l border-amber/50 pl-5 py-1 mb-6">
+          <blockquote className="mb-6">
             <p
-              className="font-serif editorial-italic text-foreground/85 leading-[1.5]"
+              className="font-serif editorial-italic text-foreground/85 leading-[1.5] pl-1"
               style={{ fontSize: "var(--text-lead)", fontWeight: 400 }}
             >
               &ldquo;{leader.quote}&rdquo;

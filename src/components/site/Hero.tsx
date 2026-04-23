@@ -181,7 +181,7 @@ export function Hero() {
       {/* Pulsing scroll indicator */}
       <button
         onClick={() => scrollToId("gallery")}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 text-ivory/70 text-[10px] tracking-[0.4em] uppercase flex flex-col items-center gap-3 group"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 text-ivory/70 small-caps text-[11px] tracking-[0.4em] flex flex-col items-center gap-3 group"
         aria-label="Scroll to estate"
       >
         <span className="group-hover:text-amber transition-colors">Scroll</span>

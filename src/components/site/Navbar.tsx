@@ -45,7 +45,7 @@ export function Navbar() {
           </span>
           <a
             href="tel:+18005550199"
-            className="text-[11px] tracking-[0.24em] uppercase font-medium text-foreground hover:text-amber transition-colors flex items-center gap-2"
+            className="text-[11px] tracking-[0.24em] uppercase font-medium text-foreground hover:text-amber transition-colors flex items-center gap-2 tabular"
           >
             <span className="luxe-rule" aria-hidden /> +1 (800) 555-0199
           </a>

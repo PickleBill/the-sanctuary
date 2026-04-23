@@ -122,18 +122,26 @@ function LeaderCard({
         </div>
 
         <div className="flex-1">
-          <p className="eyebrow text-amber mb-3">{leader.role}</p>
-          <h3 className="font-serif text-2xl lg:text-3xl text-foreground mb-4">
+          <p className="small-caps text-amber mb-3 text-[11px] tracking-[0.32em]">
+            {leader.role}
+          </p>
+          <h3
+            className="font-serif text-foreground mb-4"
+            style={{ fontSize: "var(--text-h3)", lineHeight: 1.1, fontWeight: 500 }}
+          >
             {leader.name}
           </h3>
-          <p className="text-sm text-foreground/80 leading-relaxed mb-2">
+          <p className="text-sm text-foreground/80 leading-relaxed mb-2 tabular">
             {leader.credentials}
           </p>
           <p className="text-sm text-muted-foreground leading-relaxed mb-6">
             {leader.formerly}
           </p>
           <blockquote className="border-l border-amber/60 pl-5 py-1">
-            <p className="font-serif text-base lg:text-lg italic text-foreground leading-relaxed">
+            <p
+              className="font-serif editorial-italic text-foreground leading-relaxed"
+              style={{ fontSize: "var(--text-lead)", fontWeight: 400 }}
+            >
               "{leader.quote}"
             </p>
           </blockquote>

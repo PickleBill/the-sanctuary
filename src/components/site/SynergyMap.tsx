@@ -316,12 +316,17 @@ export function SynergyMap() {
           ].map((stat) => (
             <div
               key={stat.label}
-              className="bg-navy px-8 py-10 text-center"
+              className="bg-navy px-8 py-12 text-center"
             >
-              <p className="font-serif text-4xl lg:text-5xl text-ivory mb-2">
+              <p
+                className="font-serif text-ivory mb-3 tabular"
+                style={{ fontSize: "var(--text-h2)", lineHeight: 1, fontWeight: 500 }}
+              >
                 {stat.figure}
               </p>
-              <p className="eyebrow !text-ivory/50">{stat.label}</p>
+              <p className="small-caps text-ivory/55 text-[11px] tracking-[0.28em]">
+                {stat.label}
+              </p>
             </div>
           ))}
         </div>

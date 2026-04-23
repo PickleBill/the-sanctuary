@@ -135,10 +135,13 @@ export function Gallery() {
                   i < 2 ? "border-b lg:border-b-0" : ""
                 }`}
               >
-                <dt className="eyebrow text-muted-foreground/80 mb-3 text-[10px]">
+                <dt className="small-caps text-muted-foreground/70 mb-3 text-[11px] tracking-[0.24em]">
                   {s.label}
                 </dt>
-                <dd className="font-serif text-3xl lg:text-4xl text-foreground">
+                <dd
+                  className="font-serif text-foreground tabular"
+                  style={{ fontSize: "var(--text-h3)", lineHeight: 1.05, fontWeight: 500 }}
+                >
                   {s.value}
                 </dd>
               </div>

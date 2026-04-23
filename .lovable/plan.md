@@ -1,105 +1,159 @@
 
+# Sanctuary v1.6 — The Better Alternative
 
-# Sanctuary v1.5 — Sharpen, Anchor, Convert
+You're right on both counts and they're connected. The site reads as a vault. Vaults are safe but they're not where anyone *wants* to go. The real value prop you just articulated is much sharper:
 
-You gave me a great mixed bag: real bugs (mobile hero, dead buttons), strategic asks (one signature image, real MD name), and conversion wins (HIPAA/credential trust block at the form). Below is the prioritized plan — ordered by **leverage on the buyer's decision**, not by what's easiest.
+> The alternative is drinking alone in a hotel room and shame-spiraling. We are *obviously* better than that — not because we're the most discreet, but because what happens here is privately, quietly, **enjoyable**. You're with peers who get it. You leave with friends. You laugh. You ride. You eat well. You feel like a person again.
 
----
+Privacy stops being the headline and becomes the *floor* — the thing that lets the real thing (connection + restoration + a little fun) happen. That single shift unlocks the visual and motion pass too: a vault is still; a sanctuary breathes.
 
-## Priority stack (why this order)
-
-The investor brief says Privacy 30% + Speed 20% + Clinical reputation 15% = **65% of the decision**. So:
-
-1. **Anchor the brand visually** (one signature hero) — this is the single most-remembered surface
-2. **Trust block at the form** (HIPAA, 42 CFR Part 2, licensure, consent) — this is where conversion lives
-3. **Real Medical Director identity** — clinical reputation, but blocked on you (see Decision Point below)
-4. **Wire every dead button** — credibility floor; one dead link at this price point destroys trust
-5. **Mobile hero polish** — what you're staring at right now
-6. **Visual imagery level-up** — Gallery + Leadership portraits regenerated to one consistent visual language
-
-I'm folding `/distill`, `/quieter`, `/colorize`, `/harden` into the work as I go — they're lenses, not separate phases.
+This plan does two things in one push: **(A) reposition the copy + add the missing "peer-cohort + restorative-fun" surface**, and **(B) execute the cinematic Impeccable pass (`/delight`, `/animate`, `/bolder`, `/colorize`, `/layout`, a controlled `/overdrive`) across the whole journey.** Then a follow-up (v1.7) does the imagery regeneration that v1.6's positioning shift will require.
 
 ---
 
-## Decision Point — Medical Director (need your call)
+## The repositioning, in one paragraph
 
-Project memory says: *"Names are withheld at the request of our principals."* That's currently a feature, not a bug — it reads as discretion. You're now asking to put a real name + verified photo in.
+Today: *"Swiss-standard clinical discretion in the Blue Ridge. One family in residence at a time."* — accurate, but it sells the *fence*.
 
-**Three paths. Pick one:**
+v1.6: *"Swiss-standard clinical care, in the Blue Ridge — among peers who quietly understand. One family in residence at a time."* — sells the **room**, not the fence. Privacy is implicit in "quietly" and "one family at a time."
 
-| Path | What ships | Tradeoff |
+This single change cascades through every section header, every eyebrow, and (most importantly) the gallery captions and amenity descriptions, which currently read like a hotel safe-deposit brochure.
+
+---
+
+## Phase A — Reposition (copy + IA, ~70% of the lift)
+
+### A1. Hero rewrite
+- **Headline:** *"Care worth coming to."* / italic completion: *"Among peers who understand."*
+- **Sub:** *"A private medical-wellness sanctuary in the Blue Ridge for high-functioning leaders. Clinical depth. Restorative beauty. The quiet company of others who've sat in your chair."*
+- Eyebrow stays (Blue Ridge, North Carolina)
+- Primary CTA unchanged (`Request the Clinical Dossier`); add a third quiet line: *"or — see what a week here actually looks like →"* that scrolls to a new "A Day Here" section (see A4)
+
+### A2. New section: **"You are not the first"** (peer cohort, replaces nothing — slots between Resonance and Amenities)
+A short editorial block, no faces, no testimonials (still banned). Copy spine:
+> *"In any given residence, the guest before you was likely a founder mid-raise, a managing partner, a surgeon, a public official, a head of household whose name you would recognize. They sat in this chair. They walked these trails. They left with a number to call when the next hard week arrived. You are not the first. You will not be the last. That is the quiet relief of being here."*
+- Visual: three vertical rules with small-caps role descriptors that fade in sequentially (Founder. Surgeon. Trustee. Operator. Justice. Parent.) — never names, never companies. Pure category.
+- Closes with one line: *"Privacy is the floor. Belonging is the point."*
+
+### A3. New section: **"A Day Here"** (the joy proof, between Amenities and Leadership)
+This is the section the site is currently missing entirely. Six time-stamped editorial cards, no commentary, just a quiet schedule:
+- 6:30 — *Sunrise on the upper field. Coffee, no obligations.*
+- 8:00 — *Bloodwork and breakfast, in that order.*
+- 10:30 — *Group with three others. No one introduces themselves by what they do.*
+- 13:00 — *Trout stream, or the library, or a nap. The afternoon is yours.*
+- 17:00 — *Dinner at one long table. Conversation drifts. Someone laughs.*
+- 21:00 — *A book. A bath. The ridge goes dark.*
+
+Format: vertical timeline, hour in tabular small-caps amber on the left, italic editorial sentence on the right. Filament-draw between each row. This is the most important new surface — it shows the buyer what *life* looks like, not just what the *facility* offers.
+
+### A4. Amenities rewrite (soften the bunker tone)
+Current copy is correct but reads forensic. Rewrite each plate to lead with the human experience, not the asset:
+
+| Roman | Today | v1.6 |
 |---|---|---|
-| **A. Real person, real photo** | You give me name + credentials + headshot URL, I wire it in cleanly | Best for credibility, but you must have the person signed |
-| **B. Verified-but-named-on-request** | Keep "[Name forthcoming]" + add a "Credentials verified by [NAMI / state board]. Identity disclosed under NDA on request." line | Stays consistent with current discretion posture |
-| **C. Composite advisory board card** | Show 3-4 *advisors* by name (people who'd be on the medical advisory board, easier to recruit than an MD) + keep MD/Clinical Director redacted | Buys credibility without requiring a hired MD |
+| I | "Ironclad Privacy" | "Discretion, by default" — *"Universal NDAs, encrypted channels, private arrival. The privacy is so complete you stop thinking about it — which is the point."* |
+| II | "Business Continuity" | "The work, when it must continue" — *"A sound-proof private office, satellite-grade fiber, and a secure conference stack — for the calls you cannot miss. Used sparingly, by design."* |
+| III | "Bespoke Re-Engagement" | "Things worth doing again" — *"Fly fishing on private water. A round at a quiet course. An hour with a horse who doesn't care what you do for a living."* |
+| IV | "Personal Chef & Nutrition" | "Food you would order on purpose" — *"A private chef working from a metabolic dietitian's brief. Plated as hospitality. Designed as medicine. You will eat better here than at home."* |
+| V | "Family Integration" | "Family, brought back into the room" — *"On-site lodging for spouses and counsel. Family-systems sessions led by senior clinicians. The conversation you've been postponing, made possible."* |
 
-**My recommendation: B for now, A as soon as you have a signed MD.** I'll build B in this push and leave a single-line config swap so going to A later is a 30-second edit.
+### A5. Gallery captions — add warmth
+Each `long` caption currently ends on a fact. Add one human sentence:
+- Suite: *"The room your assistant would book if she knew exactly what you needed."*
+- Grounds: *"You will walk this ridge more than you expect to."*
+- Boardroom: *"For the calls you can't miss — and the discipline to use it sparingly."*
+- Clinical: *"Medicine, dressed like hospitality."*
 
----
+### A6. Resonance — soften the question
+Today: *"What would restoration mean, in a single sentence?"* → keep, it's good. But change the placeholder from *"What would the next chapter ask of you?"* (heavy) to *"What would a good week here look like?"* (lighter, future-positive, on-brand for the new positioning).
 
-## What ships in this push (v1.5)
-
-### 1. Single signature hero photograph
-- Pick **one** image (recommend `hero-estate-aerial.jpg` — the twilight aerial is the most "Architectural Digest" of the four)
-- Remove the rotation entirely. Remove slide indicators. Remove the four labels.
-- Replace with a **single still + slow Ken Burns drift** (90s cycle, imperceptible)
-- Strengthen vignette so the headline + CTA always have a guaranteed contrast floor regardless of viewport
-- Mobile: re-tune gradient stops so headline never sits over a bright sky band
-
-### 2. Trust + Consent block at the Concierge Form
-A new component `<TrustRail />` directly above the form, four quiet plates:
-- **HIPAA Posture** — *"This intake form does not collect PHI. Clinical conversations occur on encrypted channels off this site."*
-- **42 CFR Part 2** — *"Substance-use treatment records receive heightened federal protection. We comply with both."*
-- **Licensure** — *"Licensed by the North Carolina Department of Health and Human Services. Joint Commission accreditation in process."* (placeholder until real)
-- **No Referral Fees** — *"We do not pay or accept referral fees. Anti-kickback compliant under 42 USC §1320a-7b."*
-
-Plus inline microcopy under the submit button:
-*"By submitting, you consent to a one-time outreach by our intake team within four hours. No record is created until you instruct us to proceed. We do not sell, share, or retain your information for marketing."*
-
-### 3. Wire every dead button
-Audit pass on every clickable element:
-- **Gallery estate panels** (Suite, Boardroom, Grounds, Clinical) → click opens an editorial lightbox with the full image + a 2-3 sentence longer caption + "Speak with intake" link
-- **Hero slide indicators** → removed (no rotation anymore)
-- **Footer links, Navbar links** → verified all scroll-to-id targets resolve
-- **"Encrypted document exchange"** in Leadership → routes to /professionals#encrypted-exchange anchor (or to form with role pre-selected as "Medical Professional")
-- **Seven Decisions cards** → each becomes an inline accordion that expands one paragraph of detail (currently they look clickable but aren't)
-
-### 4. Medical Director — Path B
-- Keep names redacted but add a **"Credentials Verified" trust badge** under each leader card (small-caps, amber rule)
-- Add line: *"Identity disclosed under mutual NDA. Verification available to licensed referring clinicians on request."*
-- Wire the badge to a tiny modal explaining what's verified (board certifications, DEA, state license — all checked but not displayed)
-- Leave a `LEADERS` config object so swapping in real names later is one edit
-
-### 5. Mobile hero polish (what you're seeing right now)
-- Headline `maxWidth: 22ch` is still breaking awkwardly at 402px → drop to 18ch on mobile, 22ch desktop
-- Eyebrow + headline stack: tighten gap from `mb-7` to `mb-5` on mobile
-- Slide indicators (now removed) → reclaim the space for a cleaner scroll cue
-- "Speak With Intake · 24/7" pill on mobile: full-width with phone icon, currently feels orphaned
-- The "For Healthcare Professionals" link: move to a permanent slot in the navbar instead of dangling under the CTAs
-
-### 6. Visual imagery level-up
-The existing photos are good but inconsistent (different lens, different time-of-day, different processing). Two options — pick one:
-
-- **Option A (fast):** Re-grade the four gallery images to one LUT (cooler shadows, warmer mid-amber, lifted blacks) so they read as one brand. ~30 min of `/colorize` work in code on overlay layers, no AI regen.
-- **Option B (impeccable):** Regenerate all four gallery images + both leader portraits using `google/gemini-3-pro-image-preview` with a unified prompt: *"editorial Architectural Digest, cinematic golden-hour, shallow depth of field, warm amber accents on cool slate, 4:5"*. Slower but lands the brand visually.
-
-**My recommendation: A in this push, B in a follow-up dedicated to imagery.**
+### A7. Memory updates
+- `mem://design/positioning-v2.md` (new) — the "obviously better alternative" thesis, the peer-cohort pillar, the joy-as-proof pillar, the do/don't list (do: warmth, peer-belonging, restorative pleasure; don't: party, indulgence, glamour, anything that reads "spa")
+- `mem://index.md` Core — replace the "Named clinical leadership IS the brand" line with: *"Three pillars: clinical depth, peer belonging, restorative beauty. Privacy is the floor, not the headline."*
 
 ---
 
-## Out of scope for this push (acknowledged, not forgotten)
+## Phase B — Cinematic pass (visual + motion + interaction, ~30% of the lift)
 
-- Joint Commission accreditation badge (waiting on real status)
-- Real Joint Commission / NAATP / LegitScript logos (waiting on actual certifications)
-- A real Medical Director name + photo (Path A — waiting on you)
-- Site-specific photography of the actual WNC parcel (parcel not chosen)
-- Magic-link auth on /professionals encrypted exchange (Phase 5 work)
+This is `/delight` executed deliberately, with `/animate`, `/bolder`, `/colorize`, `/layout` in support and **one** controlled `/overdrive` moment in the hero. Stillness remains the brand — but stillness *with intention* is different from stillness because nothing's happening.
+
+### B1. Hero — fix mobile + add controlled cinematics (`/animate` + `/overdrive`)
+- **Mobile fix:** the headline measure (`max-width: 18ch` mobile) is breaking awkwardly with the new copy. Switch to flexbox alignment + per-line spans so the roman/italic split lands cleanly at every viewport. Re-tune vignette for the new copy length.
+- **Layered parallax:** split the hero image into a base layer and a foreground silhouette layer (existing image stays — we'll use CSS-mask + transform to fake depth on a single source). Foreground drifts 20% slower than background on scroll. Reduced-motion users get the static version.
+- **Filament burn-in:** under the headline, an amber filament draws left-to-right (1400ms, ease-out, fires once on mount). This is the brand's signature motion appearing first thing.
+- **Mist particle layer:** a single `<canvas>` ribbon of slow-drifting motes near the bottom-third, max 12 particles, opacity ≤ 0.15, ridge-mist-feeling. This is the **one** `/overdrive` moment. Disabled at `prefers-reduced-motion`. **Hard performance budget:** must not drop FPS below 58 on a Pixel 6. If it does, we cut it — no exceptions.
+- **CTA polish (`/bolder`):** the primary amber button gets a "filament underline" hover state — a single hairline draws across the bottom on hover (250ms). Tactile, confident, not animated-button-y.
+
+### B2. Section transitions — give the journey rhythm (`/animate` + `/layout`)
+Today every section is `py-28 lg:py-40` and starts the same way. Buyer fatigue. Three new patterns, used in rotation:
+
+1. **Filament-divider:** a 1px amber line draws from edge to center as the previous section exits viewport. Used between Hero→Gallery, Synergy→Cottage, Day-Here→Leadership.
+2. **Crossfade-on-scroll:** the next section's background fades in *under* the previous one's bottom 200px, so transitions don't feel like guillotines. Used between Cottage→Resonance and Decisions→Process.
+3. **Hold-still:** for the most important sections (Chairman's Cottage, You-Are-Not-The-First), a beat of empty space + a slow 1200ms fade-up. Lets the lung breathe.
+
+### B3. Color grade pass (`/colorize` — *real* this time)
+The Phase B "soft-light overlay" was a band-aid. The actual problem is the four gallery photos have wildly different white balances. Two-step fix:
+- **Code-side LUT:** apply a per-image `filter: contrast(1.04) saturate(0.92) hue-rotate(-2deg) brightness(0.97);` overlay specific to each image (computed by sampling each photo's average hue). Reads as one brand without regen.
+- **Single warm accent guarantee:** sweep every component for stray amber usage — the rule (eyebrow rule + active node + primary CTA only) is being violated in `Resonance.tsx` (`text-amber/80` on the Clinical/Holistic plates), `Amenities.tsx` (`text-amber/80` on counter), and a few small-caps subtitles. Demote all to ivory/foreground at varied opacity.
+
+### B4. Synergy Map — make the filament-draw *land* (`/animate` + `/bolder`)
+Today the rows draw in but the connection between left (clinical) and right (holistic) is implied, not shown. Add: when a row enters viewport, an amber filament *physically draws across* the gap between the two plates (1200ms, ease-out, staggered 150ms per row). The synthesis chip in the middle pulses once when its filament arrives. This is what the section was always trying to say.
+
+### B5. Day-Here section — staggered cinematic reveal (`/animate`)
+Each timeline row fades up at 220ms intervals as the section scrolls into view. The amber hour-marker draws left-to-right *first*, then the editorial sentence fades in. Six rows, total reveal ~1.8s. Slow. Confident. Cinematic.
+
+### B6. Concierge form — make submission feel earned (`/delight`)
+Today the form is correct but emotionally flat. Three small additions:
+- On focus of the first input, the entire form's bottom border softly draws to amber (400ms).
+- On valid submit, instead of a hard alert/redirect, the form crossfades to a single editorial paragraph: *"Thank you. A clinician will be on the line within four hours, often sooner. The conversation begins privately, on your terms."* — quiet, no exclamation, on-brand.
+- Trust rail (already shipped) gets a subtle hover lift on each plate (`translate-y-[-2px]`, 600ms ease).
+
+### B7. Mobile audit + jank fixes
+A 402px and 360px walk-through with surgical fixes:
+- Hero: new flex layout for headline (above)
+- Gallery mobile stack: gap from `gap-4` → `gap-px` to match desktop's borderless-divide system
+- SynergyMap mobile: synthesis chips currently sit between rows; promote them to dividers with a small amber dot center
+- Resonance textarea: bump from `rows={3}` to `rows={4}` mobile only — the placeholder gets cut off today
+- Amenities mobile: tighten Roman numeral / counter spacing (currently 20px gap, should be 12px)
+- Footer mobile: small-caps labels are below 11px effective; bump to `text-[12px]` mobile only
+
+### B8. One-button audit (because dead buttons at this price point are unforgivable)
+Final sweep: every clickable element either does what it says, or gets removed. Includes Footer column links, Navbar items, "Encrypted document exchange" CTAs, and the Decisions accordions.
+
+---
+
+## What we are explicitly NOT doing in v1.6 (deferred to v1.7)
+
+- **AI image regeneration.** The new positioning *requires* warmer, peopled-feeling photography (empty rooms read cold; we want morning light, an unmade bed, two coffee cups, a horse in a misty paddock — all without showing identifiable faces). That's a dedicated v1.7 imagery pass with `google/gemini-3-pro-image-preview`. Doing it in the same push as the copy/motion work would muddy both.
+- **Real Medical Director.** Still blocked on you. Path B placeholder remains in `LEADERS` config until you have a signature.
+- **Affirmation Threads (Phase 4).** Still roadmap.
+
+---
+
+## Sequencing inside v1.6
+
+One push, in this order, so the build is always shippable:
+
+1. Memory updates first (positioning thesis written, then everything else flows from it)
+2. Copy rewrites (Hero, Amenities, Gallery captions, Resonance placeholder)
+3. Two new sections (You-Are-Not-The-First, A-Day-Here)
+4. Cinematic motion pass (Hero parallax + filament + mist, section transitions, Synergy filament-draw, Day-Here stagger)
+5. Color grade + amber-discipline sweep
+6. Form delight + trust-rail hover
+7. Mobile jank fixes + button audit
+8. Final TypeScript build verification
+
+---
+
+## What we'll know is working
+
+After v1.6, the new gut-check questions are:
+1. *Does the homepage make a buyer feel "I want to be there," not just "I'd be safe there"?* — if no, copy needs another pass
+2. *Does the journey from Hero to Footer have rhythm — moments of breath, moments of motion, moments of stillness?* — if no, B2 (transitions) needs revisiting
+3. *Does anything on the page move that doesn't need to?* — if yes, cut it. Stillness is still the brand.
 
 ---
 
 ## What I need from you to start
 
-Just answer this one thing in your reply: **A, B, or C on the Medical Director.**
-
-Everything else I'll execute. If you don't answer I'll proceed with **Path B** (verified-on-request) since it's reversible and matches the current discretion posture.
-
+Nothing. You've given me the positioning shift. I'll execute v1.6 end-to-end. The only optional input: if you have a strong reaction to the proposed Hero headline (*"Care worth coming to. Among peers who understand."*) speak now — everything cascades from it. Otherwise I'll ship that line and we can iterate after seeing it in context.

@@ -1,4 +1,4 @@
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { z } from "zod";
 import { useServerFn } from "@tanstack/react-start";
 import { submitProspectus } from "@/server/resonance.functions";

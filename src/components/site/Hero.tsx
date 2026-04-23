@@ -69,12 +69,13 @@ export function Hero() {
         />
       ))}
 
-      {/* Cinematic gradient + vignette */}
+      {/* Cinematic gradient + vignette — /quieter pass: top brace softened to let
+          the photo carry, bottom anchor preserved for legibility of CTAs */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, color-mix(in oklab, var(--navy) 60%, transparent) 0%, color-mix(in oklab, var(--navy) 30%, transparent) 40%, color-mix(in oklab, var(--navy) 88%, transparent) 100%)",
+            "linear-gradient(180deg, color-mix(in oklab, var(--navy) 38%, transparent) 0%, color-mix(in oklab, var(--navy) 12%, transparent) 38%, color-mix(in oklab, var(--navy) 78%, transparent) 100%)",
         }}
         aria-hidden
       />
@@ -82,22 +83,25 @@ export function Hero() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse at center, transparent 40%, color-mix(in oklab, var(--navy) 55%, transparent) 100%)",
+            "radial-gradient(ellipse at 28% 60%, transparent 38%, color-mix(in oklab, var(--navy) 42%, transparent) 100%)",
         }}
         aria-hidden
       />
 
+      {/* Asymmetric weighted grid — content sits in 7 of 12 columns, left-anchored.
+          The negative space on the right lets the photograph breathe. */}
       <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10 pt-32 pb-24 w-full">
-        <div className="max-w-3xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          <div className="lg:col-span-8 xl:col-span-7">
           <p
-            className={`eyebrow text-amber mb-7 transition-all duration-1000 ${
+            className={`eyebrow mb-7 transition-all duration-1000 ${
               revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
             }`}
           >
             <span className="luxe-rule mr-3" /> <span className="small-caps">Sanctuary Southeast</span> · Blue Ridge, North Carolina
           </p>
           <h1
-            className={`font-serif text-ivory mb-8 transition-all duration-1000 delay-150 ${
+            className={`font-serif text-ivory mb-8 transition-all duration-1000 delay-150 hang-punct ${
               revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
             style={{
@@ -117,10 +121,10 @@ export function Hero() {
             </span>
           </h1>
           <p
-            className={`text-lead text-ivory/85 max-w-2xl mb-10 sm:mb-12 transition-all duration-1000 delay-300 ${
+            className={`text-lead text-ivory/85 max-w-xl mb-10 sm:mb-12 transition-all duration-1000 delay-300 editorial-italic ${
               revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
-            style={{ color: "color-mix(in oklab, var(--ivory) 88%, transparent)" }}
+            style={{ color: "color-mix(in oklab, var(--ivory) 86%, transparent)", fontWeight: 400 }}
           >
             A private medical-wellness retreat for the high-functioning leader who refuses to compromise on privacy or care. One family in residence at a time.
           </p>

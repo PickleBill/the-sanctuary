@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import suite from "@/assets/gallery-suite.jpg";
-import boardroom from "@/assets/gallery-boardroom.jpg";
-import grounds from "@/assets/gallery-grounds.jpg";
-import clinical from "@/assets/gallery-clinical.jpg";
+import suite from "@/assets/gallery-suite-v2.jpg";
+import boardroom from "@/assets/gallery-boardroom-v2.jpg";
+import grounds from "@/assets/gallery-grounds-v2.jpg";
+import clinical from "@/assets/gallery-clinical-v2.jpg";
 
 /**
  * v1.5 — every panel is now a button that opens an editorial lightbox with
@@ -90,8 +90,8 @@ function FramePanel({
   return (
     <figure
       ref={ref}
-      className={`group relative overflow-hidden bg-card transition-all duration-1000 ease-out ${
-        inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+      className={`gallery-panel group relative overflow-hidden bg-card transition-all duration-[1500ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
       } ${className}`}
       style={{ transitionDelay: `${delay}ms` }}
     >
@@ -109,15 +109,6 @@ function FramePanel({
             width={1280}
             height={960}
             className="w-full h-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-105"
-          />
-          {/* Unified color grade — cool slate shadows, warm amber midtones, soft-light blend */}
-          <div
-            className="absolute inset-0 pointer-events-none mix-blend-soft-light"
-            style={{
-              background:
-                "linear-gradient(140deg, color-mix(in oklab, var(--navy) 22%, transparent) 0%, transparent 50%, color-mix(in oklab, var(--amber) 16%, transparent) 100%)",
-            }}
-            aria-hidden
           />
         </div>
         <div

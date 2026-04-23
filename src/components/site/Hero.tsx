@@ -105,12 +105,12 @@ export function Hero() {
               lineHeight: 1.04,
               letterSpacing: "-0.022em",
               fontWeight: 500,
-              maxWidth: "16ch",
+              maxWidth: "22ch",
             }}
           >
             Swiss-standard clinical discretion
             <span
-              className="block text-amber/90 editorial-italic"
+              className="block text-ivory/85 editorial-italic"
               style={{ fontWeight: 400 }}
             >
               in the Blue Ridge.
@@ -125,37 +125,37 @@ export function Hero() {
             A private medical-wellness retreat for the high-functioning leader who refuses to compromise on privacy or care. One family in residence at a time.
           </p>
 
-          {/* Three-part quiet CTA strip — stacks on mobile */}
+          {/* Single primary CTA + quiet secondary phone line. Healthcare professionals demoted to text link. */}
           <div
-            className={`flex flex-col sm:flex-row sm:items-stretch gap-px sm:gap-0 sm:divide-x divide-ivory/20 transition-all duration-1000 delay-500 ${
+            className={`transition-all duration-1000 delay-500 ${
               revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            <button
-              onClick={() => scrollToId("concierge-form")}
-              className="bg-amber text-amber-foreground px-7 py-5 min-h-[56px] hover:-translate-y-0.5 transition-transform duration-500"
-            >
-              <span className="small-caps tracking-[0.2em] text-[12px]">
-                Request the Clinical Dossier
-              </span>
-            </button>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+              <button
+                onClick={() => scrollToId("concierge-form")}
+                className="w-full sm:w-auto bg-amber text-amber-foreground px-8 py-5 min-h-[56px] hover:-translate-y-0.5 transition-transform duration-500"
+              >
+                <span className="small-caps tracking-[0.22em] text-[12px]">
+                  Request the Clinical Dossier
+                </span>
+              </button>
+              <a
+                href="tel:+18005550199"
+                className="w-full sm:w-auto px-2 py-3 min-h-[44px] text-ivory/90 hover:text-amber transition-colors duration-500 flex items-center justify-center sm:justify-start gap-3"
+              >
+                <span className="luxe-rule" aria-hidden />
+                <span className="small-caps tracking-[0.22em] text-[12px]">
+                  Speak With Intake · 24/7
+                </span>
+              </a>
+            </div>
             <button
               onClick={() => scrollToId("leadership")}
-              className="bg-navy/40 sm:bg-transparent text-ivory px-7 py-5 min-h-[56px] hover:bg-ivory/5 transition-colors duration-500 backdrop-blur-sm"
+              className="mt-6 text-[11px] tracking-[0.24em] uppercase font-medium text-ivory/55 hover:text-amber transition-colors duration-500 underline underline-offset-[6px] decoration-ivory/25 hover:decoration-amber"
             >
-              <span className="small-caps tracking-[0.2em] text-[12px]">
-                For Healthcare Professionals
-              </span>
+              For Healthcare Professionals
             </button>
-            <a
-              href="tel:+18005550199"
-              className="bg-navy/40 sm:bg-transparent text-ivory/90 px-7 py-5 min-h-[56px] hover:text-amber transition-colors duration-500 flex items-center justify-center sm:justify-start gap-3 backdrop-blur-sm"
-            >
-              <span className="luxe-rule" aria-hidden />
-              <span className="small-caps tracking-[0.2em] text-[12px]">
-                Speak With Intake · 24/7
-              </span>
-            </a>
           </div>
         </div>
       </div>

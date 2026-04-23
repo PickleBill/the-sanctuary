@@ -65,14 +65,26 @@ export function Resonance() {
             <span className="small-caps text-[11px] tracking-[0.32em] text-muted-foreground mb-3 block">
               In your own words
             </span>
-            <textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              maxLength={600}
-              rows={3}
-              placeholder="What would the next chapter ask of you?"
-              className="w-full bg-background border-b-2 border-border px-1 py-3 text-foreground text-base sm:text-lg placeholder:text-muted-foreground/60 focus:outline-none focus:border-amber transition-colors resize-none editorial-italic"
-            />
+            {/* Wrapper carries the focus border so it isn't clipped by parent padding */}
+            <div className="relative pb-1">
+              <textarea
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                maxLength={600}
+                rows={3}
+                placeholder="What would the next chapter ask of you?"
+                className="w-full bg-background px-1 py-3 text-foreground text-base sm:text-lg placeholder:text-muted-foreground/60 focus:outline-none resize-none editorial-italic border-0"
+              />
+              <span
+                aria-hidden
+                className="absolute left-0 right-0 bottom-0 h-px bg-border"
+              />
+              <span
+                aria-hidden
+                className="absolute left-0 bottom-0 h-px bg-amber transition-all duration-500 origin-left peer-focus:w-full w-0 group-focus-within:w-full"
+                style={{ width: text.length > 0 ? "100%" : undefined }}
+              />
+            </div>
           </label>
 
           <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

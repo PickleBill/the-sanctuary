@@ -3,6 +3,7 @@ import { Navbar } from "@/components/site/Navbar";
 import { Hero } from "@/components/site/Hero";
 import { Gallery } from "@/components/site/Gallery";
 import { SynergyMap } from "@/components/site/SynergyMap";
+import { ChairmansCottage } from "@/components/site/ChairmansCottage";
 import { Resonance } from "@/components/site/Resonance";
 import { Amenities } from "@/components/site/Amenities";
 import { Leadership } from "@/components/site/Leadership";
@@ -40,6 +41,7 @@ function Index() {
         <Hero />
         <Gallery />
         <SynergyMap />
+        <ChairmansCottage />
         <Resonance />
         <Amenities />
         <Leadership />

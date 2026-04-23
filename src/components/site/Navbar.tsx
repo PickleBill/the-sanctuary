@@ -109,8 +109,11 @@ export function Navbar() {
 
       {open && (
         <div className="lg:hidden bg-background/95 backdrop-blur-md border-t border-border">
-          <div className="px-6 py-7 flex flex-col">
-            <p className="small-caps text-amber/80 text-[10px] tracking-[0.32em] mb-4">
+          <div
+            className="px-6 py-7 flex flex-col"
+            style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 1.75rem)" }}
+          >
+            <p className="small-caps text-amber/80 text-[11px] tracking-[0.32em] mb-4">
               Discover
             </p>
             <div className="flex flex-col divide-y divide-border/60">
@@ -134,21 +137,21 @@ export function Navbar() {
                 For Healthcare Professionals
               </Link>
             </div>
-            <a
-              href="tel:+18005550199"
-              className="mt-6 text-left small-caps text-amber text-[11px] tracking-[0.32em] tabular py-3 min-h-[44px]"
-            >
-              24/7 Intake · +1 (800) 555-0199
-            </a>
             <button
               onClick={() => {
                 setOpen(false);
                 setTimeout(() => scrollToId("concierge-form"), 50);
               }}
-              className="bg-primary text-primary-foreground px-6 py-4 min-h-[52px] small-caps text-[11px] tracking-[0.28em] mt-4"
+              className="bg-amber text-amber-foreground px-6 py-4 min-h-[52px] small-caps text-[11px] tracking-[0.28em] mt-8"
             >
-              Private Consultation
+              Request the Clinical Dossier
             </button>
+            <a
+              href="tel:+18005550199"
+              className="mt-4 text-center small-caps text-foreground/70 hover:text-amber text-[11px] tracking-[0.28em] tabular py-3 min-h-[44px] border-t border-border/60 pt-5"
+            >
+              Speak With Intake · 24/7 · +1 (800) 555-0199
+            </a>
           </div>
         </div>
       )}

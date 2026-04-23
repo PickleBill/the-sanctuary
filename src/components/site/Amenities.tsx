@@ -105,28 +105,27 @@ export function Amenities() {
           </div>
         </div>
 
-        {/* Mobile: vertical timeline */}
+        {/* Mobile: vertical timeline. Counter is set on its own line above the title to prevent collision with the Roman numeral. */}
         <ol className="md:hidden grid grid-cols-1 gap-px bg-border">
           {items.map((it, i) => (
-            <li key={it.num} className="bg-background p-8 group">
-              <div className="flex items-baseline justify-between mb-5">
-                <p
-                  className="font-serif text-amber"
-                  style={{ fontSize: "var(--text-h3)", fontWeight: 400 }}
-                >
-                  {it.num}
-                </p>
-                <p className="small-caps text-muted-foreground/70 text-[11px] tracking-[0.24em] tabular">
-                  {String(i + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
-                </p>
-              </div>
+            <li key={it.num} className="bg-background px-6 py-8 group">
+              <p className="small-caps text-muted-foreground/70 text-[10px] tracking-[0.32em] tabular mb-5">
+                <span className="text-amber/80">{String(i + 1).padStart(2, "0")}</span>
+                <span className="text-muted-foreground/40"> / {String(items.length).padStart(2, "0")}</span>
+              </p>
+              <p
+                className="font-serif text-amber leading-none mb-5"
+                style={{ fontSize: "clamp(2.25rem, 8vw, 3rem)", fontWeight: 400, letterSpacing: "-0.02em" }}
+              >
+                {it.num}
+              </p>
               <h3
                 className="font-serif mb-3 text-foreground"
                 style={{ fontSize: "var(--text-h4)", lineHeight: 1.15, fontWeight: 500 }}
               >
                 {it.title}
               </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{it.desc}</p>
+              <p className="text-[15px] text-muted-foreground leading-relaxed">{it.desc}</p>
             </li>
           ))}
         </ol>

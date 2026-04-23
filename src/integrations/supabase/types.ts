@@ -14,7 +14,78 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      prospectus_requests: {
+        Row: {
+          contact_method: string
+          contact_value: string
+          created_at: string
+          id: string
+          intent_signal: string | null
+          message: string | null
+          name: string
+          resonance_reading: string | null
+          resonance_text: string | null
+          role: string
+          source: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          contact_method: string
+          contact_value: string
+          created_at?: string
+          id?: string
+          intent_signal?: string | null
+          message?: string | null
+          name: string
+          resonance_reading?: string | null
+          resonance_text?: string | null
+          role: string
+          source?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          contact_method?: string
+          contact_value?: string
+          created_at?: string
+          id?: string
+          intent_signal?: string | null
+          message?: string | null
+          name?: string
+          resonance_reading?: string | null
+          resonance_text?: string | null
+          role?: string
+          source?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
+      resonance_readings: {
+        Row: {
+          client_fingerprint: string | null
+          created_at: string
+          id: string
+          input_text: string
+          intent_signal: string | null
+          reading: string
+        }
+        Insert: {
+          client_fingerprint?: string | null
+          created_at?: string
+          id?: string
+          input_text: string
+          intent_signal?: string | null
+          reading: string
+        }
+        Update: {
+          client_fingerprint?: string | null
+          created_at?: string
+          id?: string
+          input_text?: string
+          intent_signal?: string | null
+          reading?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

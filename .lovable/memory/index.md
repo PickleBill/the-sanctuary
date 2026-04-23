@@ -1,0 +1,25 @@
+# Memory: index.md
+Updated: just now
+
+# Sanctuary Southeast — Project Memory
+
+## Core
+Positioning line: "Swiss-standard clinical discretion in the Blue Ridge. One family at a time."
+Geography: Western North Carolina (Asheville / Tryon / Lake Lure / Highlands corridor) — say "Blue Ridge", not "the Southeast".
+Audience is THREE: principal/family, referral professional (interventionist/concierge MD/family-office advisor/attorney), trusted advisor the URL is forwarded to.
+Site is brochureware for credibility, NOT a conversion funnel. HNW prospects read deeply then forward to advisors.
+Named clinical leadership (MD + Clinical Director) IS the brand — not the building.
+Anti-signals: NEVER show celebrity names, pricing, "spa with therapy bolted on" language, testimonials, before/afters. NEVER use exclamation points.
+Required artifacts: downloadable PDF clinical summary, /professionals page, displayed 24/7 admissions line.
+Design: sharp 0px radii, navy/ivory/amber palette, amber filament SVG language, easing cubic-bezier(0.22, 1, 0.36, 1). Typography: Literata single-family (opsz 7..72) — replaces Playfair+Inter per Impeccable framework. NEVER use Inter, Playfair, or any font on the Impeccable reflex-reject list.
+Mobile: tap targets ≥44px (we use 52-56px on CTAs), body type ≥16px (--text-body min), no horizontal scroll under 768px except intentional desktop ledgers.
+Anti-kickback transparency: "We do not pay referral fees." is itself a credibility signal.
+HIPAA: NO PHI on the marketing site or in Cloud DB. Clinical data belongs in EMR (Kipu/Sunwave) outside Lovable.
+Impeccable framework vendored at .impeccable/ — use its 18 commands as design lenses; project context locked in .impeccable.md.
+
+## Memories
+- [GTM positioning](mem://research/gtm-positioning) — Strategic Brief §3: 10 referral channels, HNW behavior, brand narrative, anti-patterns
+- [HIPAA posture](mem://research/hipaa-posture) — Strategic Brief §4.1/§4.2: BAA boundaries, what belongs in EMR vs Lovable
+- [Design system](mem://design/system) — Quiet luxury rules: tokens, type, animation, filament SVG language
+- [Impeccable framework](mem://design/impeccable) — Vendored design framework at .impeccable/, 18 commands, project context in .impeccable.md
+- [Critique v1](mem://design/critique-v1) — Pre-launch persona scoring, what was fixed, what was deferred

@@ -19,7 +19,9 @@ Impeccable framework vendored at .impeccable/ — use its 18 commands as design 
 
 ## Memories
 - [GTM positioning](mem://research/gtm-positioning) — Strategic Brief §3: 10 referral channels, HNW behavior, brand narrative, anti-patterns
+- [Investor thesis vol II](mem://research/investor-thesis-vol2) — Pricing tiers ($95K/$150K/$200K), seven decision criteria + weights, ten objections, Chairman's Cottage product spec, cover-story DBA, catchment geography
 - [HIPAA posture](mem://research/hipaa-posture) — Strategic Brief §4.1/§4.2: BAA boundaries, what belongs in EMR vs Lovable
-- [Design system](mem://design/system) — Quiet luxury rules: tokens, type, animation, filament SVG language
+- [Design system](mem://design/system) — Quiet luxury rules: tokens, type, animation, filament SVG language, composition patterns
 - [Impeccable framework](mem://design/impeccable) — Vendored design framework at .impeccable/, 18 commands, project context in .impeccable.md
-- [Critique v1](mem://design/critique-v1) — Pre-launch persona scoring, what was fixed, what was deferred
+- [Known noise](mem://design/known-noise) — Browser-extension hydration warnings (Grammarly __gcruniqueid) — harmless, do not chase
+- [Critique v2](mem://design/critique-v2) — Honest persona scoring at v1.4, recalibrated 7=publishable scale, all sub-8 sections fixed

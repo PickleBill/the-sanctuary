@@ -172,19 +172,28 @@ export function SynergyMap() {
       />
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-10">
-        {/* Heading */}
+        {/* Heading — /distill: one thing this section says is "two disciplines, one program."
+            Strip the "Hover any modality…" instruction; let interaction be discovered. */}
         <div className="max-w-3xl mx-auto text-center mb-16 lg:mb-24">
           <p className="eyebrow mb-5 !text-amber">
-            <span className="luxe-rule mr-3" /> The Synergy Map — Two Disciplines, One Protocol
+            <span className="luxe-rule mr-3" /> The Synergy Map
           </p>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-ivory leading-[1.1]">
+          <h2
+            className="font-serif text-ivory leading-[1.06]"
+            style={{
+              fontSize: "clamp(2rem, 1.5rem + 3vw, 3.75rem)",
+              letterSpacing: "-0.02em",
+              fontWeight: 500,
+            }}
+          >
             Medicine and meaning,
             <br />
-            <span className="italic text-ivory/80">composed as one program.</span>
+            <span className="editorial-italic text-ivory/75" style={{ fontWeight: 400 }}>
+              composed as one program.
+            </span>
           </h2>
-          <p className="text-ivory/60 mt-6 text-base lg:text-lg leading-relaxed max-w-xl mx-auto">
+          <p className="text-ivory/55 mt-7 leading-relaxed max-w-lg mx-auto editorial-italic" style={{ fontSize: "var(--text-body)" }}>
             Every clinical intervention is paired with an embodied counterpart.
-            Hover any modality to reveal its synthesis.
           </p>
         </div>
 
@@ -238,30 +247,33 @@ export function SynergyMap() {
                     onLeave={() => setActiveId(null)}
                   />
 
-                  {/* Filament + node */}
+                  {/* Filament + node — line draws in from left at row entry */}
                   <div className="hidden lg:flex relative w-24 items-center justify-center">
-                    {/* Horizontal filament */}
+                    {/* Horizontal filament with /animate filament-draw */}
                     <div
                       className={[
-                        "absolute left-0 right-0 h-px transition-all duration-700",
-                        isActive
-                          ? "bg-amber opacity-100"
-                          : "bg-ivory/20 opacity-60",
+                        "absolute left-0 right-0 h-px transition-colors duration-500",
+                        isActive ? "bg-amber" : "bg-ivory/15",
+                        visible ? "filament-draw" : "scale-x-0",
                       ].join(" ")}
                       style={{
-                        transform: visible ? "scaleX(1)" : "scaleX(0)",
-                        transformOrigin: "center",
-                        transitionDelay: `${600 + i * 120}ms`,
+                        animationDelay: `${500 + i * 140}ms`,
+                        transformOrigin: "left center",
                       }}
                     />
-                    {/* Node diamond */}
+                    {/* Node diamond — restrained shadow per /quieter */}
                     <span
                       className={[
                         "relative z-10 block w-2 h-2 rotate-45 transition-all duration-500",
                         isActive
-                          ? "bg-amber scale-150 shadow-[0_0_18px_rgba(180,83,9,0.7)]"
-                          : "bg-amber/50",
+                          ? "bg-amber scale-150"
+                          : "bg-amber/55",
                       ].join(" ")}
+                      style={
+                        isActive
+                          ? { boxShadow: "0 0 12px color-mix(in oklab, var(--amber) 45%, transparent)" }
+                          : undefined
+                      }
                     />
                   </div>
 

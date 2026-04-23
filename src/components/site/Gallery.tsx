@@ -58,18 +58,19 @@ function Frame({
           className="w-full h-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-105"
         />
       </div>
+      {/* /quieter: gradient anchor reduced from 88% navy to 70%, photo carries more */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "linear-gradient(180deg, transparent 45%, color-mix(in oklab, var(--navy) 88%, transparent) 100%)",
+            "linear-gradient(180deg, transparent 50%, color-mix(in oklab, var(--navy) 70%, transparent) 100%)",
         }}
         aria-hidden
       />
       <figcaption className="absolute bottom-0 left-0 right-0 p-6 lg:p-8 text-ivory">
-        <p className="small-caps text-amber mb-2 text-[11px] tracking-[0.32em]">{title.split(" ")[0]}</p>
-        <h3 className="font-serif text-xl lg:text-2xl mb-2" style={{ fontWeight: 500, lineHeight: 1.15 }}>{title}</h3>
-        <p className="text-sm text-ivory/80 max-w-md leading-relaxed">{caption}</p>
+        <p className="small-caps text-amber/85 mb-2 text-[11px] tracking-[0.24em]">{title.split(" ")[0]}</p>
+        <h3 className="font-serif text-xl lg:text-2xl mb-2 hang-punct" style={{ fontWeight: 500, lineHeight: 1.12, letterSpacing: "-0.012em" }}>{title}</h3>
+        <p className="text-[14px] text-ivory/75 max-w-md leading-[1.6]">{caption}</p>
       </figcaption>
     </figure>
   );
@@ -79,16 +80,30 @@ export function Gallery() {
   return (
     <section id="gallery" className="py-28 lg:py-40 bg-background scroll-mt-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <div className="max-w-2xl mb-16 lg:mb-20">
-          <p className="eyebrow mb-5">
-            <span className="luxe-rule mr-3" /> The Estate
-          </p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-foreground mb-6">
-            A sanctuary of unrivaled privacy.
-          </h2>
-          <p className="text-muted-foreground text-base lg:text-lg leading-relaxed">
-            Two hundred private acres in the Blue Ridge — gated, sealed, and composed for a single family in residence at a time. Stone-and-cedar architecture, century-old oaks, and an infinity pool that reads the ridgeline.
-          </p>
+        {/* /shape: header in 8/12 columns; /distill: one promise — privacy at scale */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16 lg:mb-20">
+          <div className="lg:col-span-8">
+            <p className="eyebrow mb-5">
+              <span className="luxe-rule mr-3" /> The Estate
+            </p>
+            <h2
+              className="font-serif text-foreground mb-7 hang-punct"
+              style={{
+                fontSize: "clamp(2rem, 1.5rem + 3vw, 3.75rem)",
+                lineHeight: 1.06,
+                letterSpacing: "-0.02em",
+                fontWeight: 500,
+              }}
+            >
+              A sanctuary
+              <span className="block editorial-italic text-foreground/70" style={{ fontWeight: 400 }}>
+                of unrivaled privacy.
+              </span>
+            </h2>
+            <p className="text-muted-foreground leading-relaxed max-w-xl" style={{ fontSize: "var(--text-body)" }}>
+              Two hundred private acres in the Blue Ridge — gated, sealed, and composed for a single family in residence at a time. Stone-and-cedar architecture, century-old oaks, and an infinity pool that reads the ridgeline.
+            </p>
+          </div>
         </div>
 
         {/* Editorial asymmetric mosaic */}

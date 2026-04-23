@@ -218,12 +218,17 @@
     font-family: var(--font-text);
     font-size: var(--text-micro);
     font-weight: 500;
-    letter-spacing: 0.32em;
+    /* Optical letter-spacing — tighter at 11px than the previous uniform 0.32em
+     * which read heavy. Per /typeset: small caps want less tracking than uppercase. */
+    letter-spacing: 0.24em;
     text-transform: uppercase;
     color: var(--color-amber);
-    /* Use small-caps figures so any inline numerals match the cap height. */
     font-feature-settings: "kern" 1, "lnum" 1, "tnum" 1;
   }
+
+  /* When eyebrows must read as full uppercase (no small-caps), give them slightly
+   * more tracking — the cap height carries more visual weight. */
+  .eyebrow-tall { letter-spacing: 0.28em; }
 
   .luxe-rule {
     display: inline-block;
@@ -233,9 +238,41 @@
     vertical-align: middle;
   }
 
+  /* Hung punctuation — pulls opening quotes / dashes into the margin so the
+   * text block aligns optically rather than mechanically. Per /typeset. */
+  .hang-punct {
+    hanging-punctuation: first last;
+    text-indent: -0.4em;
+  }
+
+  /* Drop-cap utility for editorial numerals (Process, etc.) */
+  .drop-figure {
+    font-family: var(--font-display);
+    font-feature-settings: "lnum" 1, "kern" 1;
+    font-variant-numeric: lining-nums;
+    line-height: 0.85;
+  }
+
+  /* Filament-draw — the brand's signature line motion. Used on synergy-map rows
+   * and section dividers. 1200ms ease-out per Phase B /animate spec.
+   * Origin is left so the line draws into existence rather than scaling from center. */
+  @keyframes filamentDraw {
+    from { transform: scaleX(0); opacity: 0.4; }
+    to   { transform: scaleX(1); opacity: 1; }
+  }
+  .filament-draw {
+    transform-origin: left center;
+    animation: filamentDraw 1200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
   /* Selection styling — amber tint on navy text for editorial cohesion. */
   ::selection {
     background-color: color-mix(in oklab, var(--amber) 25%, transparent);
     color: var(--foreground);
+  }
+
+  /* Honor reduced motion globally for our custom keyframes. */
+  @media (prefers-reduced-motion: reduce) {
+    .filament-draw { animation: none !important; transform: scaleX(1) !important; }
   }
 }

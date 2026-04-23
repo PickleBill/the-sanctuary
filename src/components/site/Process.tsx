@@ -49,16 +49,30 @@ export function Process() {
       className="py-28 lg:py-40 bg-primary text-primary-foreground scroll-mt-24 relative overflow-hidden"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-10 relative">
-        <div className="max-w-2xl mb-16 lg:mb-20">
-          <p className="eyebrow mb-5">
-            <span className="luxe-rule mr-3" /> The Process
-          </p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-primary-foreground">
-            Stealth intake. Considered care.
-          </h2>
-          <p className="mt-6 text-primary-foreground/70 text-base lg:text-lg leading-relaxed">
-            Four quiet steps from first contact to first morning on the estate. Each step carries its own privacy invariant — written, not implied.
-          </p>
+        {/* /shape: header in left 8/12 columns, asymmetric */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16 lg:mb-20">
+          <div className="lg:col-span-8">
+            <p className="eyebrow mb-5">
+              <span className="luxe-rule mr-3" /> The Process
+            </p>
+            <h2
+              className="font-serif text-primary-foreground mb-7 hang-punct"
+              style={{
+                fontSize: "clamp(2rem, 1.5rem + 3vw, 3.75rem)",
+                lineHeight: 1.06,
+                letterSpacing: "-0.02em",
+                fontWeight: 500,
+              }}
+            >
+              Stealth intake.
+              <span className="block editorial-italic text-primary-foreground/70" style={{ fontWeight: 400 }}>
+                Considered care.
+              </span>
+            </h2>
+            <p className="text-primary-foreground/65 leading-relaxed max-w-xl" style={{ fontSize: "var(--text-body)" }}>
+              Four quiet steps from first contact to first morning on the estate. Each step carries its own privacy invariant — written, not implied.
+            </p>
+          </div>
         </div>
 
         {/* Vertical filament timeline */}
@@ -106,29 +120,30 @@ function Step({
       }`}
       style={{ transitionDelay: `${index * 120}ms` }}
     >
-      {/* Numeral plate */}
-      <div className="absolute left-0 top-0 w-[52px] md:w-[64px] h-[52px] md:h-[64px] flex items-center justify-center bg-primary border border-amber/40">
+      {/* Numeral plate — /typeset drop-figure: tabular lining numerals at display scale */}
+      <div className="absolute left-0 top-0 w-[52px] md:w-[64px] h-[52px] md:h-[64px] flex items-center justify-center bg-primary border border-amber/35">
         <span
-          className="font-serif text-amber tabular"
-          style={{ fontSize: "clamp(1.25rem, 0.9rem + 1vw, 1.75rem)", fontWeight: 400 }}
+          className="drop-figure text-amber"
+          style={{ fontSize: "clamp(1.5rem, 1.1rem + 1.4vw, 2rem)", fontWeight: 400 }}
         >
           {step.num}
         </span>
       </div>
 
       <h3
-        className="font-serif text-primary-foreground mb-3"
-        style={{ fontSize: "var(--text-h4)", lineHeight: 1.2, fontWeight: 500 }}
+        className="font-serif text-primary-foreground mb-3 hang-punct"
+        style={{ fontSize: "var(--text-h4)", lineHeight: 1.18, fontWeight: 500, letterSpacing: "-0.012em" }}
       >
         {step.title}
       </h3>
-      <p className="text-[15px] lg:text-base text-primary-foreground/75 leading-relaxed max-w-2xl mb-4">
+      <p className="text-[15px] lg:text-base text-primary-foreground/72 leading-[1.65] max-w-2xl mb-5">
         {step.desc}
       </p>
+      {/* Privacy invariant — visually subordinate per /quieter and /distill */}
       <p className="flex items-start gap-3 max-w-2xl">
-        <span className="luxe-rule mt-[10px] shrink-0" aria-hidden />
-        <span className="editorial-italic text-[12px] lg:text-[13px] text-primary-foreground/55 leading-relaxed">
-          <span className="small-caps text-amber/80 not-italic mr-2 tracking-[0.22em] text-[10px]">
+        <span className="luxe-rule mt-[10px] shrink-0 opacity-60" aria-hidden />
+        <span className="editorial-italic text-[12px] lg:text-[13px] text-primary-foreground/50 leading-relaxed">
+          <span className="small-caps text-amber/70 not-italic mr-2 tracking-[0.18em] text-[10px]">
             Privacy invariant
           </span>
           {step.invariant}

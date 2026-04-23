@@ -28,48 +28,77 @@ function ProfessionalsPage() {
       <Navbar />
       <main className="bg-background">
         {/* Header */}
-        <section className="pt-40 pb-20 lg:pt-48 lg:pb-28 border-b border-border">
+        <section className="pt-40 pb-16 lg:pt-48 lg:pb-20 border-b border-border">
           <div className="mx-auto max-w-5xl px-6 lg:px-10">
             <p className="eyebrow mb-5">
               <span className="luxe-rule mr-3" /> For Licensed Practitioners
             </p>
             <h1
-              className="font-serif text-foreground mb-7"
-              style={{ fontSize: "var(--text-h1)", lineHeight: 1.04, fontWeight: 500 }}
+              className="font-serif text-foreground mb-7 hang-punct"
+              style={{
+                fontSize: "var(--text-h1)",
+                lineHeight: 1.04,
+                letterSpacing: "-0.022em",
+                fontWeight: 500,
+              }}
             >
-              A clinical reference for referring practitioners.
+              A clinical reference,
+              <span
+                className="block editorial-italic text-foreground/70"
+                style={{ fontWeight: 400 }}
+              >
+                printable in one page.
+              </span>
             </h1>
             <p className="text-lead max-w-2xl">
-              The cases you trust us with become the standard we hold ourselves to. This page exists for interventionists, concierge physicians, addiction psychiatrists, family-office advisors, and trusts-and-estates counsel.
+              For interventionists, concierge physicians, addiction
+              psychiatrists, family-office advisors, and trusts-and-estates
+              counsel. The cases you trust us with become the standard we hold
+              ourselves to.
             </p>
           </div>
         </section>
 
-        {/* Anti-kickback transparency */}
-        <section className="py-20 lg:py-24 bg-secondary border-b border-border">
+        {/* Referral Protocol Card — the printable summary the brief calls for.
+             Bordered plate at the top of the page so the four commitments are
+             screen-shootable in a single tap. */}
+        <section className="py-16 lg:py-20 bg-secondary border-b border-border">
           <div className="mx-auto max-w-5xl px-6 lg:px-10">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-              <div className="lg:col-span-4">
-                <p className="small-caps text-amber text-[11px] tracking-[0.32em] mb-3">
-                  Anti-Kickback Posture
-                </p>
-              </div>
-              <div className="lg:col-span-8">
-                <p
-                  className="font-serif editorial-italic text-foreground"
-                  style={{ fontSize: "var(--text-h3)", lineHeight: 1.2, fontWeight: 400 }}
-                >
-                  We do not pay referral fees. Not in cash, not in honoraria, not in services rendered.
-                </p>
-                <p className="mt-6 text-muted-foreground leading-relaxed max-w-2xl">
-                  This is a clinical referral page, not a sales channel. We honor the federal Anti-Kickback Statute and the AIS code of ethics by structuring all referral relationships as peer-to-peer clinical correspondence. CME and site visits are offered without fee or expectation of return.
-                </p>
+            <p className="small-caps text-amber text-[11px] tracking-[0.24em] mb-6">
+              The Referral Protocol — at a glance
+            </p>
+            <div className="border border-foreground/15 bg-background">
+              <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-foreground/15">
+                <ProtocolCommitment
+                  figure="30 min"
+                  title="Clinician callback"
+                  body="A masters-level clinician returns the first call within thirty minutes — day, night, weekend, holiday."
+                />
+                <ProtocolCommitment
+                  figure="24 hr"
+                  title="Signed BAA in your inbox"
+                  body="Mutual BAA executed within one business day, before any PHI moves between offices."
+                />
+                <ProtocolCommitment
+                  figure="72 hr"
+                  title="Written admission decision"
+                  body="Admitted, declined, or pending — in writing — within three business days of inquiry."
+                />
+                <ProtocolCommitment
+                  figure="$0"
+                  title="Referral fees, ever"
+                  body="No cash, no honoraria, no services rendered. Anti-Kickback Statute and AIS code, in plain English."
+                />
               </div>
             </div>
+            <p className="mt-6 text-muted-foreground text-[13px] lg:text-[14px] leading-relaxed max-w-2xl">
+              This is the entire commercial relationship, on one page. The
+              clinical relationship is below.
+            </p>
           </div>
         </section>
 
-        {/* Referral protocol */}
+        {/* Referral protocol — full procedural detail */}
         <Block title="Referral Protocol" eyebrow="The Process">
           <ol className="space-y-6 max-w-2xl">
             <ProtocolStep n="I" title="Direct correspondence">

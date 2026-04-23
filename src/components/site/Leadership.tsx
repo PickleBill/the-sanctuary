@@ -45,16 +45,30 @@ export function Leadership() {
       className="py-28 lg:py-40 bg-secondary scroll-mt-24"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <div className="max-w-2xl mb-16 lg:mb-20">
-          <p className="eyebrow mb-5">
-            <span className="luxe-rule mr-3" /> Clinical Leadership
-          </p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl text-foreground mb-6">
-            The people are the program.
-          </h2>
-          <p className="text-muted-foreground text-base lg:text-lg leading-relaxed">
-            We do not sell a building. We sell the judgment of the two clinicians who will personally compose your care. They are present on the estate, not on a quarterly visit.
-          </p>
+        {/* /shape: header sits in 7/12 columns left, /distill: one thing — "the people are the program" */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16 lg:mb-20">
+          <div className="lg:col-span-8">
+            <p className="eyebrow mb-5">
+              <span className="luxe-rule mr-3" /> Clinical Leadership
+            </p>
+            <h2
+              className="font-serif text-foreground mb-7 hang-punct"
+              style={{
+                fontSize: "clamp(2rem, 1.5rem + 3vw, 3.75rem)",
+                lineHeight: 1.06,
+                letterSpacing: "-0.02em",
+                fontWeight: 500,
+              }}
+            >
+              The people
+              <span className="block editorial-italic text-foreground/70" style={{ fontWeight: 400 }}>
+                are the program.
+              </span>
+            </h2>
+            <p className="text-muted-foreground leading-relaxed max-w-xl" style={{ fontSize: "var(--text-body)" }}>
+              We do not sell a building. We sell the judgment of the two clinicians who personally compose your care — present on the estate, not on a quarterly visit.
+            </p>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border">
@@ -110,11 +124,12 @@ function LeaderCard({
               height={1280}
               className="w-full h-full object-cover transition-transform duration-[1400ms] ease-out hover:scale-[1.04]"
             />
+            {/* /quieter: gradient softened from 25% navy to 16%, photo carries */}
             <div
               className="absolute inset-0 pointer-events-none"
               style={{
                 background:
-                  "linear-gradient(180deg, transparent 60%, color-mix(in oklab, var(--navy) 25%, transparent) 100%)",
+                  "linear-gradient(180deg, transparent 65%, color-mix(in oklab, var(--navy) 16%, transparent) 100%)",
               }}
               aria-hidden
             />
@@ -122,27 +137,34 @@ function LeaderCard({
         </div>
 
         <div className="flex-1">
-          <p className="small-caps text-amber mb-3 text-[11px] tracking-[0.32em]">
+          {/* /typeset: role as small-caps eyebrow, name as display, credentials as small-caps tabular,
+              philosophy as editorial-italic pulled from a quiet amber rule */}
+          <p className="small-caps text-amber mb-3 text-[11px] tracking-[0.24em]">
             {leader.role}
           </p>
           <h3
-            className="font-serif text-foreground mb-4"
-            style={{ fontSize: "var(--text-h3)", lineHeight: 1.1, fontWeight: 500 }}
+            className="font-serif text-foreground mb-5 hang-punct"
+            style={{
+              fontSize: "clamp(1.625rem, 1.4rem + 1vw, 2.25rem)",
+              lineHeight: 1.08,
+              letterSpacing: "-0.018em",
+              fontWeight: 500,
+            }}
           >
             {leader.name}
           </h3>
-          <p className="text-sm text-foreground/80 leading-relaxed mb-2 tabular">
+          <p className="small-caps text-foreground/75 text-[11px] tracking-[0.18em] mb-2 tabular leading-relaxed">
             {leader.credentials}
           </p>
-          <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+          <p className="text-[13px] text-muted-foreground italic leading-relaxed mb-7">
             {leader.formerly}
           </p>
-          <blockquote className="border-l border-amber/60 pl-5 py-1">
+          <blockquote className="border-l border-amber/50 pl-5 py-1">
             <p
-              className="font-serif editorial-italic text-foreground leading-relaxed"
+              className="font-serif editorial-italic text-foreground/85 leading-[1.5]"
               style={{ fontSize: "var(--text-lead)", fontWeight: 400 }}
             >
-              "{leader.quote}"
+              &ldquo;{leader.quote}&rdquo;
             </p>
           </blockquote>
         </div>

@@ -142,6 +142,18 @@
     scroll-behavior: smooth;
   }
 
+  /* Honor user motion preferences globally — overrides scroll-behavior:smooth
+   * and disables our keyframed motion. WCAG 2.3.3. */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -255,14 +267,17 @@
 
   /* Filament-draw — the brand's signature line motion. Used on synergy-map rows
    * and section dividers. 1200ms ease-out per Phase B /animate spec.
-   * Origin is left so the line draws into existence rather than scaling from center. */
+   * Origin is left so the line draws into existence rather than scaling from center.
+   * `backwards` fill mode holds the `from` state during the animation-delay so
+   * lines don't flash at full scale before the staggered draw kicks in. */
   @keyframes filamentDraw {
     from { transform: scaleX(0); opacity: 0.4; }
     to   { transform: scaleX(1); opacity: 1; }
   }
   .filament-draw {
     transform-origin: left center;
-    animation: filamentDraw 1200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    transform: scaleX(0);
+    animation: filamentDraw 1200ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
   }
 
   /* Selection styling — amber tint on navy text for editorial cohesion. */

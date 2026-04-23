@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import heroAerial from "@/assets/hero-estate-aerial.jpg";
+import heroAerial from "@/assets/hero-signature.jpg";
 
 /**
  * v1.6 — repositioned. Privacy is the floor, not the headline.
@@ -116,9 +116,36 @@ function MistCanvas() {
   );
 }
 
+function useIdlePulse(thresholdMs = 8000) {
+  const [idle, setIdle] = useState(false);
+  useEffect(() => {
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return;
+    let timer = window.setTimeout(() => setIdle(true), thresholdMs);
+    const reset = () => {
+      setIdle(false);
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => setIdle(true), thresholdMs);
+    };
+    window.addEventListener("scroll", reset, { passive: true });
+    window.addEventListener("mousemove", reset, { passive: true });
+    window.addEventListener("touchstart", reset, { passive: true });
+    window.addEventListener("keydown", reset);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("scroll", reset);
+      window.removeEventListener("mousemove", reset);
+      window.removeEventListener("touchstart", reset);
+      window.removeEventListener("keydown", reset);
+    };
+  }, [thresholdMs]);
+  return idle;
+}
+
 export function Hero() {
   const [revealed, setRevealed] = useState(false);
   const scrollY = useParallax();
+  const idle = useIdlePulse(8000);
 
   useEffect(() => {
     const t = setTimeout(() => setRevealed(true), 80);

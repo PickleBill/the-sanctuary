@@ -1,26 +1,48 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Navbar } from "@/components/site/Navbar";
+import { Hero } from "@/components/site/Hero";
+import { Gallery } from "@/components/site/Gallery";
+import { SynergyMap } from "@/components/site/SynergyMap";
+import { Amenities } from "@/components/site/Amenities";
+import { Process } from "@/components/site/Process";
+import { ConciergeForm } from "@/components/site/ConciergeForm";
+import { Footer } from "@/components/site/Footer";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Sanctuary Southeast | Private Executive Recovery Retreat" },
+      {
+        name: "description",
+        content:
+          "Discrete, ultra-luxury addiction recovery for executives and high-net-worth individuals in the Southeast. Clinical excellence meets five-star hospitality.",
+      },
+      { property: "og:title", content: "Sanctuary Southeast | Private Executive Recovery Retreat" },
+      {
+        property: "og:description",
+        content:
+          "Discrete, ultra-luxury addiction recovery for executives and high-net-worth individuals. Clinical excellence meets five-star hospitality.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
-
 function Index() {
-  return <PlaceholderIndex />;
+  return (
+    <>
+      <Navbar />
+      <main>
+        <Hero />
+        <Gallery />
+        <SynergyMap />
+        <Amenities />
+        <Process />
+        <ConciergeForm />
+      </main>
+      <Footer />
+    </>
+  );
 }

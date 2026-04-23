@@ -141,7 +141,7 @@ export function Resonance() {
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-border max-w-2xl">
               <div className="bg-background p-6">
-                <p className="small-caps text-amber/80 text-[10px] tracking-[0.32em] mb-2">
+                <p className="small-caps text-muted-foreground/70 text-[10px] tracking-[0.32em] mb-2">
                   Clinical
                 </p>
                 <p className="font-serif text-foreground" style={{ fontSize: "var(--text-h4)", fontWeight: 500 }}>
@@ -149,7 +149,7 @@ export function Resonance() {
                 </p>
               </div>
               <div className="bg-background p-6">
-                <p className="small-caps text-amber/80 text-[10px] tracking-[0.32em] mb-2">
+                <p className="small-caps text-muted-foreground/70 text-[10px] tracking-[0.32em] mb-2">
                   Holistic
                 </p>
                 <p className="font-serif text-foreground" style={{ fontSize: "var(--text-h4)", fontWeight: 500 }}>

@@ -162,12 +162,12 @@ export function SynergyMap() {
       id="synergy"
       className="relative py-28 lg:py-40 bg-navy text-ivory scroll-mt-24 overflow-hidden"
     >
-      {/* ambient glow */}
+      {/* ambient glow — reduced from 60% to 25% per /quieter pass */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-60"
+        className="pointer-events-none absolute inset-0 opacity-25"
         style={{
           background:
-            "radial-gradient(60% 50% at 50% 30%, color-mix(in oklab, var(--amber) 10%, transparent), transparent 70%)",
+            "radial-gradient(70% 55% at 50% 25%, color-mix(in oklab, var(--amber) 6%, transparent), transparent 75%)",
         }}
       />
 
@@ -280,25 +280,25 @@ export function SynergyMap() {
                   {/* Mobile pairing — vertical filament between the two plates */}
                   <div
                     aria-hidden
-                    className="lg:hidden col-span-1 flex items-center justify-center py-2"
+                    className="lg:hidden col-span-1 flex items-center justify-center py-3"
                   >
                     <span
                       className={[
-                        "block w-px h-8 transition-all duration-500",
-                        isActive ? "bg-amber" : "bg-amber/30",
+                        "block w-px transition-all duration-500",
+                        isActive ? "bg-amber h-10" : "bg-amber/30 h-6",
                       ].join(" ")}
                     />
                   </div>
 
-                  {/* Mobile pairing badge */}
+                  {/* Mobile pairing badge — own row with breathing room so it never collides with the next eyebrow */}
                   {isActive && (
-                    <div className="lg:hidden col-span-1 px-6 pb-6 -mt-2">
-                      <p className="small-caps text-amber text-[11px] tracking-[0.28em] flex items-center gap-2">
-                        <span className="text-amber">◆</span>
-                        <span className="editorial-italic font-serif text-sm normal-case tracking-normal text-ivory/85">
+                    <div className="lg:hidden col-span-1 px-6 pt-2 pb-8 mb-2 border-b border-amber/20">
+                      <div className="flex items-start gap-3">
+                        <span className="text-amber pt-1.5 text-xs leading-none">◆</span>
+                        <p className="editorial-italic font-serif text-base text-ivory/90 leading-snug">
                           {pair.synthesis}
-                        </span>
-                      </p>
+                        </p>
+                      </div>
                     </div>
                   )}
                 </div>

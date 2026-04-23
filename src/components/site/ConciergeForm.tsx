@@ -2,6 +2,7 @@ import { useState, useTransition } from "react";
 import { z } from "zod";
 import { useServerFn } from "@tanstack/react-start";
 import { submitProspectus } from "@/server/resonance.functions";
+import { TrustRail } from "@/components/site/TrustRail";
 
 const schema = z.object({
   name: z.string().trim().min(1, "Please share your name.").max(100),
@@ -78,9 +79,10 @@ export function ConciergeForm() {
   return (
     <section
       id="concierge-form"
-      className="py-28 lg:py-40 bg-background scroll-mt-24"
+      className="bg-background scroll-mt-24"
     >
-      <div className="mx-auto max-w-5xl px-6 lg:px-10">
+      <TrustRail />
+      <div className="mx-auto max-w-5xl px-6 lg:px-10 py-24 lg:py-32">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           <div className="lg:col-span-5">
             <p className="eyebrow mb-5">
@@ -191,6 +193,12 @@ export function ConciergeForm() {
                 >
                   {isPending ? "Sending…" : "Submit Secure Request"}
                 </button>
+
+                {/* Consent microcopy — directly under submit, low visual weight,
+                    high legal weight. /quieter pass: italic, muted, max-width capped. */}
+                <p className="text-xs text-muted-foreground italic leading-relaxed max-w-md mt-5">
+                  By submitting, you consent to a one-time outreach by our intake team within four hours. No record is created until you instruct us to proceed. We do not sell, share, or retain your information for marketing.
+                </p>
               </form>
             )}
           </div>

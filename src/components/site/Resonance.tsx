@@ -131,12 +131,7 @@ export function Resonance() {
             >
               "{reading.echo}"
             </p>
-            <p
-              className="font-serif text-foreground leading-relaxed mb-8 max-w-2xl"
-              style={{ fontSize: "var(--text-h4)", lineHeight: 1.45, fontWeight: 400 }}
-            >
-              {reading.reading}
-            </p>
+            <StreamedReading text={reading.reading} />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-border max-w-2xl">
               <div className="bg-background p-6">
                 <p className="small-caps text-muted-foreground/70 text-[10px] tracking-[0.32em] mb-2">
@@ -189,7 +184,47 @@ export function Resonance() {
           from { opacity: 0; transform: translateY(12px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes wordIn {
+          from { opacity: 0; transform: translateY(4px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .reading-word {
+          display: inline-block;
+          opacity: 0;
+          animation: wordIn 250ms cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .reading-word { animation: none; opacity: 1; transform: none; }
+        }
       `}</style>
     </section>
+  );
+}
+
+/**
+ * Word-by-word fade-in for the AI reading. ~30ms cascade so a 60-word reading
+ * lands in under 2 seconds — cinematic without being sluggish. Capped at 80
+ * words so an unusually long response can't drag.
+ */
+function StreamedReading({ text }: { text: string }) {
+  const words = text.split(/(\s+)/);
+  const cap = 80;
+  let idx = 0;
+  return (
+    <p
+      className="font-serif text-foreground leading-relaxed mb-8 max-w-2xl"
+      style={{ fontSize: "var(--text-h4)", lineHeight: 1.45, fontWeight: 400 }}
+    >
+      {words.map((w, i) => {
+        if (/^\s+$/.test(w)) return <span key={i}>{w}</span>;
+        const delay = Math.min(idx, cap) * 30;
+        idx += 1;
+        return (
+          <span key={i} className="reading-word" style={{ animationDelay: `${delay}ms` }}>
+            {w}
+          </span>
+        );
+      })}
+    </p>
   );
 }

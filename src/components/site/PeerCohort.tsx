@@ -49,9 +49,7 @@ export function PeerCohort() {
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-          <p className="eyebrow mb-5">
-            <span className="luxe-rule mr-3" /> Among Peers
-          </p>
+          <p className="eyebrow mb-5">Among Peers</p>
 
           <h2
             className="font-serif text-foreground mb-9 hang-punct"
@@ -83,15 +81,8 @@ export function PeerCohort() {
                 You will not be the first. You will not be the last. That is the quiet relief of being here — a room full of people who already know the weight you walked in with, and who are not impressed by it.
               </p>
 
-              <div
-                aria-hidden
-                className={`h-px bg-amber/70 transition-[width] duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] mb-8 ${
-                  visible ? "w-24" : "w-0"
-                }`}
-              />
-
               <p
-                className="font-serif editorial-italic text-foreground/80"
+                className="font-serif editorial-italic text-foreground/80 mt-2"
                 style={{ fontSize: "var(--text-h4)", fontWeight: 400, lineHeight: 1.35 }}
               >
                 Privacy is the floor. Belonging is the point.
@@ -104,16 +95,15 @@ export function PeerCohort() {
               <p className="small-caps text-muted-foreground/70 text-[11px] tracking-[0.28em] mb-7">
                 Recent residents — by category only
               </p>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-border">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-5 sm:gap-y-7 gap-x-8">
                 {ROLES.map((role, i) => (
                   <li
                     key={role}
-                    className={`bg-background px-5 py-5 sm:py-6 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] flex items-center gap-4 sm:block ${
+                    className={`transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
                       visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
                     }`}
                     style={{ transitionDelay: `${300 + i * 140}ms` }}
                   >
-                    <span className="block w-6 h-px bg-amber sm:mb-3 shrink-0" aria-hidden />
                     <span
                       className="font-serif text-foreground"
                       style={{ fontSize: "var(--text-h4)", fontWeight: 500, letterSpacing: "-0.012em" }}

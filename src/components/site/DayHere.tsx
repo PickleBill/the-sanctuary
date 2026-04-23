@@ -55,9 +55,7 @@ export function DayHere() {
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-14 lg:mb-20">
           <div className="lg:col-span-8">
-            <p className="eyebrow mb-5">
-              <span className="luxe-rule mr-3" /> A Day Here
-            </p>
+            <p className="eyebrow mb-5">A Day Here</p>
             <h2
               className="font-serif text-foreground mb-7 hang-punct"
               style={{
@@ -114,13 +112,6 @@ export function DayHere() {
                   <span className="small-caps text-amber text-[11px] tracking-[0.28em] tabular">
                     {m.hour}
                   </span>
-                  <span
-                    aria-hidden
-                    className={`flex-1 h-px bg-amber/35 origin-left transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                      visible ? "scale-x-100" : "scale-x-0"
-                    }`}
-                    style={{ transitionDelay: `${650 + i * 220}ms` }}
-                  />
                 </div>
                 <p
                   className="font-serif editorial-italic text-foreground/85"
@@ -140,16 +131,6 @@ export function DayHere() {
                   <span className="small-caps text-amber text-[12px] tracking-[0.28em] tabular">
                     {m.hour}
                   </span>
-                  <span
-                    aria-hidden
-                    className={`block h-px bg-amber/60 mt-2 ml-auto origin-right transition-transform duration-[800ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                      visible ? "scale-x-100" : "scale-x-0"
-                    }`}
-                    style={{
-                      width: "1.5rem",
-                      transitionDelay: `${500 + i * 220}ms`,
-                    }}
-                  />
                 </div>
                 <div className="relative flex items-start pt-2">
                   <span
@@ -177,7 +158,7 @@ export function DayHere() {
 
         {/* Coda */}
         <div
-          className={`mx-auto max-w-3xl mt-16 lg:mt-20 pt-10 border-t border-border transition-all duration-1000 ease-out ${
+          className={`mx-auto max-w-3xl mt-20 lg:mt-24 transition-all duration-1000 ease-out ${
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
           }`}
           style={{ transitionDelay: "1900ms" }}

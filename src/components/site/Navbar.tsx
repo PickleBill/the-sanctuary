@@ -31,14 +31,12 @@ export function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-background/85 backdrop-blur-md border-b border-border"
-          : "bg-transparent"
+        scrolled ? "bg-background/85 backdrop-blur-md" : "bg-transparent"
       }`}
     >
       {/* Quiet 24/7 line above the bar on desktop when scrolled */}
       <div
-        className={`hidden lg:block border-b border-border/60 transition-[max-height,opacity] duration-500 overflow-hidden ${
+        className={`hidden lg:block transition-[max-height,opacity] duration-500 overflow-hidden ${
           scrolled ? "max-h-10 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
@@ -48,16 +46,15 @@ export function Navbar() {
           </span>
           <a
             href="tel:+18005550199"
-            className="text-[11px] tracking-[0.24em] uppercase font-medium text-foreground hover:text-amber transition-colors flex items-center gap-2 tabular"
+            className="text-[11px] tracking-[0.24em] uppercase font-medium text-foreground hover:text-amber transition-colors tabular"
           >
-            <span className="luxe-rule" aria-hidden /> +1 (800) 555-0199
+            +1 (800) 555-0199
           </a>
         </div>
       </div>
 
       <div className="mx-auto max-w-7xl px-6 lg:px-10 flex items-center justify-between h-20">
-        <Link to="/" className="flex items-center gap-3 group">
-          <span className="luxe-rule" aria-hidden />
+        <Link to="/" className="flex items-center group">
           <span className="font-serif text-lg tracking-wide text-foreground">
             Sanctuary <span className="text-amber">Southeast</span>
           </span>
@@ -73,7 +70,6 @@ export function Navbar() {
               {s.label}
             </button>
           ))}
-          <span className="h-4 w-px bg-border" aria-hidden />
           <Link
             to="/professionals"
             className="text-xs tracking-[0.2em] uppercase font-medium text-foreground/70 hover:text-amber transition-colors"

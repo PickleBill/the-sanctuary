@@ -9,13 +9,11 @@ function scrollToId(id: string) {
 
 export function Footer() {
   return (
-    <footer className="bg-primary text-primary-foreground border-t border-primary-foreground/10">
+    <footer className="bg-primary text-primary-foreground">
       {/* Invariants rail — speed-of-admission as a published commitment */}
-      <div className="border-b border-primary-foreground/10">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 py-10 lg:py-12">
-          <p className="small-caps text-amber text-[11px] tracking-[0.24em] mb-5">
-            <span className="luxe-rule mr-3 align-middle" /> Our Invariants
-          </p>
+      <div>
+        <div className="mx-auto max-w-7xl px-6 lg:px-10 py-12 lg:py-14">
+          <p className="small-caps text-amber text-[11px] tracking-[0.24em] mb-6">Our Invariants</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-10">
             <p className="font-serif text-primary-foreground/90 text-lg leading-snug">
               30-minute clinician callback

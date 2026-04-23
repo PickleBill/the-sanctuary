@@ -242,6 +242,12 @@
    * more tracking — the cap height carries more visual weight. */
   .eyebrow-tall { letter-spacing: 0.28em; }
 
+  /* .luxe-rule — RESERVED. v2.0 Subtraction Pass: do NOT add this class
+   * next to section eyebrows or inside repeating units (cards, list items).
+   * The eyebrow's small-caps amber tracking is already the typographic
+   * signal; an adjacent rule is redundant noise. Permitted only as a
+   * functional affordance (e.g., a hover-extending line on a single CTA).
+   * See: mem://design/subtraction-v2 */
   .luxe-rule {
     display: inline-block;
     width: 3rem;

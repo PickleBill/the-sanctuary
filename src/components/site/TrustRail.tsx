@@ -36,23 +36,15 @@ export function TrustRail() {
   return (
     <section
       aria-label="Compliance and confidentiality posture"
-      className="bg-secondary border-t border-border"
+      className="bg-secondary"
     >
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 py-10 lg:py-14">
-        {/* Single eyebrow — same family as every other section header */}
-        <div className="flex items-center gap-3 mb-8 lg:mb-10">
-          <span className="luxe-rule" aria-hidden />
-          <p className="small-caps text-amber text-[11px] tracking-[0.28em]">
-            Confidentiality &amp; Compliance
-          </p>
-        </div>
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 py-12 lg:py-16">
+        <p className="eyebrow mb-8 lg:mb-10">Confidentiality &amp; Compliance</p>
 
-        {/* Plates: no inter-cell hairlines on mobile (one column = no need),
-            crisp 1px structure on tablet+ via gap-px on a darker bed.
-            Eliminates the "noise grid" effect on phones. */}
-        <dl className="grid grid-cols-1 gap-y-px sm:grid-cols-2 sm:gap-px lg:grid-cols-4 sm:bg-border">
+        {/* Plates: pure whitespace rhythm, no border grid per v2.0 subtraction pass */}
+        <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-8 gap-x-10">
           {plates.map((p) => (
-            <div key={p.label} className="bg-secondary p-6 lg:p-7 border-b border-border/50 sm:border-b-0 last:border-b-0">
+            <div key={p.label}>
               <dt className="small-caps text-foreground/65 text-[11px] tracking-[0.24em] mb-3">
                 {p.label}
               </dt>

@@ -52,9 +52,7 @@ export function Process() {
         {/* /shape: header in left 8/12 columns, asymmetric */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16 lg:mb-20">
           <div className="lg:col-span-8">
-            <p className="eyebrow mb-5">
-              <span className="luxe-rule mr-3" /> The Process
-            </p>
+            <p className="eyebrow mb-5">The Process</p>
             <h2
               className="font-serif text-primary-foreground mb-7 hang-punct"
               style={{
@@ -148,8 +146,7 @@ function Step({
         {step.desc}
       </p>
       {/* Privacy invariant — visually subordinate per /quieter and /distill */}
-      <p className="flex items-start gap-3 max-w-2xl">
-        <span className="luxe-rule mt-[10px] shrink-0 opacity-60" aria-hidden />
+      <p className="max-w-2xl">
         <span className="editorial-italic text-[12px] lg:text-[13px] text-primary-foreground/50 leading-relaxed">
           <span className="small-caps text-amber/70 not-italic mr-2 tracking-[0.18em] text-[10px]">
             Privacy invariant

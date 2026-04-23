@@ -1,7 +1,13 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap");
+/*
+ * Literata — single-family typography (display + text + small-caps via opsz axis).
+ * Selected per Impeccable framework + .impeccable.md design context.
+ * opsz 7..72 lets us use the same family from microcopy to display headlines
+ * with proper optical sizing — the hallmark of editorial / private-journal typography.
+ */
+@import url("https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,300;0,7..72,400;0,7..72,500;0,7..72,600;0,7..72,700;1,7..72,400;1,7..72,500&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
@@ -19,8 +25,24 @@
   --radius-3xl: 0px;
   --radius-4xl: 0px;
 
-  --font-serif: "Playfair Display", Georgia, serif;
-  --font-sans: "Inter", system-ui, sans-serif;
+  /* Single-family typography. Use --font-display for headlines (large opsz),
+   * --font-text for body (small opsz), --font-mono only for tabular figures. */
+  --font-display: "Literata", "Source Serif 4", Georgia, serif;
+  --font-text: "Literata", "Source Serif 4", Georgia, serif;
+  --font-serif: var(--font-display); /* legacy alias */
+  --font-sans: var(--font-text);     /* legacy alias — same family now */
+
+  /* Fluid modular type scale (1.25 ratio, clamp-based per Impeccable typography).
+   * Used on marketing pages; keep fixed rems if we ever build app UIs. */
+  --text-micro: clamp(0.6875rem, 0.66rem + 0.15vw, 0.75rem);   /* 11–12 */
+  --text-small: clamp(0.8125rem, 0.78rem + 0.18vw, 0.9375rem); /* 13–15 */
+  --text-body:  clamp(1rem, 0.96rem + 0.22vw, 1.125rem);       /* 16–18 */
+  --text-lead:  clamp(1.125rem, 1.06rem + 0.35vw, 1.375rem);   /* 18–22 */
+  --text-h4:    clamp(1.375rem, 1.27rem + 0.55vw, 1.75rem);    /* 22–28 */
+  --text-h3:    clamp(1.75rem, 1.55rem + 1.0vw, 2.5rem);       /* 28–40 */
+  --text-h2:    clamp(2.25rem, 1.85rem + 2.0vw, 3.75rem);      /* 36–60 */
+  --text-h1:    clamp(3rem, 2.2rem + 4.0vw, 5.5rem);           /* 48–88 */
+  --text-display: clamp(3.75rem, 2.5rem + 6.25vw, 7.5rem);     /* 60–120 */
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -123,28 +145,84 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: var(--font-sans);
-    font-weight: 300;
+    font-family: var(--font-text);
+    font-weight: 400;
+    font-size: var(--text-body);
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-    letter-spacing: 0.01em;
+    text-rendering: optimizeLegibility;
+    /* Literata has true OpenType: enable contextual alternates, kerning,
+     * old-style figures for body, and discretionary ligatures sparingly. */
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1;
+    /* Optical sizing axis follows actual rendered size — the whole point of opsz. */
+    font-optical-sizing: auto;
   }
+
+  /* Body paragraphs: cap line length (~65–75ch) per Impeccable typography rules. */
+  p { max-width: 70ch; }
 
   h1, h2, h3, h4, h5 {
-    font-family: var(--font-serif);
+    font-family: var(--font-display);
     font-weight: 500;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.018em;
+    line-height: 1.08;
+    /* Tabular figures + lining figures for headings; small opsz off (let opsz axis handle). */
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "lnum" 1;
   }
 
-  .font-serif { font-family: var(--font-serif); }
-  .font-sans { font-family: var(--font-sans); }
+  h1 { font-size: var(--text-h1); }
+  h2 { font-size: var(--text-h2); line-height: 1.1; }
+  h3 { font-size: var(--text-h3); line-height: 1.15; }
+  h4 { font-size: var(--text-h4); line-height: 1.25; }
+
+  /* Display class for hero-scale headlines that want maximum opsz expression. */
+  .text-display {
+    font-family: var(--font-display);
+    font-size: var(--text-display);
+    font-weight: 400;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+  }
+
+  /* Lead paragraph after a headline — slightly larger, looser. */
+  .text-lead {
+    font-size: var(--text-lead);
+    line-height: 1.5;
+    color: color-mix(in oklab, var(--foreground) 78%, transparent);
+  }
+
+  /* Legacy aliases — both now resolve to Literata. Kept so existing class names work. */
+  .font-serif { font-family: var(--font-display); }
+  .font-sans  { font-family: var(--font-text); font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1; }
+
+  /* Small-caps utility — Literata has a true small-caps cut via OpenType. */
+  .small-caps {
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.08em;
+    font-feature-settings: "smcp" 1, "c2sc" 1, "kern" 1;
+  }
+
+  /* Tabular figures — for stat strips, ledgers, anything aligned in columns. */
+  .tabular {
+    font-variant-numeric: tabular-nums lining-nums;
+    font-feature-settings: "tnum" 1, "lnum" 1, "kern" 1;
+  }
+
+  /* Italic Literata — for affirmation threads (Phase 4) and editorial pull-quotes. */
+  .editorial-italic {
+    font-style: italic;
+    font-weight: 400;
+  }
 
   .eyebrow {
-    font-family: var(--font-sans);
-    font-size: 0.75rem;
+    font-family: var(--font-text);
+    font-size: var(--text-micro);
     font-weight: 500;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.32em;
     text-transform: uppercase;
     color: var(--color-amber);
+    /* Use small-caps figures so any inline numerals match the cap height. */
+    font-feature-settings: "kern" 1, "lnum" 1, "tnum" 1;
   }
 
   .luxe-rule {
@@ -153,5 +231,11 @@
     height: 1px;
     background-color: var(--color-amber);
     vertical-align: middle;
+  }
+
+  /* Selection styling — amber tint on navy text for editorial cohesion. */
+  ::selection {
+    background-color: color-mix(in oklab, var(--amber) 25%, transparent);
+    color: var(--foreground);
   }
 }

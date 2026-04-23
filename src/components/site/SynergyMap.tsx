@@ -89,10 +89,13 @@ function Plate({
       onMouseLeave={onLeave}
       onFocus={onEnter}
       onBlur={onLeave}
+      onClick={() => (active ? onLeave() : onEnter())}
       tabIndex={0}
+      role="button"
+      aria-pressed={active}
       className={[
-        "group relative flex flex-col gap-3 px-6 py-7 lg:px-10 lg:py-9",
-        "border-t border-white/10 cursor-default outline-none",
+        "group relative flex flex-col gap-3 px-6 py-6 lg:px-10 lg:py-9",
+        "border-t border-white/10 cursor-pointer outline-none",
         "transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
         align,
         active ? "bg-white/[0.04]" : "",
@@ -100,11 +103,14 @@ function Plate({
       ].join(" ")}
     >
       <div className="flex items-baseline gap-3 lg:flex-row-reverse lg:[&>*]:order-none">
-        <span className="text-amber/70 text-[0.65rem] font-medium tracking-[0.32em]">
-          {side === "clinical" ? "CLINICAL" : "HOLISTIC"} · {index}
+        <span className="small-caps text-amber/80 text-[10px] tracking-[0.32em]">
+          {side === "clinical" ? "Clinical" : "Holistic"} · <span className="tabular">{index}</span>
         </span>
       </div>
-      <h4 className="font-serif text-xl lg:text-2xl text-ivory leading-tight">
+      <h4
+        className="font-serif text-ivory leading-[1.15]"
+        style={{ fontSize: "var(--text-h4)", fontWeight: 500 }}
+      >
         {title}
       </h4>
       <div
@@ -116,7 +122,7 @@ function Plate({
       />
       <p
         className={[
-          "text-sm text-ivory/60 leading-relaxed max-w-sm",
+          "text-sm text-ivory/65 leading-relaxed max-w-sm",
           "transition-all duration-700",
           active ? "opacity-100 max-h-32 mt-1" : "opacity-0 max-h-0 overflow-hidden",
         ].join(" ")}
@@ -271,11 +277,27 @@ export function SynergyMap() {
                     onLeave={() => setActiveId(null)}
                   />
 
+                  {/* Mobile pairing — vertical filament between the two plates */}
+                  <div
+                    aria-hidden
+                    className="lg:hidden col-span-1 flex items-center justify-center py-2"
+                  >
+                    <span
+                      className={[
+                        "block w-px h-8 transition-all duration-500",
+                        isActive ? "bg-amber" : "bg-amber/30",
+                      ].join(" ")}
+                    />
+                  </div>
+
                   {/* Mobile pairing badge */}
                   {isActive && (
                     <div className="lg:hidden col-span-1 px-6 pb-6 -mt-2">
-                      <p className="text-xs text-amber tracking-[0.28em] uppercase">
-                        ◆ {pair.synthesis}
+                      <p className="small-caps text-amber text-[11px] tracking-[0.28em] flex items-center gap-2">
+                        <span className="text-amber">◆</span>
+                        <span className="editorial-italic font-serif text-sm normal-case tracking-normal text-ivory/85">
+                          {pair.synthesis}
+                        </span>
                       </p>
                     </div>
                   )}

@@ -54,7 +54,7 @@ export function Amenities() {
             Designed for the modern leader.
           </h2>
           <p className="mt-6 text-muted-foreground text-base lg:text-lg leading-relaxed">
-            Five quiet commitments that distinguish a clinical container from a hotel with therapy. Drag to explore.
+            Five quiet commitments that distinguish a clinical container from a hotel with therapy. <span className="hidden md:inline">Drag to explore.</span>
           </p>
         </div>
 

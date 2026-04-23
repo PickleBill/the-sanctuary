@@ -229,16 +229,19 @@ function SuccessCard({ dossierUrl }: { dossierUrl: string | null }) {
     } catch {}
   };
   return (
-    <div className="border border-border bg-secondary p-8 sm:p-10 lg:p-12">
+    <div className="border border-border bg-secondary p-8 sm:p-10 lg:p-12 animate-[fadeUp_700ms_cubic-bezier(0.22,1,0.36,1)]">
       <p className="small-caps text-amber text-[11px] tracking-[0.32em] mb-5">Received</p>
       <h3
-        className="font-serif text-foreground mb-5"
+        className="font-serif text-foreground mb-5 hang-punct"
         style={{ fontSize: "var(--text-h3)", lineHeight: 1.1, fontWeight: 500 }}
       >
         Thank you.
       </h3>
+      <p className="text-foreground/85 leading-relaxed mb-4 max-w-md editorial-italic" style={{ fontSize: "var(--text-lead)" }}>
+        A clinician will be on the line within four hours, often sooner.
+      </p>
       <p className="text-muted-foreground leading-relaxed mb-8 max-w-md">
-        Your request has been encrypted and sent. A member of our executive concierge team will contact you within four hours using your preferred method.
+        The conversation begins privately, on your terms. Nothing is recorded until you instruct us to proceed.
       </p>
       <div className="flex flex-col sm:flex-row gap-3">
         {dossierUrl && (
@@ -265,6 +268,7 @@ function SuccessCard({ dossierUrl }: { dossierUrl: string | null }) {
         </a>
         .
       </p>
+      <style>{`@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }`}</style>
     </div>
   );
 }

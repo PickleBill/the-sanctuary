@@ -472,13 +472,13 @@ export function Cohort() {
 
               {/* Reveal panel — always visible on mobile (auto-tour fills it) */}
               <div className="mt-6 min-h-[5rem] sm:min-h-[4rem]">
-                <div className="flex items-baseline gap-3 mb-2">
+                <div className="flex items-baseline gap-3 mb-2 flex-wrap">
                   <p
                     className={`small-caps text-amber text-[11px] tracking-[0.28em] transition-opacity duration-500 ${
-                      activeNode ? "opacity-100" : "opacity-0"
+                      activeNode ? "opacity-100" : matchedId != null ? "opacity-100" : "opacity-0"
                     }`}
                   >
-                    Recent resident
+                    {activeNode && activeId === matchedId ? "A quiet resonance" : "Recent resident"}
                   </p>
                   {activeNode && (
                     <span
@@ -499,6 +499,29 @@ export function Cohort() {
                 >
                   {activeNode ? activeNode.role : "—"}
                 </p>
+
+                {/* v3.4 — When matched node is active, show the whisper rationale */}
+                {activeNode && activeId === matchedId && matchRationale && (
+                  <p
+                    key={`m-${matchedId}`}
+                    className="mt-3 max-w-md text-ivory/75 leading-relaxed editorial-italic cohort-role-rise"
+                    style={{ fontSize: "0.95rem", lineHeight: 1.55 }}
+                  >
+                    "{matchRationale}"
+                  </p>
+                )}
+
+                {/* v3.4 — Quiet hint when a match exists but visitor hasn't tapped it yet */}
+                {matchedId != null && activeId !== matchedId && (
+                  <button
+                    type="button"
+                    onClick={() => handleNodeActivate(matchedId)}
+                    className="mt-3 inline-flex items-center gap-2 small-caps text-[10px] tracking-[0.28em] text-amber/80 hover:text-amber transition-colors group"
+                  >
+                    <span aria-hidden className="block w-2 h-2 rounded-full bg-amber/70 cohort-badge-dot" />
+                    Someone in this room is carrying what you're carrying →
+                  </button>
+                )}
               </div>
             </div>
           </div>

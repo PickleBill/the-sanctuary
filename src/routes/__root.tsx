@@ -34,20 +34,20 @@ export const Route = createRootRoute({
       // Per-route head() concatenates with root, and a root og:image would
       // pollute every page (e.g. /privacy-policy gets the homepage hero).
       // Default title/description are minimal placeholders; every leaf overrides.
-      { title: "Sanctuary Southeast" },
+      { title: "The Sanctuary" },
       {
         name: "description",
         content:
           "A private medical-wellness retreat in the Blue Ridge of Western North Carolina. One family in residence at a time.",
       },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:title", content: "Sanctuary Southeast" },
-      { name: "twitter:title", content: "Sanctuary Southeast" },
+      { property: "og:title", content: "The Sanctuary" },
+      { name: "twitter:title", content: "The Sanctuary" },
       { name: "description", content: "Sanctuary Southeast offers an ultra-luxury executive recovery retreat for high-net-worth individuals." },
       { property: "og:description", content: "Sanctuary Southeast offers an ultra-luxury executive recovery retreat for high-net-worth individuals." },
       { name: "twitter:description", content: "Sanctuary Southeast offers an ultra-luxury executive recovery retreat for high-net-worth individuals." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a815d0ee-f319-4b03-8f84-57cfcb33b282/id-preview-f8fb4223--14cfc7e9-e959-4f21-9f32-73470da14fa9.lovable.app-1776977454842.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a815d0ee-f319-4b03-8f84-57cfcb33b282/id-preview-f8fb4223--14cfc7e9-e959-4f21-9f32-73470da14fa9.lovable.app-1776977454842.png" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/Dfn8VavMxXS3yh70GuUB31JITni2/social-images/social-1777035407330-IMG_8373.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/Dfn8VavMxXS3yh70GuUB31JITni2/social-images/social-1777035407330-IMG_8373.webp" },
       { property: "og:type", content: "website" },
     ],
     links: [

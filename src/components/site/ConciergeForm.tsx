@@ -282,8 +282,9 @@ export function ConciergeForm() {
   };
 
   return (
-    <section id="concierge-form" className="bg-background scroll-mt-24">
-      <TrustRail />
+    <>
+      {/* v3.9 reset — anchor target is the form. TrustRail moves below. */}
+      <section id="concierge-form" className="bg-background scroll-mt-24">
       <div className="mx-auto max-w-5xl px-6 lg:px-10 py-24 lg:py-32">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           <div className="lg:col-span-5">
@@ -398,7 +399,10 @@ export function ConciergeForm() {
           .step-enter-right, .step-enter-left { animation: none !important; }
         }
       `}</style>
-    </section>
+      </section>
+      {/* TrustRail — quiet trust footer beneath the form, not above it. */}
+      <TrustRail />
+    </>
   );
 }
 

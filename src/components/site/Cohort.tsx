@@ -332,20 +332,23 @@ export function Cohort() {
           }`}
         >
           <div className="lg:col-span-5">
-            {/* v3.5 — signature people-moment portrait above the headline */}
-            <div className="mb-7 overflow-hidden aspect-[16/9] bg-navy/50">
+            {/*
+              v3.9 reset — peer moment portrait. Same image, but the section
+              now relies on it as the visual anchor with much shorter copy.
+            */}
+            <div className="mb-7 overflow-hidden aspect-[16/10] bg-navy/50">
               <img
                 src={cohortPortrait}
                 alt="A hand resting on the page of a leather journal in soft window light"
                 loading="lazy"
                 width={1920}
-                height={1080}
+                height={1200}
                 className="w-full h-full object-cover opacity-90"
               />
             </div>
             <p className="eyebrow mb-5">The Cohort</p>
             <h2
-              className="font-serif text-ivory mb-7 hang-punct"
+              className="font-serif text-ivory mb-6 hang-punct"
               style={{
                 fontSize: "clamp(2rem, 1.5rem + 3vw, 3.75rem)",
                 lineHeight: 1.06,
@@ -359,23 +362,23 @@ export function Cohort() {
               </span>
             </h2>
             <p
-              className="text-ivory/90 leading-relaxed mb-6"
-              style={{ fontSize: "var(--text-lead)", lineHeight: 1.55 }}
+              className="text-ivory/85 leading-relaxed max-w-md"
+              style={{ fontSize: "var(--text-body)", lineHeight: 1.6 }}
             >
-              Anonymous, by design. Each point on this map is a recent resident — a peer who walked in carrying weight you would recognize.
-            </p>
-            <p className="mt-8 text-sm text-ivory/65 italic leading-relaxed max-w-sm">
-              No names. No faces. We never confirm a particular guest. Some of them now refer their friends.
+              Anonymous, by design. Each point in the room is a recent resident — a peer who walked in carrying weight you would recognize.
             </p>
           </div>
 
           <div className="lg:col-span-7">
-            {/* v3.7 — Mobile name plate ABOVE the constellation. Always-visible
-                focal point so visitors always know which archetype is lit. */}
-            <div className="lg:hidden mb-5 min-h-[88px]">
+            {/*
+              v3.9 reset — single name plate ABOVE the constellation on
+              every viewport. Removes the duplicate reveal that previously
+              lived below the SVG. One source of truth for "who is lit".
+            */}
+            <div className="mb-5 min-h-[88px]">
               <div className="flex items-baseline gap-3 mb-2 flex-wrap">
                 <p
-                  className={`small-caps text-amber text-[10px] tracking-[0.32em] font-semibold transition-opacity duration-500 ${
+                  className={`small-caps text-amber text-[11px] tracking-[0.28em] font-semibold transition-opacity duration-500 ${
                     activeNode || matchedId != null ? "opacity-100" : "opacity-0"
                   }`}
                 >
@@ -394,7 +397,7 @@ export function Cohort() {
               <p
                 key={`mp-name-${activeId}-${badgePulse}`}
                 className="font-serif editorial-italic text-ivory cohort-role-rise leading-snug"
-                style={{ fontSize: "1.4rem", fontWeight: 400, minHeight: "1.4em" }}
+                style={{ fontSize: "clamp(1.4rem, 1.05rem + 0.9vw, 1.85rem)", fontWeight: 400, minHeight: "1.4em" }}
               >
                 {activeNode ? activeNode.role : "—"}
               </p>
@@ -528,35 +531,15 @@ export function Cohort() {
                 })}
               </svg>
 
-              {/* Reveal panel — always visible on mobile (auto-tour fills it) */}
-              <div className="mt-6 min-h-[5rem] sm:min-h-[4rem]">
-                <div className="flex items-baseline gap-3 mb-2 flex-wrap">
-                  <p
-                    className={`small-caps text-amber text-[11px] tracking-[0.28em] transition-opacity duration-500 ${
-                      activeNode ? "opacity-100" : matchedId != null ? "opacity-100" : "opacity-0"
-                    }`}
-                  >
-                    {activeNode && activeId === matchedId ? "A quiet resonance" : "Recent resident"}
-                  </p>
-                  {activeNode && (
-                    <span
-                      key={badgePulse}
-                      className="cohort-badge inline-flex items-center gap-1.5 px-2 py-[3px] border border-amber/40 text-[9px] tracking-[0.22em] uppercase text-amber/90"
-                    >
-                      <span aria-hidden className="block w-1.5 h-1.5 rounded-full bg-amber cohort-badge-dot" />
-                      In residence
-                    </span>
-                  )}
-                </div>
-                <p
-                  key={`${activeId}-${badgePulse}`}
-                  className={`font-serif editorial-italic text-ivory/95 cohort-role-rise ${
-                    activeNode ? "opacity-100" : "opacity-0"
-                  }`}
-                  style={{ fontSize: "var(--text-h4)", fontWeight: 400 }}
-                >
-                  {activeNode ? activeNode.role : "—"}
-                </p>
+              {/*
+                v3.9 reset — duplicate name plate removed. The plate above
+                the SVG is the only source of truth for the active archetype.
+                What lives here now is action + context only:
+                  - matched-rationale (when AI match is active)
+                  - "Continue privately" CTA (when matched node is active)
+                  - quiet hint + "View the room" chip
+              */}
+              <div className="mt-6 min-h-[2.5rem]">
 
                 {/* v3.4 — When matched node is active, show the whisper rationale */}
                 {activeNode && activeId === matchedId && matchRationale && (

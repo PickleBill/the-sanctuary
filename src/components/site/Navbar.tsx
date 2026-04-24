@@ -1,31 +1,27 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+
+/**
+ * v3.9 reset — calmer Navbar.
+ *
+ * - Logo: balanced, simple — gold ridge with sun in real negative space,
+ *   wordmark "The Sanctuary" alone. Clicking it always returns to the
+ *   top of the home page (smooth scroll if already on /).
+ * - Removed the "Tonight in the great room" rotating line — it was the
+ *   source of an SSR/CSR hydration mismatch and added noise.
+ * - In-page nav buttons keep their semantic targets (#gallery, #synergy,
+ *   etc.). Estate now actually exists on the page (Gallery is rendered).
+ * - The "Private Consultation" CTA scrolls to the form's anchor, which
+ *   now lands on the form itself rather than the compliance rail.
+ */
 
 const sections = [
   { id: "gallery", label: "Estate" },
   { id: "synergy", label: "Week" },
-  { id: "day-here", label: "A Day Here" },
   { id: "amenities", label: "Amenities" },
   { id: "leadership", label: "Leadership" },
   { id: "process", label: "Process" },
 ];
-
-// v3.5/3.6 — "Tonight in the great room" — quieter, smaller, dimmer pulse.
-const TONIGHT_LINES = [
-  "Tonight in the great room: chamber music · 8pm",
-  "This evening on the porch: a fire, a cellist, a long conversation",
-  "Tonight: a poet from Asheville, in the library at dusk",
-  "Tonight in the kitchen: the chef's six-course tasting · 7:30",
-];
-function tonightLine(): string {
-  const d = new Date();
-  const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-  const dayNum = (t.getUTCDay() + 6) % 7;
-  t.setUTCDate(t.getUTCDate() - dayNum + 3);
-  const firstThursday = new Date(Date.UTC(t.getUTCFullYear(), 0, 4));
-  const week = 1 + Math.round(((t.getTime() - firstThursday.getTime()) / 86400000 - 3 + ((firstThursday.getUTCDay() + 6) % 7)) / 7);
-  return TONIGHT_LINES[week % TONIGHT_LINES.length];
-}
 
 function scrollToId(id: string) {
   const el = document.getElementById(id);
@@ -34,37 +30,44 @@ function scrollToId(id: string) {
   el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
 }
 
+function scrollToTop() {
+  const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+}
+
 /**
- * v3.6 — The Sanctuary wordmark.
- * A hand-drawn amber arc (single stroke, ridge curve) sits to the left of
- * the wordmark. Eyebrow "Blue Ridge" tracks above the name. Renders compact
- * in scrolled state. Always sits on dark navy-glass scrim — readable on any
- * underlying section.
+ * The Sanctuary mark.
+ * 40×32 viewBox. One gold ridge stroke, a single sun disc clearly above
+ * and to the right of the ridge. No haze, no horizon line, no eyebrow.
  */
 function SanctuaryMark({ compact = false }: { compact?: boolean }) {
-  const arcSize = compact ? 28 : 34;
+  const size = compact ? 30 : 36;
   return (
-    <span className="flex items-center gap-3 group">
+    <span className="flex items-center gap-3">
       <svg
-        width={arcSize}
-        height={arcSize}
-        viewBox="0 0 34 32"
+        width={size}
+        height={(size * 32) / 40}
+        viewBox="0 0 40 32"
         aria-hidden
         className="shrink-0"
       >
-        {/* v3.8 — One ridge, one sun, real negative space.
-            Sun sits upper-right, fully clear of the silhouette. */}
-        <circle cx="26" cy="9" r="2.6" fill="var(--amber)" />
+        {/* sun — sits well clear of the ridge in real negative space */}
+        <circle cx="29.5" cy="9" r="2.6" fill="var(--amber)" />
+        {/* ridge — one fluid stroke, balanced from edge to edge */}
         <path
-          d="M 2 25 Q 9 14, 15 19 T 32 23"
+          d="M 2 24
+             C 7 16, 11 16, 15 21
+             S 22 26, 26 21
+             S 33 16, 38 24"
           fill="none"
           stroke="var(--amber)"
           strokeWidth="1.75"
           strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
       <span
-        className="font-serif text-ivory leading-none"
+        className="font-serif text-ivory leading-none whitespace-nowrap"
         style={{
           fontSize: compact ? "1.1rem" : "1.28rem",
           fontWeight: 600,
@@ -81,7 +84,6 @@ function SanctuaryMark({ compact = false }: { compact?: boolean }) {
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const tonight = useMemo(() => tonightLine(), []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -90,12 +92,18 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const onLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (typeof window === "undefined") return;
+    if (window.location.pathname === "/") {
+      e.preventDefault();
+      scrollToTop();
+    }
+  };
+
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50"
       style={{
-        // v3.6 — persistent navy-glass scrim. Always readable, regardless of
-        // underlying section. No bg-flip flicker.
         background: "color-mix(in oklab, oklch(0.18 0.045 265) 78%, transparent)",
         backdropFilter: "blur(14px) saturate(140%)",
         WebkitBackdropFilter: "blur(14px) saturate(140%)",
@@ -106,7 +114,12 @@ export function Navbar() {
       }}
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-10 flex items-center justify-between h-20">
-        <Link to="/" aria-label="The Sanctuary — Blue Ridge, North Carolina">
+        <Link
+          to="/"
+          aria-label="The Sanctuary — return to top"
+          onClick={onLogoClick}
+          className="hover:opacity-90 transition-opacity"
+        >
           <SanctuaryMark compact={scrolled} />
         </Link>
 
@@ -169,18 +182,6 @@ export function Navbar() {
         </button>
       </div>
 
-      {/* v3.6 — "Tonight" line moved BELOW the bar, smaller, dimmer pulse */}
-      <div
-        className={`hidden lg:block transition-[max-height,opacity] duration-500 overflow-hidden ${
-          scrolled ? "max-h-8 opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 h-7 flex items-center justify-end gap-3">
-          <span aria-hidden className="block w-1 h-1 rounded-full bg-ember tonight-pulse" />
-          <span className="text-ivory/55 text-[11px] italic font-serif tracking-normal">{tonight}</span>
-        </div>
-      </div>
-
       {open && (
         <div className="lg:hidden bg-navy/95 backdrop-blur-md">
           <div
@@ -220,13 +221,13 @@ export function Navbar() {
               }}
               className="bg-amber text-amber-foreground px-6 py-4 min-h-[52px] small-caps text-[11px] tracking-[0.28em] mt-8 font-semibold"
             >
-              Request the Clinical Dossier
+              Begin a Private Consultation
             </button>
             <a
               href="tel:+18005550199"
               className="mt-4 text-center small-caps text-ivory/75 hover:text-amber text-[11px] tracking-[0.28em] tabular py-3 min-h-[44px] pt-5"
             >
-              Speak With Intake · 24/7 · +1 (800) 555-0199
+              24/7 Intake · +1 (800) 555-0199
             </a>
           </div>
         </div>

@@ -79,6 +79,13 @@ export function Cohort() {
   const [badgePulse, setBadgePulse] = useState(0);
   const manualUntilRef = useRef<number>(0);
 
+  // v3.4 — matched peer (server function picks one role index that resonates
+  // with what the visitor wrote in the Resonance reading)
+  const matchPeerFn = useServerFn(matchPeer);
+  const [matchedId, setMatchedId] = useState<number | null>(null);
+  const [matchRationale, setMatchRationale] = useState<string>("");
+  const matchRequestedRef = useRef(false);
+
   // Build nodes once (regenerate if mobile/desktop changes)
   const nodesRef = useRef<Node[]>(buildNodes(false));
   const [nodesVersion, setNodesVersion] = useState(0);

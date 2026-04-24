@@ -72,7 +72,7 @@ export function Process() {
             </p>
             {/* Geography — quiet catchment line, per investor thesis catchment map */}
             <p className="mt-6 text-primary-foreground/55 leading-relaxed max-w-xl text-[14px] lg:text-[15px]">
-              A ninety-minute drive from Charlotte. A direct flight from Atlanta, Nashville, New York, or Washington into Asheville Regional. Private aviation handled estate-side.
+              Ninety minutes from Charlotte. Direct flights from Atlanta, Nashville, New York, and Washington into Asheville Regional. Private aviation handled estate-side.
             </p>
             {/* Cover-story footnote — single italic line, treated as marginalia */}
             <p className="mt-6 editorial-italic text-primary-foreground/45 max-w-xl text-[13px] lg:text-[14px] leading-relaxed">

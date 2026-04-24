@@ -120,17 +120,14 @@ export function SevenDecisions() {
                 className="block editorial-italic text-foreground/70"
                 style={{ fontWeight: 400 }}
               >
-                Half of them are privacy and speed.
+                Privacy and speed lead.
               </span>
             </h2>
             <p
               className="text-muted-foreground leading-relaxed max-w-xl"
               style={{ fontSize: "var(--text-body)" }}
             >
-              Families and their advisors weigh seven things when choosing a
-              residential program. We built Sanctuary Southeast around the
-              order of operations they actually use — not the order brochures
-              prefer.
+              Families and their advisors weigh seven things when choosing a residential program. We built Sanctuary Southeast around the order they actually use.
             </p>
           </div>
         </div>

@@ -187,11 +187,11 @@ export function SynergyMap() {
             Medicine and meaning,
             <br />
             <span className="editorial-italic text-ivory/75" style={{ fontWeight: 400 }}>
-              composed as one program.
+              one composed program.
             </span>
           </h2>
           <p className="text-ivory/55 mt-7 leading-relaxed max-w-lg mx-auto editorial-italic" style={{ fontSize: "var(--text-body)" }}>
-            Every clinical intervention is paired with an embodied counterpart.
+            Every clinical intervention paired with an embodied counterpart.
           </p>
         </div>
 

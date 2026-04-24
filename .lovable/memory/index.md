@@ -23,6 +23,9 @@ v3.7 — Synergy section LEADS with SynergyMap (6 clinical/holistic pairs, swipe
 v3.7 — Leadership shows THREE clinicians (Medical · Clinical · Family Program). Warm Kinfolk-style portraits. Names placeholder w/ honest footer.
 v3.7 — Cohort mobile: name plate ABOVE the SVG, "View the room — 40" chip BELOW opens bottom sheet of all archetypes.
 v3.7 — Logo is a double-ridge silhouette + first-light sunrise dot. Hamburger nav is monochrome ivory, no amber middle bar.
+v3.8 — Logo is ONE ridge stroke + ONE sun, separated. Wordmark "The Sanctuary" alone, no eyebrow. Negative space wins.
+v3.8 — Gallery has 6 panels with Ken Burns drift. Mobile must show a persistent "Open" chip (no hover affordance on touch).
+v3.8 — SynergyMap mobile uses a literal navy/ivory split-stage card. Auto-advance is 6s. Tap-and-hold pauses.
 
 ## Memories
 - [Positioning v3](mem://design/positioning-v3) — Locked headline order: room first, care second
@@ -36,3 +39,4 @@ v3.7 — Logo is a double-ridge silhouette + first-light sunrise dot. Hamburger 
 - [Synergy restored](mem://design/synergy-restored) — v3.7: 6 pairs lead the synergy section, week strip closes it
 - [Leadership three](mem://design/leadership-three) — v3.7: 3 clinicians, warm portraits, transparent placeholder names
 - [Cohort mobile UX](mem://design/cohort-mobile) — v3.7: name plate above SVG, room sheet for all 40, square viewBox
+- [v3.8 clarity](mem://design/v38-clarity) — Logo cleanup, gallery Ken Burns + open chip, SynergyMap mobile split-stage

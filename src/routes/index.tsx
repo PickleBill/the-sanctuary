@@ -16,17 +16,17 @@ import { Footer } from "@/components/site/Footer";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Sanctuary Southeast | Private Medical-Wellness Retreat in the Blue Ridge" },
+      { title: "Sanctuary Southeast | Real medicine, worth coming back to" },
       {
         name: "description",
         content:
-          "Swiss-standard clinical discretion in the Blue Ridge. A private medical-wellness retreat for executives and high-net-worth families. One family in residence at a time.",
+          "Real medicine, in a place worth coming back to — among peers who already understand. A private medical-wellness retreat in the Blue Ridge.",
       },
-      { property: "og:title", content: "Sanctuary Southeast | Private Medical-Wellness Retreat in the Blue Ridge" },
+      { property: "og:title", content: "Sanctuary Southeast | Real medicine, worth coming back to" },
       {
         property: "og:description",
         content:
-          "Swiss-standard clinical discretion in the Blue Ridge. One family in residence at a time.",
+          "Real medicine, in a place worth coming back to — among peers who already understand. A private medical-wellness retreat in the Blue Ridge.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

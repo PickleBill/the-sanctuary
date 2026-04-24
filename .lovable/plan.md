@@ -1,122 +1,148 @@
-# Reset plan — stabilize first, then refine once
+## Reset the sequence: finish Phase 1 before touching Phase 2
 
-You are right: this has become additive instead of intentional. The problem is not just a few bad components — it is that the site has been changing by layer-on-layer edits, so new interaction surfaces keep getting added before old ones are removed.
+You are right to stop here. Based on the current code, this is **not truly Phase 2 yet**. Several Phase 1 items landed only partially, and the status card you saw should **not** be treated as proof that a phase is complete.
 
-## What is actually going wrong
+## What the status card means
 
-1. **Additive edits without subtraction**
-   - Cohort now has multiple reveal surfaces competing with each other: the name plate above the SVG, the reveal panel below the SVG, the room sheet, the matched hint, and the matched CTA.
-   - Synergy has accumulated interaction patterns that are not visually anchored enough, so it reads like feature UI instead of one composed section.
+The checkmark / exclamation / empty circle is best treated as an **internal progress hint**, not a user-facing acceptance gate.
 
-2. **Broken wiring is masquerading as design failure**
-   - `Gallery.tsx` exists, but it is **not rendered on the homepage** right now. The nav still points to `#gallery`, so “Estate” effectively scrolls to nowhere.
-   - Several “speak with intake” / consultation buttons scroll to `#concierge-form`, but that anchor lands on the **TrustRail wrapper first**, not the actual first actionable input.
-   - Returning to `/` does not guarantee a hero reset, so “home” can feel like it lands mid-page.
+- Checkmark = a related implementation step was marked done
+- Exclamation = partially addressed / still needs attention
+- Empty circle = not completed
 
-3. **Conflicting design rules are stacking up**
-   - The project memory now contains multiple version-specific locks from v3.5, v3.7, and v3.8. Some of them directly push the product toward more motion and more surfaces, while the quieter design system says the opposite.
-   - Result: every pass solves one complaint while silently preserving old assumptions.
+That card is **not the same thing as “the preview is finished and verified.”**
 
-4. **There is also runtime instability**
-   - The current preview shows a hydration mismatch tied to the Synergy section.
-   - There are also SSR-sensitive patterns in the app (`Date`-driven output, client-only initial state branches) that make the experience feel less deterministic.
+## Current reality
 
-## The new approach
+### Phase 1 items that appear mostly landed
 
-One reset pass. No new sections. No new cleverness.
+- `Gallery` is back on the homepage (`src/routes/index.tsx`)
+- Navbar wordmark is now **The Sanctuary** only
+- Navbar logo is coded as a link back to `/`
+- `#concierge-form` now anchors to the form section, with `TrustRail` moved below it
+- The duplicate lower Cohort name plate/reveal block was removed
+- The `Date`-driven navbar line was removed, which helps hydration stability
 
-We will treat this as a **stabilization project**, not another feature iteration.
+### Phase 1 items still incomplete
 
-## Phase 1 — Repair the structure and remove sprawl
+- **Home arrival / return-to-top behavior** is still not reliable enough. The router has `scrollRestoration: true`, which can preserve mid-page position and conflict with the intended “return to hero” behavior.
+- **Logo is not finalized.** It is simpler, but not yet balanced enough to count as the “one focused final pass.”
+- **Synergy is not Phase-1 complete.** It still sits on the same navy field as neighboring sections, desktop symmetry is weak, and a modal was added instead of simplifying the section.
+- **Cohort is still too additive.** Even after removing one duplicate plate, it still has multiple competing surfaces: matched hint, matched rationale, matched CTA, room sheet, and “view the room.”
+- **Mobile type rhythm is not done.** The current CSS still uses `hang-punct { text-indent: -0.4em; }` and oversized eyebrow tracking, which plausibly causes the left-compressed headline behavior you described.
+- **Concierge UX is still not intuitive enough.** The anchor is better, but the interaction model itself still needs simplification.
 
-### 1) Fix the page wiring first
-- Put `Gallery` back into `src/routes/index.tsx` in the correct sequence.
-- Make the navbar mark always return to the hero cleanly.
-- Update all “consultation / intake” scroll targets so they land on the **actual start of the action area**, not the compliance rail above it.
-- Ensure home arrival restores top-of-page behavior consistently.
+## Revised plan
 
-### 2) Simplify the Cohort section
-- Convert Cohort from “several stacked explanation surfaces” into **one primary visual + one secondary action**.
-- Keep the constellation.
-- Remove the duplicate lower reveal block on mobile/desktop and consolidate the copy into a single readable presentation.
-- Rework the section into a cleaner composition: likely full-bleed image or stronger image-led left column with a much shorter descriptor set, then the constellation as the interactive proof.
-- Keep only one overflow pattern for extra detail: either the room sheet or the inline reveal, not both competing equally.
+### Step 1 — Reframe the workflow
 
-### 3) Rebuild Synergy for contrast and symmetry
-- Give Synergy its own elevated visual identity instead of letting it blend into the same navy field as neighboring sections.
-- Recompose the desktop layout on a stricter grid so the two halves feel balanced.
-- Slow and clarify the mobile interaction so it feels intentional, not like a text carousel.
-- Preserve the core idea the user liked: **clinical and holistic in deliberate contrast**.
+Do **not** start Phase 2 yet.
 
-### 4) Clean up the logo/wordmark properly
-- Keep the wordmark as **The Sanctuary** only.
-- Redraw the mark for cleaner balance and negative space, with no extra blur/effect treatment.
-- Do one focused pass on the icon proportions and stop there — no more iterative symbol mutation after this pass.
+Treat the next pass as:
+**“Phase 1 closeout”**
 
-### 5) Fix mobile type and spacing rhythm
-- Audit headline padding/alignment, especially hero and section titles.
-- Remove the left-compressed / hanging-looking overflow on narrow screens.
-- Reconcile `.eyebrow`, `hang-punct`, and heading spacing with the quieter design system so titles feel aligned instead of stylized-for-the-sake-of-it.
+That pass will end only when each original Phase 1 item is explicitly marked:
 
-## Phase 2 — Harden and lock the system
+- Done in code
+- Verified in preview
+- Not creating a new duplicate surface elsewhere
 
-### 6) Remove unstable patterns
-- Fix the hydration issue in Synergy.
-- Replace SSR-sensitive render logic where needed so server and client output match reliably.
-- Remove any dead or duplicate interaction branches left over from interrupted passes.
+### Step 2 — Finish the missing Phase 1 work
 
-### 7) Prune the design memory and freeze the rules
-- Collapse the competing v3.x memory rules into one current direction.
-- Keep only the rules that support the final site.
-- Explicitly forbid modal/overlay duplication and new interaction surfaces unless something is removed first.
+#### 1) Fix hero/home arrival behavior
 
-### 8) Adopt a safer collaboration workflow
-- Future requests get handled in this order:
-  1. diagnose
-  2. identify what to remove
-  3. propose one contained change set
-  4. implement
-  5. verify nothing else regressed
-- No more “one more enhancement” passes without a subtraction check.
+- Make returning to `/` and clicking the logo always land at the hero/top intentionally
+- Adjust scroll restoration behavior so homepage return does not preserve a stale mid-page scroll position
+- Re-check all CTA jumps to ensure they land at the first actionable form content
 
-## Deliverable after this reset
+#### 2) Finalize the logo once
 
-A calmer homepage with:
-- working navigation
-- a single clear intake path
-- one strong Cohort story instead of stacked reveals
-- a composed Synergy section with real contrast
-- a final logo treatment that is balanced and finished
-- mobile typography that feels deliberate
-- fewer moving parts overall
+- Do one controlled redraw of the mark for balance and negative space
+- No blur, haze, duplicate ridges, eyebrow, or extra ornament
+- Stop iterating after one clean proportion pass
+
+#### 3) Complete the Cohort simplification
+
+- Reduce the section to **one primary story + one secondary overflow path**
+- Keep the constellation
+- Remove competing extra surfaces so the section no longer feels like stacked features
+- Rework the image/copy composition so the image actually carries meaning
+
+#### 4) Rebuild Synergy as the missing Phase 1 section
+
+- Give it a distinct section identity instead of the same background field as the page around it
+- Recompose desktop on a cleaner, more symmetrical grid
+- Replace the current “extra modal” approach with a calmer primary interaction model
+- Preserve the core clinical/holistic contrast on mobile without making it feel like a text carousel
+
+#### 5) Finish mobile type rhythm
+
+- Audit hero and section heading alignment at the current 402px viewport first
+- Remove the left-hanging/compressed behavior from headline styles
+- Reconcile eyebrow spacing, headline wrap, and `hang-punct` so headings look intentional rather than offset
+
+#### 6) Polish the concierge entry experience
+
+- Keep the anchor fix
+- Simplify the first-impression interaction so the form reads as obvious, immediate, and easy to begin
+
+### Step 3 — Add a true acceptance gate before Phase 2
+
+After the Phase 1 closeout pass, provide a simple matrix:
+
+```text
+Phase 1 closeout
+[done / not done] Navigation + home arrival
+[done / not done] Logo finalized
+[done / not done] Cohort simplified
+[done / not done] Synergy rebuilt
+[done / not done] Mobile type rhythm fixed
+[done / not done] Concierge entry polished
+```
+
+Only after every row is clearly done should work move to Phase 2.
+
+## Phase 2 then becomes what it was supposed to be
+
+Only after Phase 1 is truly closed:
+
+- harden hydration/runtime behavior
+- prune conflicting design memory
+- freeze the rules
+- adopt the subtraction-first workflow permanently
 
 ## Technical details
 
-Files likely touched:
-- `src/routes/index.tsx`
-- `src/components/site/Navbar.tsx`
-- `src/components/site/Gallery.tsx`
+Files most likely involved in the Phase 1 closeout pass:
+
+- `src/router.tsx` — scroll restoration / home-arrival behavior
+- `src/components/site/Navbar.tsx` — logo refinement and hero return behavior
 - `src/components/site/Cohort.tsx`
 - `src/components/site/CohortRoomSheet.tsx`
 - `src/components/site/SynergyMap.tsx`
 - `src/components/site/ConciergeForm.tsx`
 - `src/components/site/Hero.tsx`
-- `src/components/site/Footer.tsx`
-- `src/styles.css`
+- `src/styles.css` — heading rhythm, eyebrow spacing, `hang-punct`
 - `.lovable/memory/index.md` and related design memory files
 
 Guardrails for the implementation pass:
+
+- no Phase 2 work until Phase 1 closeout is complete
 - remove before adding
 - one primary interaction per section
-- no duplicate modal/reveal systems
-- no new section-level features
-- verify mobile first at 402px width
-- fix runtime mismatches before visual polish
+- no new duplicate modal/reveal systems
+- verify at 402px first
+- report done/not-done against the original Phase 1 goals, not just internal task chips
 
 ## Approval options
 
 Reply with one of these:
 
-1. **"Ship the reset"** — do the full two-phase stabilization pass.
-2. **"Ship Phase 1 only first"** — fix structure, cohort, synergy, logo, and scroll behavior before hardening/freeze.
-3. **"Ship the reset with these changes: ..."** — if you want to narrow or redirect any part of the reset.
+1. **"Close Phase 1 first"** — finish the incomplete Phase 1 work before any Phase 2 hardening.
+2. **"Close Phase 1 first, but change these items: ..."** — narrow or redirect the closeout pass.
+3. **"Skip to Phase 2 anyway"** — not recommended, but possible if you want to harden first and accept unresolved design debt
+4. Close phase 1 first.
+
+&nbsp;
+
+&nbsp;

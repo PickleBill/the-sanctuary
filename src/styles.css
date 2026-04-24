@@ -226,15 +226,19 @@
     font-weight: 400;
   }
 
-  /* v3.6 — Eyebrows are unmistakable section beacons. */
+  /* v3.6 — Eyebrows are unmistakable section beacons.
+     v3.9 — soften tracking on mobile so they don't shoulder the headline. */
   .eyebrow {
     font-family: var(--font-text);
     font-size: var(--text-micro);
     font-weight: 700;
-    letter-spacing: 0.34em;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
     color: var(--color-amber);
     font-feature-settings: "kern" 1, "lnum" 1, "tnum" 1;
+  }
+  @media (min-width: 1024px) {
+    .eyebrow { letter-spacing: 0.34em; }
   }
 
   .eyebrow-tall { letter-spacing: 0.36em; }
@@ -247,9 +251,20 @@
     vertical-align: middle;
   }
 
+  /*
+   * v3.9 — `.hang-punct` is now opt-in for Safari hanging-punctuation only.
+   * The previous `text-indent: -0.4em` ran on every browser/viewport and
+   * shoved headings off the left edge on mobile (compressed-left behavior).
+   * Restrict the negative indent to desktop AND only when the browser
+   * actually supports hanging-punctuation (Safari today).
+   */
   .hang-punct {
     hanging-punctuation: first last;
-    text-indent: -0.4em;
+  }
+  @supports (hanging-punctuation: first) {
+    @media (min-width: 1024px) {
+      .hang-punct { text-indent: -0.4em; }
+    }
   }
 
   .drop-figure {

@@ -316,8 +316,27 @@ export function ConciergeForm() {
               <SuccessCard dossierUrl={dossierUrl} firstName={submittedName} payload={replyPayload} />
             ) : (
               <div className="relative">
+                {/* v3.9 — quieter, clearer first impression header above the
+                    prose stepper. Tells you what you're walking into:
+                    five questions, ~30 seconds, replies within four hours. */}
+                <div className="mb-6 sm:mb-8 flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <span
+                      aria-hidden
+                      className="block h-px"
+                      style={{ width: 28, background: "var(--amber)" }}
+                    />
+                    <p className="small-caps text-muted-foreground text-[10px] tracking-[0.28em] tabular">
+                      Question {String(step + 1).padStart(2, "0")} of {String(TOTAL_STEPS).padStart(2, "0")}
+                    </p>
+                  </div>
+                  <p className="small-caps text-muted-foreground/70 text-[10px] tracking-[0.24em] hidden sm:block">
+                    ~30 seconds · Reply within 4 hours
+                  </p>
+                </div>
+
                 {/* Step canvas */}
-                <div className="min-h-[260px] sm:min-h-[200px] flex items-center" onKeyDown={onKeyDown}>
+                <div className="min-h-[220px] sm:min-h-[200px] flex items-center" onKeyDown={onKeyDown}>
                   <div
                     key={step}
                     className={`w-full ${
@@ -337,15 +356,10 @@ export function ConciergeForm() {
                     type="button"
                     onClick={back}
                     disabled={step === 0 || isPending}
-                    className="small-caps text-[11px] tracking-[0.28em] text-muted-foreground hover:text-foreground transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2"
+                    className="small-caps text-[11px] tracking-[0.24em] text-muted-foreground hover:text-foreground transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2"
                   >
                     <span aria-hidden>←</span> Back
                   </button>
-
-                  <p className="small-caps text-muted-foreground/60 text-[10px] tracking-[0.32em] tabular hidden sm:block">
-                    <span className="text-amber/80">{String(step + 1).padStart(2, "0")}</span>
-                    <span className="text-muted-foreground/40"> / {String(TOTAL_STEPS).padStart(2, "0")}</span>
-                  </p>
 
                   <button
                     type="button"
@@ -377,7 +391,7 @@ export function ConciergeForm() {
 
                 {/* Microcopy under the filament */}
                 <p className="text-xs text-muted-foreground italic leading-relaxed max-w-md mt-6">
-                  Five short questions. By submitting, you consent to a one-time outreach by our intake team within four hours. We do not sell, share, or retain your information for marketing.
+                  By submitting, you consent to a one-time outreach by our intake team within four hours. We do not sell, share, or retain your information for marketing.
                 </p>
               </div>
             )}
@@ -468,7 +482,7 @@ function InlineInput({
       placeholder={placeholder}
       autoComplete={autoComplete}
       size={size}
-      className="bg-transparent border-b-2 border-amber/60 focus:border-amber outline-none px-1 pb-1 text-foreground placeholder:text-muted-foreground/50 transition-colors min-w-[140px]"
+      className="bg-amber/5 border-b-2 border-amber/60 focus:border-amber focus:bg-amber/10 outline-none px-2 pb-1 text-foreground placeholder:text-muted-foreground/50 transition-colors min-w-[140px]"
       style={{ fontSize: "inherit", fontWeight: "inherit", lineHeight: "inherit", maxWidth: "100%" }}
     />
   );

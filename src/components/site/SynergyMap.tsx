@@ -1,16 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * v3.8 — SynergyMap with restored visual contrast + pair context.
+ * v3.9 — SynergyMap rebuild (Phase 1 closeout).
  *
- * Mobile: literal split-stage card — top half navy/Clinical, bottom half
- * ivory/Holistic, amber filament on the seam. Auto-advance 6s, tap-to-hold
- * pauses the timer.
- *
- * Desktop: two-column weave with faint row dividers; rows are clickable and
- * open a small modal with one line of pair context.
- *
- * WeekRhythm footer strip preserved.
+ * Goals from the closeout plan:
+ *  - Distinct section identity (no longer navy-on-navy with JourneyStrip).
+ *    The section is now an ivory field with a navy "Clinical" rail and an
+ *    ivory "Holistic" rail meeting at an amber seam. The whole section
+ *    reads as a quiet diptych — its own visual language.
+ *  - Cleaner, more symmetrical desktop grid. No modal — the pair context
+ *    appears inline below the active row, calmly, in place.
+ *  - Mobile keeps the literal split-stage card (it works), 6s auto-advance,
+ *    hold-to-pause. No competing surfaces.
+ *  - WeekRhythm strip stays at the bottom as a quiet rhythm footer.
  */
 
 type Pair = {
@@ -85,77 +87,9 @@ function useInView<T extends HTMLElement>(threshold = 0.15) {
   return { ref, inView };
 }
 
-function PairModal({ pair, onClose }: { pair: Pair; onClose: () => void }) {
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [onClose]);
-
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 lb-fade"
-      role="dialog"
-      aria-modal="true"
-      aria-label={`${pair.clinical} pairs with ${pair.holistic}`}
-    >
-      <button
-        className="absolute inset-0 bg-navy/85 lb-backdrop"
-        onClick={onClose}
-        aria-label="Close"
-      />
-      <div className="relative max-w-2xl w-full bg-background p-8 sm:p-12 lb-panel">
-        <p className="small-caps text-amber text-[11px] tracking-[0.32em] mb-6">
-          A pairing
-        </p>
-        <p
-          className="font-serif text-foreground mb-4"
-          style={{ fontSize: "clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem)", fontWeight: 500, lineHeight: 1.2 }}
-        >
-          {pair.clinical}
-        </p>
-        <div className="flex items-center gap-3 my-5" aria-hidden>
-          <span className="block h-px flex-1" style={{ background: "var(--amber)", opacity: 0.6 }} />
-          <span className="block w-1.5 h-1.5 rounded-full" style={{ background: "var(--amber)" }} />
-          <span className="block h-px flex-1" style={{ background: "var(--amber)", opacity: 0.6 }} />
-        </div>
-        <p
-          className="font-serif editorial-italic text-foreground/85 mb-8"
-          style={{ fontSize: "clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem)", fontWeight: 400, lineHeight: 1.2 }}
-        >
-          {pair.holistic}
-        </p>
-        <p className="text-muted-foreground leading-relaxed mb-8" style={{ fontSize: "var(--text-body)" }}>
-          {pair.context}
-        </p>
-        <button
-          onClick={onClose}
-          className="border border-border px-5 py-3 small-caps text-[11px] tracking-[0.24em] text-foreground/70 hover:border-foreground/40 hover:text-foreground transition-colors duration-300"
-        >
-          Close
-        </button>
-        <button
-          onClick={onClose}
-          aria-label="Close"
-          className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center text-foreground/55 hover:text-amber transition-colors"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="M18 6L6 18M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-    </div>
-  );
-}
-
 export function SynergyMap() {
   const { ref, inView } = useInView<HTMLDivElement>();
-  const [activeRow, setActiveRow] = useState<number | null>(null);
-  const [openPair, setOpenPair] = useState<Pair | null>(null);
+  const [activeRow, setActiveRow] = useState(0);
   const [mobileIdx, setMobileIdx] = useState(0);
   const [held, setHeld] = useState(false);
   const touchStartX = useRef<number | null>(null);
@@ -195,61 +129,67 @@ export function SynergyMap() {
   return (
     <section
       id="synergy"
-      className="relative py-24 lg:py-36 bg-navy text-ivory scroll-mt-24 overflow-hidden"
+      className="relative py-24 lg:py-36 bg-background text-foreground scroll-mt-24 overflow-hidden"
     >
+      {/* Faint amber wash gives the section its own field — no longer navy-on-navy. */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-25"
+        className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(70% 55% at 50% 25%, color-mix(in oklab, var(--amber) 8%, transparent), transparent 75%)",
+            "radial-gradient(60% 50% at 50% 0%, color-mix(in oklab, var(--amber) 6%, transparent), transparent 70%)",
         }}
+        aria-hidden
       />
-      <div ref={ref} className="relative mx-auto max-w-7xl px-6 lg:px-10">
+      <div ref={ref} className="relative mx-auto max-w-6xl px-6 lg:px-10">
         {/* ── Header ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-14 lg:mb-20">
-          <div className="lg:col-span-9">
-            <p className="eyebrow mb-5">The synergy</p>
-            <h2
-              className="font-serif text-ivory hang-punct text-luxe"
-              style={{
-                fontSize: "clamp(2rem, 1.4rem + 2.8vw, 3.75rem)",
-                lineHeight: 1.04,
-                letterSpacing: "-0.024em",
-                fontWeight: 650,
-              }}
-            >
-              The clinic and the day,
-              <span className="block editorial-italic text-ivory/85" style={{ fontWeight: 400 }}>
-                holding hands.
-              </span>
-            </h2>
-            <p
-              className="text-ivory/85 leading-relaxed mt-7 max-w-2xl"
-              style={{ fontSize: "var(--text-lead)" }}
-            >
-              Every clinical hour has a holistic counterpart. The work hides
-              inside the day — which is the point.
-            </p>
-          </div>
+        <div className="mb-14 lg:mb-20 max-w-3xl">
+          <p className="eyebrow mb-5">The synergy</p>
+          <h2
+            className="font-serif text-foreground hang-punct"
+            style={{
+              fontSize: "clamp(2rem, 1.4rem + 2.8vw, 3.75rem)",
+              lineHeight: 1.04,
+              letterSpacing: "-0.024em",
+              fontWeight: 650,
+            }}
+          >
+            The clinic and the day,
+            <span className="block editorial-italic text-foreground/70" style={{ fontWeight: 400 }}>
+              holding hands.
+            </span>
+          </h2>
+          <p
+            className="text-muted-foreground leading-relaxed mt-7 max-w-2xl"
+            style={{ fontSize: "var(--text-lead)" }}
+          >
+            Every clinical hour has a holistic counterpart. The work hides
+            inside the day — which is the point.
+          </p>
         </div>
 
-        {/* ── Desktop weave ── */}
+        {/* ── Desktop diptych ── */}
         <div className="hidden lg:block">
-          <div className="grid grid-cols-12 gap-x-6 max-w-5xl">
-            <div className="col-span-5 mb-6">
-              <p className="small-caps text-ivory/55 text-[11px] tracking-[0.32em]">Clinical</p>
+          <div
+            className="grid grid-cols-12 items-stretch"
+            style={{
+              boxShadow: "0 0 0 1px color-mix(in oklab, var(--navy) 10%, transparent)",
+            }}
+          >
+            {/* Clinical rail header — navy */}
+            <div className="col-span-5 bg-navy text-ivory px-8 py-5">
+              <p className="small-caps text-ivory/70 text-[11px] tracking-[0.32em]">Clinical</p>
             </div>
-            <div className="col-span-2" />
-            <div className="col-span-5 mb-6">
-              <p className="small-caps text-ivory/55 text-[11px] tracking-[0.32em]">Holistic</p>
+            {/* Seam header — amber rule */}
+            <div className="col-span-2 bg-navy flex items-center justify-center" aria-hidden>
+              <span className="block w-2 h-2 rounded-full" style={{ background: "var(--amber)" }} />
+            </div>
+            {/* Holistic rail header — ivory */}
+            <div className="col-span-5 bg-background px-8 py-5" style={{ boxShadow: "inset 1px 0 0 color-mix(in oklab, var(--navy) 10%, transparent)" }}>
+              <p className="small-caps text-foreground/55 text-[11px] tracking-[0.32em]">Holistic</p>
             </div>
 
             {PAIRS.map((p, i) => {
               const active = activeRow === i;
-              const isLast = i === PAIRS.length - 1;
-              const divider = !isLast
-                ? "1px solid color-mix(in oklab, var(--ivory) 8%, transparent)"
-                : undefined;
               return (
                 <button
                   key={i}
@@ -259,36 +199,36 @@ export function SynergyMap() {
                   }`}
                   style={{ transitionDelay: `${i * 80}ms` }}
                   onMouseEnter={() => setActiveRow(i)}
-                  onMouseLeave={() => setActiveRow(null)}
                   onFocus={() => setActiveRow(i)}
-                  onBlur={() => setActiveRow(null)}
-                  onClick={() => setOpenPair(p)}
-                  aria-label={`Open pair: ${p.clinical} with ${p.holistic}`}
+                  onClick={() => setActiveRow(i)}
+                  aria-pressed={active}
+                  aria-label={`Pairing: ${p.clinical} with ${p.holistic}`}
                 >
+                  {/* Clinical cell — navy */}
                   <div
-                    className="col-span-5 py-5 font-serif text-ivory/95 transition-colors duration-300 text-left"
+                    className="col-span-5 bg-navy text-ivory px-8 py-6 font-serif transition-colors duration-300 text-left"
                     style={{
-                      fontSize: "clamp(1.05rem, 0.95rem + 0.45vw, 1.35rem)",
+                      fontSize: "clamp(1.05rem, 0.95rem + 0.45vw, 1.3rem)",
                       fontWeight: 500,
-                      color: active ? "var(--amber)" : undefined,
-                      borderBottom: divider,
+                      color: active ? "var(--amber)" : "var(--ivory)",
+                      boxShadow: "inset 0 1px 0 color-mix(in oklab, var(--ivory) 8%, transparent)",
                     }}
                   >
                     {p.clinical}
                   </div>
 
-                  {/* connector — single short amber filament that grows on hover */}
+                  {/* Seam — amber filament that grows when active */}
                   <div
-                    className="col-span-2 flex items-center justify-center py-5 relative"
-                    style={{ borderBottom: divider }}
+                    className="col-span-2 bg-navy flex items-center justify-center py-6 relative"
+                    style={{ boxShadow: "inset 0 1px 0 color-mix(in oklab, var(--ivory) 8%, transparent)" }}
                   >
                     <div
                       aria-hidden
                       className="h-px transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
                       style={{
                         background: "var(--amber)",
-                        width: active ? "100%" : "32%",
-                        opacity: active ? 0.95 : 0.3,
+                        width: active ? "100%" : "30%",
+                        opacity: active ? 0.95 : 0.35,
                       }}
                     />
                     <span
@@ -296,19 +236,21 @@ export function SynergyMap() {
                       className="absolute w-1.5 h-1.5 rounded-full transition-all duration-500"
                       style={{
                         background: "var(--amber)",
-                        opacity: active ? 1 : 0.5,
-                        transform: active ? "scale(1.2)" : "scale(1)",
+                        opacity: active ? 1 : 0.6,
+                        transform: active ? "scale(1.25)" : "scale(1)",
                       }}
                     />
                   </div>
 
+                  {/* Holistic cell — ivory */}
                   <div
-                    className="col-span-5 py-5 font-serif editorial-italic text-ivory/95 transition-colors duration-300 text-left"
+                    className="col-span-5 bg-background px-8 py-6 font-serif editorial-italic text-foreground transition-colors duration-300 text-left"
                     style={{
-                      fontSize: "clamp(1.05rem, 0.95rem + 0.45vw, 1.35rem)",
+                      fontSize: "clamp(1.05rem, 0.95rem + 0.45vw, 1.3rem)",
                       fontWeight: 400,
-                      color: active ? "var(--amber)" : undefined,
-                      borderBottom: divider,
+                      color: active ? "color-mix(in oklab, var(--amber) 80%, var(--foreground))" : undefined,
+                      boxShadow:
+                        "inset 1px 0 0 color-mix(in oklab, var(--navy) 10%, transparent), inset 0 1px 0 color-mix(in oklab, var(--navy) 8%, transparent)",
                     }}
                   >
                     {p.holistic}
@@ -316,19 +258,38 @@ export function SynergyMap() {
                 </button>
               );
             })}
+
+            {/* Inline context drawer — calm, in place, no modal. */}
+            <div
+              className="col-span-12 bg-navy text-ivory px-8 py-6"
+              style={{
+                boxShadow: "inset 0 1px 0 color-mix(in oklab, var(--amber) 35%, transparent)",
+              }}
+              aria-live="polite"
+            >
+              <div className="flex items-start gap-5">
+                <p className="small-caps text-amber text-[10px] tracking-[0.32em] shrink-0 pt-1.5">
+                  Why it holds
+                </p>
+                <p
+                  key={activeRow}
+                  className="text-ivory/85 leading-relaxed synergy-context-fade"
+                  style={{ fontSize: "var(--text-body)" }}
+                >
+                  {PAIRS[activeRow].context}
+                </p>
+              </div>
+            </div>
           </div>
-          <p className="small-caps text-ivory/45 text-[10px] tracking-[0.32em] mt-6">
-            Tap a pair to read why it holds.
-          </p>
         </div>
 
         {/* ── Mobile split-stage card ── */}
         <div className="lg:hidden">
           <div className="flex items-center justify-between mb-4">
-            <p className="small-caps text-amber text-[10px] tracking-[0.32em] tabular">
+            <p className="small-caps text-amber text-[10px] tracking-[0.28em] tabular">
               {String(mobileIdx + 1).padStart(2, "0")} / {String(PAIRS.length).padStart(2, "0")}
             </p>
-            <p className="small-caps text-ivory/45 text-[10px] tracking-[0.28em]">
+            <p className="small-caps text-foreground/45 text-[10px] tracking-[0.24em]">
               {held ? "Holding…" : "Hold to pause · Swipe ↔"}
             </p>
           </div>
@@ -336,7 +297,7 @@ export function SynergyMap() {
           <div
             className="relative select-none touch-pan-y"
             style={{
-              boxShadow: "0 0 0 1px color-mix(in oklab, var(--amber) 20%, transparent)",
+              boxShadow: "0 0 0 1px color-mix(in oklab, var(--amber) 22%, transparent)",
             }}
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
@@ -344,52 +305,46 @@ export function SynergyMap() {
           >
             <div key={mobileIdx} className="synergy-card-rise">
               {/* Top half — Clinical, navy on navy with ivory text */}
-              <div className="bg-navy px-7 pt-7 pb-9 sm:px-9 relative">
-                <p className="small-caps text-amber/80 text-[10px] tracking-[0.32em] mb-3">
+              <div className="bg-navy px-6 pt-7 pb-9 sm:px-9 relative">
+                <p className="small-caps text-amber/80 text-[10px] tracking-[0.28em] mb-3">
                   Clinical
                 </p>
                 <p
                   className="font-serif text-ivory leading-snug"
-                  style={{ fontSize: "1.4rem", fontWeight: 500 }}
+                  style={{ fontSize: "1.35rem", fontWeight: 500 }}
                 >
                   {PAIRS[mobileIdx].clinical}
                 </p>
               </div>
 
-              {/* The seam — amber filament + dot, structurally connecting the halves */}
+              {/* The seam — amber filament + dot */}
               <div className="relative h-0">
                 <div
-                  className="absolute left-0 right-0 -translate-y-1/2 flex items-center gap-3 px-7 sm:px-9"
+                  className="absolute left-0 right-0 -translate-y-1/2 flex items-center gap-3 px-6 sm:px-9"
                   style={{ top: 0 }}
                   aria-hidden
                 >
-                  <span
-                    className="block h-px flex-1"
-                    style={{ background: "var(--amber)", opacity: 0.7 }}
-                  />
+                  <span className="block h-px flex-1" style={{ background: "var(--amber)", opacity: 0.7 }} />
                   <span
                     className="block w-2 h-2 rounded-full"
                     style={{ background: "var(--amber)", boxShadow: "0 0 12px color-mix(in oklab, var(--amber) 50%, transparent)" }}
                   />
-                  <span
-                    className="block h-px flex-1"
-                    style={{ background: "var(--amber)", opacity: 0.7 }}
-                  />
+                  <span className="block h-px flex-1" style={{ background: "var(--amber)", opacity: 0.7 }} />
                 </div>
               </div>
 
-              {/* Bottom half — Holistic, ivory on ivory with navy text. Real contrast. */}
-              <div className="bg-ivory px-7 pt-9 pb-7 sm:px-9">
-                <p className="small-caps text-navy/65 text-[10px] tracking-[0.32em] mb-3">
+              {/* Bottom half — Holistic, ivory on ivory with navy text. */}
+              <div className="bg-background px-6 pt-9 pb-7 sm:px-9">
+                <p className="small-caps text-foreground/55 text-[10px] tracking-[0.28em] mb-3">
                   Holistic
                 </p>
                 <p
-                  className="font-serif editorial-italic text-navy leading-snug"
-                  style={{ fontSize: "1.4rem", fontWeight: 400 }}
+                  className="font-serif editorial-italic text-foreground leading-snug"
+                  style={{ fontSize: "1.35rem", fontWeight: 400 }}
                 >
                   {PAIRS[mobileIdx].holistic}
                 </p>
-                <p className="text-navy/65 leading-relaxed mt-4 text-[14px]">
+                <p className="text-muted-foreground leading-relaxed mt-4 text-[14px]">
                   {PAIRS[mobileIdx].context}
                 </p>
               </div>
@@ -414,7 +369,7 @@ export function SynergyMap() {
                     style={{
                       width: active ? 18 : 6,
                       height: 6,
-                      background: active ? "var(--amber)" : "color-mix(in oklab, var(--ivory) 35%, transparent)",
+                      background: active ? "var(--amber)" : "color-mix(in oklab, var(--foreground) 25%, transparent)",
                       boxShadow: active ? "0 0 10px color-mix(in oklab, var(--ember) 60%, transparent)" : undefined,
                     }}
                   />
@@ -429,7 +384,7 @@ export function SynergyMap() {
                   lockAuto();
                   setMobileIdx((i) => (i - 1 + PAIRS.length) % PAIRS.length);
                 }}
-                className="w-10 h-10 flex items-center justify-center text-ivory/70 hover:text-amber transition-colors"
+                className="w-10 h-10 flex items-center justify-center text-foreground/60 hover:text-amber transition-colors"
               >
                 ←
               </button>
@@ -440,7 +395,7 @@ export function SynergyMap() {
                   lockAuto();
                   setMobileIdx((i) => (i + 1) % PAIRS.length);
                 }}
-                className="w-10 h-10 flex items-center justify-center text-ivory/70 hover:text-amber transition-colors"
+                className="w-10 h-10 flex items-center justify-center text-foreground/60 hover:text-amber transition-colors"
               >
                 →
               </button>
@@ -457,21 +412,21 @@ export function SynergyMap() {
           ].map((stat) => (
             <div key={stat.label}>
               <p
-                className="font-serif text-amber mb-2 tabular text-luxe"
+                className="font-serif text-foreground mb-2 tabular"
                 style={{ fontSize: "var(--text-h2)", lineHeight: 1, fontWeight: 700 }}
               >
                 {stat.figure}
               </p>
-              <p className="small-caps text-ivory/75 text-[11px] tracking-[0.3em]">
+              <p className="small-caps text-muted-foreground text-[11px] tracking-[0.28em]">
                 {stat.label}
               </p>
             </div>
           ))}
         </div>
 
-        {/* ── WeekRhythm footer strip — preserved, quieter ── */}
-        <div className="mt-20 lg:mt-28 pt-14 lg:pt-16" style={{ borderTop: "1px solid color-mix(in oklab, var(--amber) 18%, transparent)" }}>
-          <p className="small-caps text-ivory/55 text-[11px] tracking-[0.32em] mb-8">
+        {/* ── WeekRhythm footer strip ── */}
+        <div className="mt-20 lg:mt-28 pt-14 lg:pt-16" style={{ borderTop: "1px solid color-mix(in oklab, var(--navy) 12%, transparent)" }}>
+          <p className="small-caps text-muted-foreground text-[11px] tracking-[0.28em] mb-8">
             And, week by week
           </p>
           <ol className="grid grid-cols-1 md:grid-cols-2 gap-y-1 max-w-5xl">
@@ -491,7 +446,7 @@ export function SynergyMap() {
                   <span className="sm:hidden">{d.short}</span>
                 </span>
                 <p
-                  className="font-serif editorial-italic text-ivory/85 leading-snug flex-1"
+                  className="font-serif editorial-italic text-foreground/85 leading-snug flex-1"
                   style={{ fontSize: "clamp(0.95rem, 0.9rem + 0.3vw, 1.1rem)", fontWeight: 400 }}
                 >
                   {d.line}
@@ -502,8 +457,6 @@ export function SynergyMap() {
         </div>
       </div>
 
-      {openPair && <PairModal pair={openPair} onClose={() => setOpenPair(null)} />}
-
       <style>{`
         @keyframes synergyCardRise {
           from { opacity: 0; transform: translateY(8px); }
@@ -512,8 +465,15 @@ export function SynergyMap() {
         .synergy-card-rise {
           animation: synergyCardRise 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
         }
+        @keyframes synergyContextFade {
+          from { opacity: 0; transform: translateY(4px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .synergy-context-fade {
+          animation: synergyContextFade 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
         @media (prefers-reduced-motion: reduce) {
-          .synergy-card-rise { animation: none !important; }
+          .synergy-card-rise, .synergy-context-fade { animation: none !important; }
         }
       `}</style>
     </section>

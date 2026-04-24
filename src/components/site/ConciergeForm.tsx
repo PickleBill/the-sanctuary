@@ -487,9 +487,32 @@ function InlineSelect({
   );
 }
 
-function SuccessCard({ dossierUrl, firstName }: { dossierUrl: string | null; firstName: string }) {
+type ReplyPayload = {
+  firstName: string;
+  role: string;
+  contactMethod: string;
+  message?: string;
+  resonanceText?: string;
+  resonanceReading?: string;
+  intentSignal?: string;
+};
+
+function SuccessCard({
+  dossierUrl,
+  firstName,
+  payload,
+}: {
+  dossierUrl: string | null;
+  firstName: string;
+  payload: ReplyPayload | null;
+}) {
+  const composeReply = useServerFn(composePrivateReply);
   const [copied, setCopied] = useState(false);
   const [bodyShown, setBodyShown] = useState(false);
+  const [reply, setReply] = useState<string | null>(null);
+  const [replyLoading, setReplyLoading] = useState(true);
+  const [isFallback, setIsFallback] = useState(false);
+  const fetchedRef = useRef(false);
 
   useEffect(() => {
     const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
@@ -497,9 +520,35 @@ function SuccessCard({ dossierUrl, firstName }: { dossierUrl: string | null; fir
       setBodyShown(true);
       return;
     }
-    const t = window.setTimeout(() => setBodyShown(true), 900);
+    const t = window.setTimeout(() => setBodyShown(true), 600);
     return () => window.clearTimeout(t);
   }, []);
+
+  // v3.4 — Fetch the personalized AI acknowledgment once, then reveal word-by-word.
+  useEffect(() => {
+    if (!payload || fetchedRef.current) return;
+    fetchedRef.current = true;
+    let cancelled = false;
+    (async () => {
+      try {
+        const result = await composeReply({ data: payload });
+        if (cancelled) return;
+        setReply(result.reply);
+        setIsFallback(!!result.fallback);
+      } catch {
+        if (cancelled) return;
+        setReply(
+          `${payload.firstName}, your note arrived in the right hands. A clinician will be on the line within four hours, often sooner. Nothing is recorded until you instruct us to proceed.`,
+        );
+        setIsFallback(true);
+      } finally {
+        if (!cancelled) setReplyLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [payload, composeReply]);
 
   const onCopy = async () => {
     try {
@@ -516,19 +565,32 @@ function SuccessCard({ dossierUrl, firstName }: { dossierUrl: string | null; fir
       <span aria-hidden className="success-filament absolute left-0 right-0 bottom-0 h-px bg-amber origin-left" />
 
       <div className={`transition-opacity duration-700 ease-out ${bodyShown ? "opacity-100" : "opacity-0"}`}>
-        <p className="small-caps text-amber text-[11px] tracking-[0.32em] mb-5">Received</p>
+        <p className="small-caps text-amber text-[11px] tracking-[0.32em] mb-5">
+          {replyLoading ? "Composing — a clinician is reading…" : "A private letter"}
+        </p>
         <h3
           className="font-serif text-foreground mb-5 hang-punct"
           style={{ fontSize: "var(--text-h3)", lineHeight: 1.1, fontWeight: 500 }}
         >
           {greeting}
         </h3>
-        <p className="text-foreground/85 leading-relaxed mb-4 max-w-md editorial-italic" style={{ fontSize: "var(--text-lead)" }}>
-          A clinician will be on the line within four hours, often sooner.
-        </p>
-        <p className="text-muted-foreground leading-relaxed mb-8 max-w-md">
-          The conversation begins privately, on your terms. Nothing is recorded until you instruct us to proceed.
-        </p>
+
+        {/* v3.4 — AI-composed acknowledgment. Streams word-by-word. */}
+        <div className="mb-8 max-w-md min-h-[7rem]">
+          {replyLoading ? (
+            <p className="text-muted-foreground editorial-italic flex items-center gap-2">
+              <span aria-hidden className="inline-block w-1.5 h-1.5 rounded-full bg-amber animate-pulse" />
+              <span className="reply-loading">composing</span>
+            </p>
+          ) : reply ? (
+            <StreamedReply text={reply} />
+          ) : null}
+          {isFallback && !replyLoading && (
+            <p className="mt-4 text-xs text-muted-foreground italic">
+              Composed offline — our clinician will read your words personally on the call.
+            </p>
+          )}
+        </div>
         <div className="flex flex-col sm:flex-row gap-3">
           {dossierUrl && (
             <a

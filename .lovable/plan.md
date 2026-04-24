@@ -1,157 +1,199 @@
+# v3.3 — Make It MOVE. (then v3.4 — The AI That Knows You)
 
+You felt it. The Cohort was the unlock — the site became *a place* the moment the network got visible. v3.3 takes that signal and runs the same playbook across the whole experience: **stop describing, start showing, and make every surface breathe on mobile first.** v3.4 adds two AI moments that make the site feel like it *recognizes* the visitor.
 
-# v3.2 — Show The Network. Stop Telling.
-
-You're right, and you've put your finger on the actual problem: **we've been polishing a brochure for a private cottage when you wanted a manifesto for a peer network.** Every pass made the cottage prettier. None of them made the network *visible*.
-
-This plan is two pushes, scoped tight, and they answer your three asks:
-- Make the site *interactive* (you can touch the network, not just read about it)
-- Make the message *futuristic / community* (the room is the product, not the building)
-- Make it *stand out* (one moment that no other treatment-site has)
+Two pushes. High pizazz. Mobile-first. Aspirational, not corporate.
 
 ---
 
-## The honest diagnosis (why every pass felt marginal)
+## v3.3 — Show the Journey (one push, mobile-first, /overdrive sanctioned)
 
-I read the homepage section by section. The "private cottage" feel isn't from any one element — it's from the **information architecture itself**:
+Six moves, executed as one build. Every move has an "I'll know it worked when…" so we don't argue about taste.
 
-| Section | What it says | What you see |
-|---|---|---|
-| Hero | "Care worth coming to. Among peers who understand." | Aerial of an empty estate. No peers visible. |
-| Gallery | Building, building, building, building | Buildings. |
-| SynergyMap | Clinical + holistic = synthesis | A clever diagram. Still about *services*. |
-| Resonance | An AI mirror | One of two interactive moments — buried mid-page |
-| **PeerCohort** | **"You are not the first."** | **Six static words: Founder, Surgeon, Trustee, Justice, Operator, Parent. That's your dead space.** |
-| Amenities | The cottage, the grounds | Cottage. |
-| DayHere | A day's rhythm | A timeline of *one person* alone. |
-| Leadership | Two named MDs | The ONLY humans on the page. |
+### Move 1 — Cohort: rebuild for mobile-first, autoplay, fluid
 
-The whole second half is "things you'll have." Nothing on the page conveys **the room is composed of people like you, working together, right now**. PeerCohort literally tells you "you are not the first" and then shows you a list of nouns. Of course it feels dead.
+This is your top complaint and you're right. On a 402px viewport the nodes are too small to touch and "hover to reveal" is a desktop assumption.
 
-That is what v3.2 fixes — not by adding sections, but by **rebuilding two existing surfaces to embody the network**, plus turning on the first AI edge function so the site *responds to who's reading it*.
+- **Bigger nodes on touch**: 7px radius on mobile, 4.5px desktop (tap target effectively 24px with the glow halo).
+- **Auto-tour on mobile**: every 2.4s the constellation auto-selects the next node, draws filaments to its 3 nearest peers, and surfaces the role label — runs continuously until the user taps. Tap = take over, manual reveal sticks for 8s, then auto-tour resumes. Desktop hover unchanged.
+- **More fluid drift**: 2× node count (28 → 40), velocity raised ~30%, filaments spawn every 1.6s instead of 2.8s, max concurrent filaments raised 4 → 7. The room is *busier*.
+- **Mobile aspect**: viewBox switches from 800×480 to 480×600 below `lg` so the constellation owns the vertical space instead of squashing into a postcard.
+- **Caption upgrades**: when a node is selected, the role label rises with a 320ms editorial-italic fade *and* one peer badge ("currently in residence") pulses amber for 1.2s. Movement that says *real people, right now.*
 
----
+**Done when:** on a 360px screen, the Cohort fills the viewport, animates without input, and a category label is always visible.
 
-## v3.2 — The Network Push (one build)
+### Move 2 — Hero: cinematic video loop instead of one still photograph
 
-Three lenses, applied as one move: **`/shape`** (rebuild PeerCohort + Hero), **`/animate`** (give the network breath), **`/delight`** (one signature moment), **`/distill`** (cut what no longer pulls weight).
+The hero is a still aerial. That's the "private cottage" problem at the source. Replace it with a **silent, looping cinemagraph stack** — three short clips cross-fading on a 14s cycle:
 
-### 1. Rebuild PeerCohort → "The Cohort" — the network made visible
+- A wide ridge-line dawn, mist drifting across the canopy..,how about transforms into a mindless of sorts, a meditation or idea brainstorm?
+- A pair of figures walking the trail at golden hour (back-of-shoulder, anonymous)...how about transforms to a more sunrise golf session in early AM and drenched in sunlight?
+- A close-up: hands on a porcelain teacup, steam rising...transform to sauna/steam room and/or hot yoga visual
 
-Replace the static 6-word list with a **living constellation**: 24–32 anonymous nodes (small filled circles, amber/ivory) softly drifting on a navy field, connected by faint amber filaments that draw and fade between nodes every few seconds. Each node has a hover-revealed *category* (`Founder · raised Series C`, `Surgeon · Mayo`, `Federal Judge`, `Trustee · family office`, `Olympian · retired`, `Operator · two exits`, `Author · NYT bestseller`, `Parent · principal of two`). No names, no faces, no testimonials — pure category, true to brand.
+We don't have these assets. We **generate them as still frames** with `google/gemini-3-pro-image-preview` (3 hero-grade frames at 1920×1280, brand-locked prompts) and animate them with **CSS Ken Burns + cross-fade in a `<picture>` stack**. No real video file required — looks like a video, ships like 3 JPEGs. Reduced-motion: holds on frame 1.
 
-**Interaction:**
-- Idle: nodes drift slowly, filaments draw between random pairs (1.4s ease, fade out 2s) — roughly one new connection per 3s. Visualizes "the room is talking to itself."
-- Hover a node: that node brightens, surrounding 3–5 nodes connect to it with amber filaments, the category label fades in beneath. Sibling nodes desaturate to 30% — same focus-grammar as the gallery. (Keyboard: arrow keys cycle through nodes; Enter reveals.)
-- Reduced-motion: static graph, hover-only reveals, no drift, no auto-filaments.
+Headline stays. Sub-copy trims by one clause. Mini-network whisper stays.
 
-**Implementation:** single SVG, 60fps capped, ≤32 nodes (fits comfortably on a 360px viewport at ~12px node spacing), pure React + `requestAnimationFrame`, no canvas, no library. The filament-draw uses the same `cubic-bezier(0.22, 1, 0.36, 1)` and amber stroke as Hero/SynergyMap — the network *is* the brand mark, drawn out.
+**Done when:** the hero feels like the opening of a film, not a brochure.
 
-This is the section that converts "another treatment center" → "a peer network with a clinic attached." It's the magic moment.
+### Move 3 — Gallery → "The Journey" — replace 4 building photos with 8 *moments*
 
-### 2. Hero — make the network the headline
+Today's gallery is four buildings: suite, grounds, boardroom, clinical. That's `/show me the building`. The user wants `/show me the life`. Rebuild as an **eight-tile editorial mosaic** of *moments*, generated fresh with the image model:
 
-Two changes, both copy + composition, no asset regen:
 
-- **Headline rewrite** (locks v3 positioning that we said we'd lock and never did):
-  > **The room is the medicine.**
-  > *Care, in the company of peers.*
-  This puts the *room* (network) in front of the *care* (clinical) — the order matters. "Care worth coming to" puts the building first; this puts the people first.
-- **Sub-copy** trimmed to one sentence:
-  > A private medical-wellness sanctuary in the Blue Ridge — where executives, surgeons, judges, and founders restore in the company of peers who've sat in the same chair.
-- **Mini-network preview**: 5 small amber nodes drift across the bottom-left of the hero (above the CTA cluster), with the same connect-and-fade behavior as The Cohort, at 30% opacity. A whisper of what's below the fold. ~6 lines of SVG, no perf cost.
+| #   | Moment                                                   | Why                                |
+| --- | -------------------------------------------------------- | ---------------------------------- |
+| 1   | Dawn meditation on a fog-soft trail                      | introspection                      |
+| 2   | Equestrian — a hand on a horse's neck                    | activation                         |
+| 3   | A cellist playing in the great room                      | culture / soul                     |
+| 4   | Sauna door opening, steam pouring                        | restoration                        |
+| 5   | A chef plating, no faces                                 | hospitality                        |
+| 6   | Two figures laughing on the porch (peers, not principal) | belonging                          |
+| 7   | The clinical suite — gleaming, empty                     | medicine, dressed like hospitality |
+| 8   | Stars over the ridge, 11pm                               | the one quiet thing                |
 
-### 3. Resonance — promote it from buried form to "talk to the room"
 
-The AI mirror is your strongest interactive asset and it sits seventh on the page. Two structural moves:
+^^ please take above "transform suggestions" from hero sectionand expand/place/layer in here where applicable
 
-- **Move it directly after Hero** (becomes second section). The first thing a visitor does after the headline is *talk to the site* — that's the futuristic feel you're asking for.
-- **Add three pre-fills** (the v3 strategic-rec B that you asked us to ship now): `For myself` · `For someone I love` · `For a client I refer`. Each pre-fill seeds the textarea and slightly tunes the system prompt's voice (we already have a server function — this is one parameter).
-- Reading panel adds one new line: *"Three other people are reading something quiet right now."* (Static for v3.2 — no fake telemetry. Becomes real in v3.3 if you ship the inquiry-log edge function. See strategic recs below.)
+Layout: asymmetric Bento grid, varying aspect ratios, **"hover-to-zoom-in" → "tap-to-Ken-Burns" on mobile** — every visible tile slow-pans automatically, no input required. Sibling-desaturate stays. Lightbox stays.
 
-### 4. Distill — cut what no longer carries
+The current 4 building images become the *secondary* deck inside Amenities (which is where they belong).
 
-With The Cohort doing the peer-network job and Resonance doing the interactive job, two sections become redundant:
-- **DayHere** (the solo-timeline) — merge its single best line ("You will rise to a quiet bell") into Amenities as a one-line caption. Delete the section. (The cottage-day was the most "private retreat" surface on the site — it works against the new positioning.)
-- **PeerCohort** as it exists today — fully replaced by The Cohort.
+**Done when:** scrolling through the gallery feels like watching a sizzle reel, not flipping a brochure.
 
-End state: **9 sections** (was 10). Hero → Resonance → The Cohort → Gallery → SynergyMap → Amenities → Leadership → SevenDecisions → Process → ConciergeForm. The first four pages of scroll all *show the network in motion*.
+### Move 4 — The Journey Strip: a new horizontal "day-in-residence" rail
 
-### 5. Files touched
+Between Cohort and Gallery, a **single full-bleed horizontal scrolling rail**: 6 portrait-orientation moments stitched together by a single amber filament that draws as you scroll the rail. Each moment has 2 words underneath (`6:14 AM · Rise`, `9:00 AM · Clinic`, `1:30 PM · Trail`, `5:00 PM · Sauna`, `7:30 PM · Table`, `10:00 PM · Stars`). The rail snap-scrolls horizontally on mobile (one card at a time, momentum preserved), parallax-drifts on desktop.
 
-| File | Change |
-|---|---|
-| `PeerCohort.tsx` | Rename → `Cohort.tsx`. Full rebuild as SVG constellation w/ drift + filaments + hover reveal. |
-| `Hero.tsx` | Headline + sub rewrite. Add 5-node mini-network SVG bottom-left. |
-| `Resonance.tsx` | Add three pre-fill chips. Add "three others reading" line under reading panel. |
-| `routes/index.tsx` | Reorder: Hero → Resonance → Cohort → Gallery → SynergyMap → Amenities → Leadership → SevenDecisions → Process → ConciergeForm. Remove DayHere. |
-| `Amenities.tsx` | Absorb DayHere's "rise to a quiet bell" line as one caption. |
-| `DayHere.tsx` | DELETE. |
-| `mem://design/positioning-v3.md` | NEW — lock "The room is the medicine" verbatim. |
-| `.lovable/memory/index.md` | Update positioning core line. |
+This is the section that **shows the day** instead of telling it. Six images. Twelve words. No paragraph.
 
-### v3.2 exit criteria
-- The Cohort is the section users screenshot and send to friends. (If it isn't, I missed.)
-- "Futuristic / community" is *visible* in the first three scrolls — not implied in copy.
-- Section count down to 9. No regressions on the v2.0 line-ceiling.
+**Done when:** anyone can describe a day on the property after spending 15 seconds with this rail.
 
----
+### Move 5 — ConciergeForm: white-glove, lively, single-question-at-a-time
 
-## v3.3 — Concierge AI Handoff (one build, one edge function)
+The form is currently a flat stack of 5 inputs. Rebuild as a **conversational vertical stepper** — one question at a time, framed as a sentence, with the answer field embedded in the prose. Like:
 
-The first AI edge function from the strategic-recs (move A — highest ROI). One push, scoped to the back-end + a small UI tweak.
+> *"My name is `[___]`, and the easiest way to reach me is by `[Email▾]` at `[___________]`."*
 
-### What ships
-1. New server function `composePrivateReply` calls `google/gemini-2.5-pro` via Lovable AI Gateway with a system prompt locked to v3 positioning ("The room is the medicine") + HIPAA posture (no PHI, no diagnosis, no clinical advice).
-2. On `ConciergeForm` submit:
-   - Inquiry inserts into existing `prospectus_requests` table (already there).
-   - `composePrivateReply` runs in parallel — generates a two-paragraph response in brand voice (acknowledgment + dossier offer + 24/7 line).
-   - Reply sent via Lovable Email (built-in, no Resend) to the inquirer + admissions inbox.
-   - Success state shows: *"A private note is on its way to you."* (replaces today's generic confirmation).
-3. Logs to a new `inquiry_replies` table: timestamp, role, response-length, fallback-bool. **No PHI. No message body. Just metadata.**
+Five steps, slide-and-fade transitions (320ms, the cohort easing), a thin amber filament progress bar at the bottom that draws as you complete each step. On submit: the existing success-filament stays, plus one new touch — the success card now contains the visitor's *first name* in the brand-voice acknowledgment (no AI required for this push; just `Hello, ${name}.`). The AI rewrite of the acknowledgment lands in v3.4.
 
-### Why this, why now
-You said pick two AI moves. v3.2 ships move B (Resonance pre-fills) inline because the plumbing is already there. v3.3 ships move A standalone because it requires:
-- New edge function with retry/fallback
-- Email infrastructure (Lovable Emails — built-in, no Resend account needed)
-- A new logging table + RLS
+Mobile: each step is full-card, big tap targets, keyboard pulled up automatically, never scrolls within itself.
 
-That's its own push. Trying to cram it into v3.2 is exactly the additive-spiral that burned cycles before.
+**Done when:** filling out the form feels like a conversation with a concierge, not a tax return.
 
-### Files touched in v3.3
-| File | Change |
-|---|---|
-| `src/server/concierge.functions.ts` | NEW — `composePrivateReply` server function |
-| `src/lib/concierge/prompt.ts` | NEW — locked system prompt |
-| `ConciergeForm.tsx` | Wire success state to new server fn; new copy |
-| Email templates | NEW — `concierge-acknowledgment` React Email template |
-| Migration | NEW — `inquiry_replies` table + RLS |
-| Lovable Email infra | Setup via tool (one-time) |
+### Move 6 — Global polish (the /delight pass that earns its name)
+
+Three small additions that lift the whole site without adding sections:
+
+- **Section transitions:** a faint amber filament draws horizontally across the boundary between every section as it scrolls into view (180ms ease, 0.3 opacity, 24px wide). The site reads as one continuous document, not 9 disconnected blocks.
+- **Cursor companion (desktop only):** a single 8px amber dot tracks the cursor with a 120ms spring lag. Over interactive elements it grows to 28px and ghost-fills. This is the move that says "we cared."
+- **Scroll-driven amber accent:** the `--amber` CSS variable subtly shifts from cool amber (#C99B5A → at top) to warm amber (#D9A95F → at bottom) over the scroll, so the page literally warms up as you move through it. Imperceptible per-pixel, real per-page.
+
+**Done when:** the site feels *alive* between the big moments, not just at them.
+
+### v3.3 file budget
+
+
+| File                                   | Change                                                                                                                              |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `Cohort.tsx`                           | Mobile-first viewBox, auto-tour, larger nodes, denser filaments                                                                     |
+| `Hero.tsx`                             | Cinemagraph stack + 3 new generated frames, keep mini-network                                                                       |
+| `Gallery.tsx` → `Journey.tsx` (rename) | 8-tile mosaic of moments, auto-Ken-Burns on mobile                                                                                  |
+| **NEW** `JourneyStrip.tsx`             | Horizontal day-in-residence rail (6 cards, 12 words, 1 filament)                                                                    |
+| `ConciergeForm.tsx`                    | Stepper rebuild, 5 conversational steps, amber progress filament                                                                    |
+| `Amenities.tsx`                        | Absorbs the 4 original building photos as secondary deck                                                                            |
+| `routes/index.tsx`                     | Hero → Resonance → Cohort → JourneyStrip → Journey → SynergyMap → Amenities → Leadership → SevenDecisions → Process → ConciergeForm |
+| `styles.css`                           | Section-boundary filament utility, cursor companion, scroll-driven amber                                                            |
+| `mem://design/show-not-tell-v33.md`    | NEW — locks the "show, don't tell" rule for all future pushes                                                                       |
+| **Image gen**                          | 3 hero frames + 8 journey moments + 6 day-rail portraits = 17 generated assets                                                      |
+
+
+**End state:** still 9 sections + 1 sub-rail. Section count holds. The site shifts from "described" to "seen."
 
 ### v3.3 exit criteria
-- An inquiry submitted at 2am gets a brand-voice email by 2:01am.
-- Admissions inbox gets a copy with the form data + the AI's reply.
-- No PHI logged. No clinical claims in the reply (system-prompt guarded).
+
+- On a 360px viewport, **3 of the first 4 scrolls show motion without user input** (Hero cinemagraph, Cohort auto-tour, Journey Strip auto-pan).
+- "Show, don't tell" rule documented in memory and applied retroactively to every section.
+- Form submission feels like a conversation, not a database insert.
+- Cursor companion + section filaments + warm-amber drift make the page feel one continuous breath.  --> Should we experiment with different/more bold colors?
+
+I hope my edits to the plan capture the vibe and activation I'm looking to exude.  Please take this back and forth into a v3.5 "vibe exploration" if we can
 
 ---
 
-## What's deferred (and why I'm not adding it)
+## v3.4 — The AI That Knows You (one push, two edge functions, real magic)
 
-You have a few builds left. After v3.2 + v3.3 the site is *stunning, interactive, and on-brand*. What I'd consciously skip rather than spread thin:
-- **Strategic rec C (per-route OG images)** — 30 minutes of polish, do it as the very last move only if you have a build to spare.
-- A `/critique` formal scorecard — v3.2's structural rebuild *is* the critique response. A scorecard at this point is bureaucracy.
-- Any new section. The page does not need more rooms; it needs the existing rooms to be alive.
+After v3.3 ships, the site *moves*. v3.4 makes it *recognize*. Two AI moments — both via Lovable AI Gateway, no extra keys.
 
-If you finish v3.2 and v3.3 and decide one more polish push is worth it, that's **v3.4 — Polish & Harden**: per-route OG images, Lighthouse pass, WCAG AA verify, mobile walk at 360/375/402/414. No design changes — only correctness. That's the ship-it gate.
+### A. Concierge AI Handoff (the form upgrade)
+
+Already scoped in the prior plan, now with v3.3's white-glove form as the front door:
+
+1. New server function `composePrivateReply` calls `google/gemini-2.5-pro` with a system prompt locked to v3 positioning + HIPAA posture (no PHI, no diagnosis).
+2. On form submit: the `ConciergeForm` success card now **streams a personalized two-paragraph acknowledgment** into the success state in real time (word-by-word, the same animation as Resonance). The visitor watches the response compose itself.
+3. That same response is sent to the inquirer + admissions inbox via Lovable Email.
+4. Logs to `inquiry_replies` (timestamp, role, length — no PHI).
+
+**Brand effect:** the very first interaction with Sanctuary is a hand-typed letter, not a confirmation receipt. HNW prospects notice this in 2 seconds.
+
+### B. The Cohort whispers what *you* might be (the new magic moment)
+
+This is the move I want to add — not in the original strategic recs, but it's the v3.3 + v3.4 multiplier.
+
+When the visitor finishes a Resonance reading **and** scrolls to The Cohort, the constellation does something new: **one node lights up amber and a filament draws to it from the center**, and the label reads:
+
+> *"You belong somewhere in this room. Here's a recent peer who arrived carrying what you're carrying."*
+
+The match is generated by a server function `matchPeer` that takes the Resonance reading's `intent_signal` and returns the most thematically aligned role from the ROLES array (via Gemini Flash, structured output via tool calling — single call, ~400ms). No PHI, no name, no claim of clinical match. Just *resonance*.
+
+**Brand effect:** the site reads back to the visitor in their own emotional register. This is the moment that gets screenshotted.
+
+### v3.4 file budget
+
+
+| File                                | Change                                                                         |
+| ----------------------------------- | ------------------------------------------------------------------------------ |
+| `src/server/concierge.functions.ts` | NEW — `composePrivateReply` (streaming)                                        |
+| `src/server/cohort.functions.ts`    | NEW — `matchPeer` (structured output)                                          |
+| `src/lib/concierge/prompt.ts`       | NEW — locked acknowledgment system prompt                                      |
+| `src/lib/cohort/prompt.ts`          | NEW — locked peer-matching system prompt                                       |
+| `ConciergeForm.tsx`                 | Wire streaming success state                                                   |
+| `Cohort.tsx`                        | Read `ss_intent` from localStorage, request peer match, light the matched node |
+| Email templates                     | NEW — `concierge-acknowledgment` React Email                                   |
+| Migration                           | NEW — `inquiry_replies` table + RLS, no PHI columns                            |
+| Email infrastructure                | One-time setup via tool                                                        |
+
+
+### v3.4 exit criteria
+
+- A submitted inquiry produces a real, brand-voice email within 60 seconds.
+- A visitor who completes a Resonance reading sees one Cohort node light up *for them* on scroll.
+- Zero PHI in any database column. Anti-kickback line stays prominent.
+
+---
+
+## What's recorded, what's deferred
+
+**Recorded to memory** (so we never re-add what you said you don't want):
+
+- `mem://design/show-not-tell-v33.md` — *Every section earns the right to use words. Default to imagery. Maximum one paragraph per section. No corporate framing language.*
+- `mem://design/mobile-first-v33.md` — *Every interactive element must autoplay on mobile. Hover is a desktop bonus, never a mobile gate.*
+- `mem://design/aspirational-tone-v33.md` — *Adventure AND introspection. Activation AND restoration. Never one without the other.*
+
+**Deferred (not now, possibly later):**
+
+- Per-route OG images (v3.5, 30-min polish push)
+- Lighthouse hardening (v3.5)
+- Real cinemagraph video files (only if generated frames + Ken Burns aren't enough)
 
 ---
 
 ## What I need from you
 
 One reply:
-1. **"Ship v3.2"** — I rebuild PeerCohort as The Cohort, rewrite Hero, promote Resonance, cut DayHere. One push.
-2. **"Ship v3.2 with these changes: …"** — name what you'd swap (e.g. "keep DayHere," or "use different roles in The Cohort").
-3. **"Skip v3.2, ship v3.3 first"** — possible but not advised; the AI handoff lands harder when the network is visible first.
 
-For v3.3 (the edge function) — no decision needed today. After v3.2 lands, just say "ship v3.3." For v3.4 polish — only if you want it after the two main pushes.
+1. **"Ship v3.3"** — I execute all six moves as one push. Then say "ship v3.4" when ready.
+2. **"Ship v3.3 with these changes: …"** — name what to swap, e.g. "skip the cursor companion" or "keep Gallery as-is, just add JourneyStrip."
+3. **"Ship v3.3 + v3.4 together"** — possible but bigger blast radius; I'd rather land the visual transformation first so the AI moments have a worthy stage.
 
+For v3.4, one decision when you reply: **A only**, **B only**, or **both A and B** (recommended).

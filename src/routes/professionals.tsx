@@ -13,15 +13,20 @@ export const Route = createFileRoute("/professionals")({
         content:
           "A one-page clinical reference for interventionists, concierge physicians, family-office advisors, and trusts-and-estates counsel. We do not pay referral fees.",
       },
+      { name: "robots", content: "index,follow,max-image-preview:large" },
       { property: "og:title", content: "For Healthcare Professionals | Sanctuary Southeast" },
       {
         property: "og:description",
         content:
           "A clinical reference page for licensed referring practitioners. We do not pay referral fees.",
       },
-      { property: "og:image", content: "/og-professionals.jpg" },
+      { property: "og:url", content: "https://the-sanctuary.lovable.app/professionals" },
+      { property: "og:image", content: "https://the-sanctuary.lovable.app/og-professionals.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "/og-professionals.jpg" },
+      { name: "twitter:image", content: "https://the-sanctuary.lovable.app/og-professionals.jpg" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://the-sanctuary.lovable.app/professionals" },
     ],
   }),
   component: ProfessionalsPage,
@@ -71,6 +76,7 @@ function ProfessionalsPage() {
                         src={l.img}
                         alt={`Portrait of the ${l.role}`}
                         loading="lazy"
+                        decoding="async"
                         width={512}
                         height={640}
                         className="w-full h-full object-cover"

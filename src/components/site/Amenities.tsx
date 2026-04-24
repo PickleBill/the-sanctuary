@@ -203,6 +203,7 @@ export function Amenities() {
                   src={b.src}
                   alt={b.alt}
                   loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover amenity-tile-img"
                 />
                 <div

@@ -7,11 +7,16 @@ export const Route = createFileRoute("/terms")({
     meta: [
       { title: "Terms | Sanctuary Southeast" },
       { name: "description", content: "Terms governing the use of Sanctuary Southeast services and communications." },
+      { name: "robots", content: "index,follow" },
       { property: "og:title", content: "Terms | Sanctuary Southeast" },
       { property: "og:description", content: "Terms governing the use of Sanctuary Southeast services and communications." },
-      { property: "og:image", content: "/og-terms.jpg" },
+      { property: "og:url", content: "https://the-sanctuary.lovable.app/terms" },
+      { property: "og:image", content: "https://the-sanctuary.lovable.app/og-terms.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "/og-terms.jpg" },
+      { name: "twitter:image", content: "https://the-sanctuary.lovable.app/og-terms.jpg" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://the-sanctuary.lovable.app/terms" },
     ],
   }),
   component: TermsPage,

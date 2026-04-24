@@ -143,6 +143,7 @@ function MomentTile({
             src={moment.src}
             alt={moment.alt}
             loading="lazy"
+            decoding="async"
             width={1280}
             height={1280}
             className="w-full h-full object-cover journey-tile-img"

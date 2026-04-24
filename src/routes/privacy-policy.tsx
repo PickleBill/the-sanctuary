@@ -7,11 +7,16 @@ export const Route = createFileRoute("/privacy-policy")({
     meta: [
       { title: "Privacy Policy | Sanctuary Southeast" },
       { name: "description", content: "How Sanctuary Southeast safeguards the privacy of every guest and inquiry." },
+      { name: "robots", content: "index,follow" },
       { property: "og:title", content: "Privacy Policy | Sanctuary Southeast" },
       { property: "og:description", content: "How Sanctuary Southeast safeguards the privacy of every guest and inquiry." },
-      { property: "og:image", content: "/og-privacy.jpg" },
+      { property: "og:url", content: "https://the-sanctuary.lovable.app/privacy-policy" },
+      { property: "og:image", content: "https://the-sanctuary.lovable.app/og-privacy.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "/og-privacy.jpg" },
+      { name: "twitter:image", content: "https://the-sanctuary.lovable.app/og-privacy.jpg" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://the-sanctuary.lovable.app/privacy-policy" },
     ],
   }),
   component: PrivacyPage,

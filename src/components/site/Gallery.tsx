@@ -152,6 +152,7 @@ function FramePanel({
             src={frame.src}
             alt={frame.title}
             loading="lazy"
+            decoding="async"
             width={1280}
             height={960}
             className="gallery-kenburns w-full h-full object-cover"

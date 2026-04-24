@@ -91,7 +91,7 @@ function ProfessionalsPage() {
                       {l.credentials}
                     </p>
                     <p className="text-[13px] text-muted-foreground italic leading-relaxed mt-2">
-                      {l.formerly}
+                      {l.story}
                     </p>
                   </div>
                 </div>

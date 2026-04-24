@@ -1,138 +1,157 @@
+# v3.6 — Crisp, Bold, Alive
 
+You're right on every point. The site got over-decorated with hairlines, the Cohort reads like a personnel file instead of a peer circle, and the brand still whispers when it should sing. This is a focused subtraction + amplification pass — fewer features, more impact, every move sharper.
 
-# v3.5 — The Final Polish (and a Bolder Brand)
-
-You're right on every count. The site has the right *bones* now (the network is visible, the AI works, the journey scrolls), but it still **whispers when it should sing**. This is the final push: typography that grabs you, color with real heat, imagery that matches a wellness/recovery sanctuary, and obvious AI moments that lead the visitor forward like a guided tour.
-
-One push, six moves, designed so it ships clean and *finishes* the site.
+One push. Five moves. No new sections.
 
 ---
 
-## Move 1 — The Bolder Brand (typography + color overhaul)
+## Move 1 — Subtract the noise (the "stop redrawing thin lines" rule)
 
-The dull orange (`#B45309`, oklch 0.55 0.142 55) is the root cause of "sterile." It's a chocolate amber — historically correct, visually quiet. Same with the headlines: Literata at weight 500 reads beautifully on ivory but **vanishes on photographs**.
+These all go, immediately:
 
-**Color** (token-level, retroactively warms the entire site):
-- **Amber** → upgrade from chocolate `#B45309` to a vivid Sanctuary Gold `oklch(0.74 0.165 70)` (~`#E8A33E`). Warmer, brighter, more confident. Same hue family — no rebrand, just turning up the lights.
-- **Add a second accent — Ember** `oklch(0.62 0.20 35)` (~`#E26B3F`). Used sparingly: AI-active states, the matched cohort node, success filaments, "you are here" indicators. The site goes from monochrome-with-gold to **gold + ember duet** — the duet is what the eye registers as "alive."
-- **Navy** → deepen by 4% for stronger contrast against the brighter amber: `oklch(0.18 0.045 265)`. Photos pop harder.
-- **Ivory on photos** → replace `text-on-image` shadow with a true **letterpress shadow** (1px ember-tinted glow + 0px 2px deep navy). Headlines on the hero/journey become genuinely punchy.
+- `**SectionRail**` (right-edge mobile dot column) — deleted entirely. Mobile already has the navbar.
+- **Hero frame indicator** (3 hairline dots, bottom-right) — deleted. The cinemagraph speaks for itself.
+- **JourneyStrip progress hairlines** (6 dot bars + the long horizontal filament across the rail) — deleted. The snap-scrolling cards are the progress.
+- **Section-boundary filaments** (`.section-filament-top` on Cohort, JourneyStrip, Journey, Amenities) — deleted everywhere. CSS class kept stub-empty so we never rebuild the same mistake.
+- **Hero "mini-network" SVG** (bottom-left amber dots) — deleted. It competed with the actual Cohort below.
+- **Cursor companion ghost dot** — deleted. It was novelty, not service.
 
-**Typography** (no font swap — Literata stays — but bolder usage):
-- All section H2s move from weight 500 → **600** at desktop, 550 at mobile. Optical-sizing axis pushed up 8pt. The letterforms stop "sitting back."
-- Hero headline: lock at **weight 600**, letterspacing tightened to `-0.028em`, and split — first line at full weight, italic second line stays elegant. The contrast is what makes it editorial.
-- Eyebrows: increase tracking to `0.32em` and bump to amber-bright instead of amber-muted. They become navigation signposts, not decoration.
-- Add a **`.text-luxe`** utility — applies the new letterpress shadow + slight font-feature `cv01` (Literata's contextual alternates) for a hand-set feel on every photo-overlaid headline.
-
-**One token change cascades through every section** because everything already pulls from `--amber` / `--navy` / `--ivory`. No per-component edits needed for the color half.
+**New rule, locked to memory** (`mem://design/no-noisy-lines.md`): *Hairlines are reserved for two things only — the amber rule under hero headlines, and active-state underlines on links/CTAs. Never as decoration, navigation, progress, or borders. If a line "sets a tone," it gets cut.*
 
 ---
 
-## Move 2 — Make the AI Journey Obvious (the big "what's next" cue)
+## Move 2 — The Sanctuary identity (logo + readable nav)
 
-Right now both AI moments are *quiet* (which was intentional — but you correctly noted the visitor doesn't know they're there). Add three deliberate signposts:
-
-1. **Resonance → Cohort handoff (the new linchpin)**. After the Resonance reading renders, append a **"Meet your room →"** button that scroll-locks to Cohort *and* triggers a one-time amber pulse-ring around the matched node. The hint already exists in Cohort but currently relies on the visitor scrolling there blindly. This makes the connection **causal and obvious**: "you wrote this → here is the peer who matches."
-2. **Cohort → Concierge handoff**. When the matched node is revealed, the rationale card grows a "Continue privately →" CTA that scrolls to the form *and* pre-seeds step 4 (role) based on the matched archetype (Founder → "Principal", Surgeon → "Medical Professional", Trustee → "Trusted Advisor", etc.).
-3. **AI presence indicator** — a small persistent **"Composed by a clinician, sometimes with AI assist · explain"** chip that sits unobtrusively at the bottom of the Resonance reading and the Concierge success card. Tapping it opens a 3-line explainer: this was written for you, by us, with AI for tone — never for clinical claims. **Trust earned through transparency**, not hidden tech.
-
-This turns three separate AI surfaces into **one continuous guided journey**: reflect → meet your peer → speak with the clinician. The visitor *sees* the path.
+- **Title becomes "The Sanctuary"** across navbar, footer, og titles, page titles. "Southeast" becomes a small geographic line below where it appears (footer + concierge), not the brand.
+- **A real wordmark** — a custom inline-SVG logomark: a hand-drawn amber arc (single stroke, like the curve of a ridge) sitting to the left of "The Sanctuary" set in Literata 600 with `cv01` alternates and a tracked-out subtle "Blue Ridge" eyebrow above. It will *look* hand-set, not auto-generated. Renders at 2 sizes (compact for scrolled state, full for top).
+- **Navbar always-readable** — replace the current bg-flip behavior with a **persistent navy-glass scrim** at the top: `background: color-mix(in oklab, var(--navy) 78%, transparent); backdrop-filter: blur(14px) saturate(140%);`. Logo + links always sit on the same dark glass regardless of section. Solves the white-on-white and navy-on-navy cases in one stroke.
+- **Nav typography upgrade** — links bumped to weight 600, tracking 0.18em, ivory color, with a 2px amber underline that draws on hover (240ms). Chunky enough to register, restrained enough to stay editorial.
+- **"Tonight in the great room"** rotating line — kept but moved into a quieter slot below the bar with smaller type, and the pulse dot dimmed 40%. It was charming but loud.
 
 ---
 
-## Move 3 — Fix the Imagery (no wine, better matches, more vibrancy)
+## Move 3 — Vibrancy: warmer gold, hotter ember, a true accent ladder
 
-**The wine problem:** `journey-6-porch.jpg` shows two figures with "Two glasses. Two figures. One ridge." caption on a wellness/recovery site. Inexcusable. Regenerate as **two figures on the porch at sunset, no glasses**, caption changes to *"Two chairs. One ridge. The conversation you didn't know you needed."* — same belonging cue, zero substance imagery.
+Current `--amber` (gold) is decent but reads dull because every text/border/icon also uses it at low opacity, washing the brand.
 
-**Other imagery audits + regens**:
-- **Hero frame 2 (golf)** — currently reads as "golf course resort." Regenerate as **two figures walking a fairway at sunrise** with mountain backdrop, focus on light + landscape, not the sport. Caption-free anyway.
-- **Journey 5 (chef)** — current image is decent but generic. Regenerate to clearly show **plated whole-food dish on a pale ceramic, hand pouring herb oil, no faces** — visually obvious that this is *medicine plated as hospitality*, matching the long copy.
-- **Journey 7 (clinical)** — feels a bit cold/empty. Regenerate to add **warm late-afternoon light through a window** + a single soft amber fixture, so it reads "hospitality-grade clinical" instead of "hospital."
-- **Day-3-trail** & **Day-5-table** — both fine; small color-grade pass to push warmth ~5% (handled by image gen, not CSS).
+**New three-tier accent ladder** in `styles.css`:
 
-**New: one signature "people moment" image** — currently every human is a back/silhouette. Generate **one editorial portrait** for the Cohort section: a hand on a leather-bound journal, soft window light, no face. Sits above the Cohort headline as a 16:9 strip. Adds humanity without showing a person — perfect for the brand.
+- `**--gold**` `oklch(0.78 0.175 75)` (~`#F0AE3E`) — *brighter*, more saturated than v3.5 amber. This is the dominant brand color for headlines, eyebrows, primary CTAs.
+- `**--ember**` `oklch(0.66 0.225 32)` (~`#EE6A38`) — *hotter*, more saturated. Used for the AI-active states, matched cohort node, "you are here" markers, success filaments.
+- `**--bloom**` `oklch(0.72 0.135 350)` (NEW, ~`#E89BB5`) — a soft dusty rose, used *only* on the Cohort match halo and Resonance reveal, so when AI happens, the eye registers a color that exists nowhere else on the site. This is the "moment" color.
+- Body text on ivory bumped 8% darker for AA+ contrast: `--foreground` to `oklch(0.16 0.045 265)`.
+- All `text-ivory/X` opacity-mutings audited — anything below `/70` on photos gets bumped to `/85` minimum. **Readability rule:** body type on photos never falls below 70% luminance contrast against its scrim.
 
-Total regenerations: **5 images**. All via Gemini 3 Pro Image Preview, 1920px, brand-locked prompts.
+Typography:
 
----
-
-## Move 4 — Snappier Animations + Mobile Hardening
-
-You said some load slowly. Audit results:
-- **Hero cinemagraph** loads all 3 frames eagerly. Switch frames 2 & 3 to `loading="lazy"` and **start cycling only after frame 1 paints** (already partly done — tighten with a `decode()` await).
-- **Cohort drift loop** runs `requestAnimationFrame` even when the section is offscreen. Add an `IntersectionObserver` gate so it pauses when not visible — frees CPU for the rest of the page.
-- **Journey Ken Burns** runs all 8 tiles simultaneously. Stagger via `animation-delay` with `prefers-reduced-data` honored, and add `content-visibility: auto` to off-screen tiles. **~40% paint reduction on mobile.**
-- **JourneyStrip rail** — convert the scroll listener to a single passive observer, throttle to 16ms, and pre-decode the next image on scroll. Snappy snap.
-- **CursorCompanion** — disable entirely on touch (`hover: none`) and on Safari iOS (it's running there too and wasting battery).
-- **ConciergeForm step transitions** — currently 320ms. Drop to **240ms with a sharper out-curve** (`cubic-bezier(0.32, 0, 0.18, 1)`) so it feels responsive instead of polite.
-- All section reveals: trigger at `threshold: 0.05` instead of `0.15` — content appears as the user *starts* scrolling into it, not after they've waited.
-
-Mobile-specific:
-- Hero `min-height` switches from `100svh` to `min(100svh, 720px)` so the iPhone notch + URL bar don't push the CTAs offscreen.
-- Cohort active label sits in a fixed-height container (no layout shift on auto-tour).
-- All min-tap targets verified ≥ 44×44.
+- **Hero headline** moves to weight **700** at desktop (was 600), weight 600 mobile. Keep the italic second line at 400. The contrast becomes editorial tension instead of polite uniformity.
+- **Section H2s** to weight 650 desktop / 600 mobile.
+- **Eyebrows** rebuilt as small-caps Literata 700, gold, 0.34em tracking — they become unmistakable section beacons.
+- `**.text-luxe**` scrim shadow strengthened — drop the ember tint (it muddied), add a sharper deep-navy 0/2px shadow + 0/16px navy diffuse. Headlines on photos now feel chiseled, not glowy.
 
 ---
 
-## Move 5 — Vibrancy & Eye-Catch (the /delight + /overdrive pass)
+## Move 4 — Rebuild The Cohort (peers, not perp walk)
 
-Three small but high-impact additions that give the site *personality*:
+This is your strongest critique and you're right. The current 40 archetypes (Federal Judge, Three-Star General, Anesthesiologist) read like a courtroom roster. Two problems: (a) the labels sound institutional and joyless, (b) the "AI judging you" framing makes it feel surveilled, not welcomed.
 
-- **Living amber pulse on the Cohort match** — when AI selects the peer node, the rationale text doesn't just appear, it **types out** with the same word-cascade as the Resonance reading. Then the matched node *gently breathes* (scale 0.94 → 1.06 over 3.4s, indefinite). Two AI-aware moments, both visibly alive.
-- **Hero CTA — flame border on hover** (desktop). The "Request the Clinical Dossier" button gets a subtle **gradient-conic ember halo** that rotates slowly on hover. ~14 lines of CSS. Reads as confident, not gimmicky.
-- **Section "you are here" rail** (mobile only) — a tiny vertical filament on the right edge with ~8 dots, one per section, lighting up amber as you pass each. Quietly orienting. Disappears on desktop where the navbar handles it.
+**Rewrite — `src/lib/cohort/roles.ts**` — 40 archetypes that sound like *peers you'd actually want at the dinner table*. Keep identity-anonymity, but lead with what they *care about* or *do for joy*, not their title:
 
----
+> *"The founder who finally took the trip", "The surgeon who started painting again", "The judge who learned to fish here", "The CEO who calls his daughter every morning now", "The author halfway through her second book", "The retired Olympian, slow-cooking", "The trustee who stopped sleeping with his phone", "The trial lawyer learning to lose", "The pianist who plays for no one", "The general who keeps bees"…*
 
-## Move 6 — What You're Missing (the real opportunities to shine)
+40 of these. Each one is a sentence, not a job title. Same anonymity (no names), but the *room feels human*. The matchPeer AI prompt updates accordingly — it's matching emotional register to a peer's chosen practice, not job to job.
 
-You asked. Here are five high-leverage adds — I'm including all five in this push because each is small and they compound:
+**Visual rebuild of the rationale card** — drop the quote-marked clinical sentence. New layout:
 
-1. **Open-graph images per route** — `/`, `/professionals`, `/privacy`, `/terms` each get their own social share card (1200×630, generated). When a referral pro forwards the URL on iMessage/Slack/email, **the preview is gorgeous and route-specific**. Currently the root og config is empty so links unfurl as a grey box. Highest-ROI 30-min add on the entire site.
-2. **A "How we work with referrers" prompt-card on `/professionals`** — currently that page exists but is sparse. Add a single AI-powered "Compose a private referral note" tool: the pro types one sentence about their client, the AI returns a HIPAA-clean intro paragraph the pro can copy-paste. Zero PHI stored. Makes the page *useful*, not just informational.
-3. **Audio whisper** — a single optional 28-second ambient track (a creek, distant cicadas, a wood stove cracking). Off by default; a small speaker icon in the corner toggles it. **The first wellness site that actually sounds like what it sells.** Files in `/public/ambient.mp3`, ~400KB. (No autoplay — never autoplay audio.)
-4. **A "what tonight looks like" live moment** — a single small line in the navbar: *"Tonight in the great room: chamber music · 8pm"* — rotates 4 hand-curated lines weekly. Static array, no backend. Makes the site **feel inhabited** every time you visit.
-5. **Print-optimized stylesheet for the Clinical Dossier link** — currently it's a static PDF. We can leave the PDF but add `@media print` so if a referral pro prints the homepage to share with their client, it lays out as a beautiful one-page brief instead of the web view. Three new CSS rules. They'll thank you.
+```text
+   ◈ A QUIET RESONANCE                       (small-caps, gold)
+   ──────
+   "Someone in this room
+    is also learning to lose."              (Literata italic, 700, 28pt, ivory)
 
----
+    They arrived in March.                   (small body, ivory/85, single line)
+    Halfway through the program now.
 
-## v3.5 file budget
+   [ Continue privately  →  ]                (gold CTA, never muted)
+```
 
-| File | Change |
-|---|---|
-| `src/styles.css` | Token overhaul (amber → gold, add ember, deeper navy), `.text-luxe`, sharper easing, mobile section rail, print stylesheet |
-| `src/components/site/Hero.tsx` | Bolder type weights, lazy frames 2&3, decode-await, conic-ember CTA halo, mobile height fix |
-| `src/components/site/Cohort.tsx` | IntersectionObserver gate on RAF loop, breathing matched node, AI-aware rationale word-cascade, "Continue privately →" CTA seeding role |
-| `src/components/site/Resonance.tsx` | "Meet your room →" CTA after reading, AI-presence chip + explainer |
-| `src/components/site/ConciergeForm.tsx` | 240ms transitions, AI-presence chip, accept pre-seeded role, snappier reveals |
-| `src/components/site/Journey.tsx` | Caption fix on porch tile, content-visibility, staggered Ken Burns |
-| `src/components/site/JourneyStrip.tsx` | Throttled scroll observer, image pre-decode |
-| `src/components/site/Navbar.tsx` | "Tonight in the great room" rotating line |
-| `src/components/site/CursorCompanion.tsx` | Touch + iOS Safari disable |
-| **NEW** `src/components/site/SectionRail.tsx` | Mobile "you are here" vertical filament |
-| **NEW** `src/components/site/AmbientAudio.tsx` | Optional 28s loop with mute toggle |
-| **NEW** `src/components/site/AIPresenceChip.tsx` | Reusable transparency chip + popover |
-| **NEW** `src/server/referrer.functions.ts` | `composeReferralNote` AI function for /professionals |
-| **NEW** `src/lib/referrer/prompt.ts` | Locked HIPAA-safe referrer system prompt |
-| `src/routes/professionals.tsx` | Wire the referral-note composer |
-| `src/routes/index.tsx` + 3 others | Per-route og:image meta |
-| **Image gen** | 5 regens (porch no-wine, hero-2 golf, journey-5 chef, journey-7 clinical, cohort-portrait) + 4 OG cards = **9 assets** |
-| `mem://design/v35-vibrancy.md` | NEW — locks the gold+ember duet, weight bump, AI transparency rule |
-| `.lovable/memory/index.md` | Add v3.5 core line |
+The match feels like a recognition, not a verdict. The AI is composing the *peer's quiet practice*, not auditing the visitor.
 
-**End state:** same 9 sections + 1 sub-rail. The site reads, scrolls, and *feels* substantially bolder without being garish. AI is obvious, transparent, and leads the visitor by the hand.
+**Behavior fixes** (mobile especially):
+
+- Auto-tour interval slowed from 2.4s → **3.2s** (was too anxious).
+- Tap target padded to 32×32 invisible hit area (currently 24).
+- The matched node uses the new `--bloom` halo so it stands distinct from the gold idle nodes.
+- Drop the dimmed-non-active fade — it made the room feel like a spotlight interrogation. All nodes stay at 0.85; only the active and matched grow brighter.
+- Remove the `[09 / 100]`-style weight indicator — it leaks the "judge of you" vibe.
+
+Note : I was talking about "CLINICAL LEADERSHIP
+
+The peoplL are the program" section felt super judgy...fix that first please 
 
 ---
 
-## v3.5 exit criteria
+## Move 5 — Level up "Seven Decisions" + add one signature provocation
 
-- The amber is unmistakably warm-gold; readability passes WCAG AA over every photo.
-- A new visitor can describe "what the AI does" within 30 seconds because each AI moment has a visible chip and a CTA into the next.
-- No wine, no golf-resort, no cold-clinical imagery — every image matches its caption.
-- Hero loads first frame in <600ms on a throttled 4G mobile profile; no layout shift.
-- All page transitions and reveals feel snappy (≤240ms) without losing elegance.
-- `/professionals` has one genuinely useful AI tool, not just brochure copy.
-- All four routes unfurl with route-specific OG cards on iMessage/Slack.
+Seven Decisions is currently dense, expand-to-read, and reads like a comparison spreadsheet. It's earnest but flat. Two changes:
+
+**A. Compress to "The Five That Matter"** — drop Aftercare and Location into a one-line footer ("90 minutes from Charlotte. Two-year aftercare horizon. Both included."). Keep Privacy, Speed, Clinical Reputation, Business Continuity, Family Program. Five large editorial cards in a `5/7` + `4/4/4` mosaic, no expand/collapse — the body text always visible, no "More →" affordance. Confidence reads as *not hiding the answer*.
+
+**B. Add a single signature provocation card at the top of the section** — a full-bleed pull-quote on a deep-navy panel:
+
+> ## *"We do not pay referral fees."*
+>
+> *— and the only metric we publish is how often we say no.*
+
+That one card carries more brand weight than the seven combined. It's the money-where-mouth-is moment that HNW principals and their advisors actually screenshot.
+
+Below the five cards, replace the "Below it" section (the SynergyMap) — currently a clinical/holistic pairs grid, technically smart but emotionally flat — with **"What a week looks like"**: a horizontal 7-day strip (Mon–Sun), each day a single sentence in editorial italic of *what's actually scheduled*:
+
+> *Mon — Bloodwork at dawn. Trail at noon. Cellist at eight.*
+> *Tue — Neurofeedback. The chef's tasting menu. Stars.*
+> *Wed — Family conjoint, two hours. The horse. Sauna at five.* …
+
+Same data the SynergyMap was trying to convey (clinical + holistic interleaved), but felt as a *life rhythm*. This single rebuild does more for "would I want to be there" than any pairs grid.
+
+---
+
+## File budget
+
+
+| File                                                                | Change                                                                                                                                                      |
+| ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **DELETE** `src/components/site/SectionRail.tsx`                    | Remove + unimport from `routes/index.tsx`                                                                                                                   |
+| **DELETE** `src/components/site/CursorCompanion.tsx`                | Remove + unimport                                                                                                                                           |
+| `src/components/site/Hero.tsx`                                      | Weight 700 headline, drop frame-dot indicator, drop MiniNetwork                                                                                             |
+| `src/components/site/JourneyStrip.tsx`                              | Drop the long amber filament + dot ledger, keep only the snap-rail                                                                                          |
+| `src/components/site/Cohort.tsx`                                    | New rationale card layout, slower auto-tour, bloom-color match halo, drop weight indicator, larger hit targets, drop dim-fade                               |
+| `src/lib/cohort/roles.ts`                                           | Rewrite all 40 archetypes as "the X who…" sentences                                                                                                         |
+| `src/lib/cohort/prompt.ts`                                          | Update matchPeer prompt to match emotional register, not job title                                                                                          |
+| `src/components/site/Navbar.tsx`                                    | "The Sanctuary" wordmark + arc logo SVG, persistent navy-glass, weight-600 nav links, dimmer Tonight pulse                                                  |
+| `src/components/site/Footer.tsx`                                    | "The Sanctuary · Blue Ridge, North Carolina"                                                                                                                |
+| `src/components/site/SevenDecisions.tsx`                            | 5 cards (drop expand/collapse), new pull-quote provocation card                                                                                             |
+| **REPLACE** `src/components/site/SynergyMap.tsx` → `WeekRhythm.tsx` | 7-day strip of scheduled life                                                                                                                               |
+| `src/styles.css`                                                    | New `--gold/--ember/--bloom` tokens, weight-700 hero, stronger `.text-luxe`, deeper foreground, delete section-filament rules + cursor + tonight-pulse-loud |
+| `src/routes/index.tsx` + `__root.tsx`                               | "The Sanctuary" titles, no SectionRail/CursorCompanion imports, swap SynergyMap → WeekRhythm                                                                |
+| `mem://design/no-noisy-lines.md` (NEW)                              | Lock the "no decorative hairlines" rule                                                                                                                     |
+| `mem://design/cohort-as-peers.md` (NEW)                             | Lock the "peers not titles" rule for any future Cohort copy                                                                                                 |
+| `.lovable/memory/index.md`                                          | Add v3.6 core lines                                                                                                                                         |
+
+
+**End state:** 8 sections (one less — SynergyMap absorbed into WeekRhythm), zero decorative hairlines, a real brand identity, AI moments using a color that exists nowhere else, peers that sound like dinner companions instead of defendants.
+
+---
+
+## v3.6 exit criteria
+
+- Zero decorative hairlines anywhere on the site (verified by grep).
+- Navbar reads "The Sanctuary" with a custom logomark, fully readable on every section.
+- Hero headline registers as **bold** at first glance, not polite.
+- Cohort rationale card makes a visitor smile or pause — not feel scanned.
+- Five Decisions + the "We do not pay referral fees" provocation lands as the brand's clearest single moment.
+- WeekRhythm replaces the pairs grid; visitor can describe the week in one breath.
+- Memory captures both the no-lines and peers-not-titles rules so this can never silently regress.
 
 ---
 
@@ -140,9 +159,8 @@ You asked. Here are five high-leverage adds — I'm including all five in this p
 
 One reply:
 
-1. **"Ship v3.5 in full"** — all six moves. One push. Ships final.
-2. **"Ship v3.5 with these changes: …"** — name what to drop (e.g., "skip the audio" or "do the OG cards in v3.6").
-3. **"Ship Move 1+2+3 only first, then 4+5+6"** — split into two halves if you want to review the brand+AI shift before the polish layer lands.
+1. **"Ship v3.6"** — execute all five moves as one push.
+2. **"Ship v3.6 with these changes: …"** — name what to drop or swap (e.g. "keep SynergyMap," or "skip the bloom color and just use ember for the match").
+3. **"Ship Move 1+2+3 only first, then 4+5"** — split if you want to verify the brand reset before the Cohort/Decisions rebuild.
 
-After v3.5, the site is **published-ready**. Anything beyond is taste, not need.
-
+After v3.6 the site is *finished* — not iterated on again unless content changes.

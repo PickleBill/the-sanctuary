@@ -1,34 +1,28 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * The Seven Decisions — keyed to the criteria HNW principals and their
- * advisors actually weigh (per investor thesis vol II). Visual emphasis
- * carries the weight: Privacy 30% and Speed 20% get the larger plates.
+ * v3.6 — The Five That Matter (was Seven Decisions).
  *
- * Composition: an asymmetric mosaic, not a uniform grid. The four heaviest
- * criteria sit in the top two rows at full editorial scale; the three
- * lighter ones tuck into a quieter strip below.
+ * Compressed to 5 cards. Body text always visible (no expand/collapse).
+ * Topped by ONE signature provocation: "We do not pay referral fees."
  */
 
 type Decision = {
-  weight: number; // 0–30
   label: string;
-  headline: string; // first half (roman)
-  italic: string; // completion (italic)
+  headline: string;
+  italic: string;
   body: string;
 };
 
 const decisions: Decision[] = [
   {
-    weight: 30,
     label: "Privacy",
     headline: "Universal NDAs.",
     italic: "Cover-story by default.",
     body:
-      "Two layers stand between you and disclosure. Federal — 42 CFR Part 2 protects substance-use records above the HIPAA standard. Operational — every clinician, housekeeper, driver, and contractor signs the same NDA on day one, and correspondence runs under the Sanctuary Wellness & Longevity Institute DBA. Your name is never on a clinical envelope unless you ask for it to be.",
+      "Federal 42 CFR Part 2 protects substance-use records above the HIPAA standard. Every clinician, housekeeper, driver, and contractor signs the same NDA on day one. Correspondence runs under the Sanctuary Wellness & Longevity Institute DBA. Your name is never on a clinical envelope unless you ask for it to be.",
   },
   {
-    weight: 20,
     label: "Speed of admission",
     headline: "Thirty-minute callback.",
     italic: "Decision in 24–72 hours.",
@@ -36,7 +30,6 @@ const decisions: Decision[] = [
       "A masters-level clinician returns the first call within thirty minutes, day or night. From inquiry to a written admission decision, three business days at the outside.",
   },
   {
-    weight: 15,
     label: "Clinical reputation",
     headline: "Named leadership.",
     italic: "On the line.",
@@ -44,36 +37,18 @@ const decisions: Decision[] = [
       "The Medical Director and Clinical Director are the brand. Both are board-certified, both review every case personally, and both answer professional inquiries directly.",
   },
   {
-    weight: 12,
     label: "Business continuity",
     headline: "A cottage with a desk.",
     italic: "Encrypted comms.",
     body:
-      "For the founder mid-raise or the executive in the middle of a transaction, the Chairman's Cottage is a detached residence with a hardened workspace — secure video, encrypted email, a printer behind a sealed door. Trusted counterparties are scheduled into windows. Most principals keep a quiet two-hour daily window. Some keep none. The clinical program is composed around the window, not the other way around.",
+      "The Chairman's Cottage is a detached residence with a hardened workspace — secure video, encrypted email. Trusted counterparties scheduled into windows. Most principals keep a quiet two-hour daily window. The clinical program is composed around the window, not the other way around.",
   },
   {
-    weight: 10,
     label: "Family program",
-    headline: "Concurrent, not bolted on.",
+    headline: "Concurrent. Not bolted on.",
     italic: "",
     body:
       "Spouse and adult-child intensives run on the estate during the principal's program. Separate residence, shared clinical team, integrated weekly conjoint sessions.",
-  },
-  {
-    weight: 8,
-    label: "Location",
-    headline: "Blue Ridge corridor.",
-    italic: "",
-    body:
-      "Ninety minutes from Charlotte. Direct flights from Atlanta, Nashville, New York, and DC into Asheville Regional. Private aviation handled estate-side.",
-  },
-  {
-    weight: 5,
-    label: "Aftercare",
-    headline: "Two-year horizon.",
-    italic: "",
-    body:
-      "Discharge is the midpoint, not the finish. Twelve and twenty-four month follow-up cadence with the same clinical team, in person or by encrypted call.",
   },
 ];
 
@@ -93,29 +68,29 @@ function useInView<T extends HTMLElement>(threshold = 0.18) {
 }
 
 export function SevenDecisions() {
-  const heavy = decisions.slice(0, 4); // Privacy, Speed, Clinical, Continuity
-  const lighter = decisions.slice(4); // Family, Location, Aftercare
-
   return (
     <section
       id="seven-decisions"
-      className="py-28 lg:py-40 bg-background scroll-mt-24"
+      className="py-24 lg:py-36 bg-background scroll-mt-24"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        {/* Header — same asymmetric 8/12 pattern */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16 lg:mb-20">
-          <div className="lg:col-span-8">
+        {/* PROVOCATION CARD — the brand's clearest single moment */}
+        <Provocation />
+
+        {/* Header */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-14 lg:mb-20 mt-24 lg:mt-28">
+          <div className="lg:col-span-9">
             <p className="eyebrow mb-5">What Principals Weigh</p>
             <h2
-              className="font-serif text-foreground mb-7 hang-punct"
+              className="font-serif text-foreground hang-punct"
               style={{
-                fontSize: "clamp(2rem, 1.5rem + 3vw, 3.75rem)",
-                lineHeight: 1.06,
-                letterSpacing: "-0.02em",
-                fontWeight: 500,
+                fontSize: "clamp(2rem, 1.4rem + 2.8vw, 3.75rem)",
+                lineHeight: 1.04,
+                letterSpacing: "-0.024em",
+                fontWeight: 650,
               }}
             >
-              Seven decisions.
+              Five that matter.
               <span
                 className="block editorial-italic text-foreground/70"
                 style={{ fontWeight: 400 }}
@@ -124,31 +99,71 @@ export function SevenDecisions() {
               </span>
             </h2>
             <p
-              className="text-muted-foreground leading-relaxed max-w-xl"
+              className="text-foreground/80 leading-relaxed max-w-2xl mt-7"
               style={{ fontSize: "var(--text-body)" }}
             >
-              Families and their advisors weigh seven things when choosing a residential program. We built Sanctuary Southeast around the order they actually use.
+              Families and their advisors weigh five things when choosing a residential program. We built around the order they actually use.
             </p>
           </div>
         </div>
 
-        {/* Heavy four — 12-col asymmetric mosaic.
-             Privacy + Speed get 7/5, Clinical + Continuity get 5/7. */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-px bg-border mb-px">
-          <DecisionCard d={heavy[0]} className="lg:col-span-7" emphasis />
-          <DecisionCard d={heavy[1]} className="lg:col-span-5" emphasis />
-          <DecisionCard d={heavy[2]} className="lg:col-span-5" emphasis />
-          <DecisionCard d={heavy[3]} className="lg:col-span-7" emphasis />
+        {/* 5 cards in mosaic — Privacy 7, Speed 5, Clinical 4, Continuity 4, Family 4 */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-px bg-border">
+          <DecisionCard d={decisions[0]} className="lg:col-span-7" emphasis />
+          <DecisionCard d={decisions[1]} className="lg:col-span-5" emphasis />
+          <DecisionCard d={decisions[2]} className="lg:col-span-4" />
+          <DecisionCard d={decisions[3]} className="lg:col-span-4" />
+          <DecisionCard d={decisions[4]} className="lg:col-span-4" />
         </div>
 
-        {/* Lighter three — quieter horizontal strip */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-border">
-          {lighter.map((d) => (
-            <DecisionCard key={d.label} d={d} className="" />
-          ))}
-        </div>
+        {/* Quiet footer — Aftercare + Location compressed */}
+        <p className="mt-10 text-sm text-muted-foreground italic max-w-3xl leading-relaxed">
+          Ninety minutes from Charlotte. Two-year aftercare horizon. Both included.
+        </p>
       </div>
     </section>
+  );
+}
+
+function Provocation() {
+  const { ref, inView } = useInView<HTMLDivElement>();
+  return (
+    <div
+      ref={ref}
+      className={`relative bg-navy text-ivory p-10 sm:p-14 lg:p-20 overflow-hidden transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+      }`}
+    >
+      {/* Subtle ember wash */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none opacity-40"
+        style={{
+          background:
+            "radial-gradient(60% 80% at 80% 50%, color-mix(in oklab, var(--ember) 14%, transparent), transparent 70%)",
+        }}
+      />
+      <div className="relative max-w-3xl">
+        <p className="eyebrow text-amber mb-6">A signature commitment</p>
+        <p
+          className="font-serif text-ivory editorial-italic text-luxe"
+          style={{
+            fontSize: "clamp(2rem, 1.4rem + 3.4vw, 4rem)",
+            lineHeight: 1.05,
+            letterSpacing: "-0.028em",
+            fontWeight: 600,
+          }}
+        >
+          &ldquo;We do not pay referral fees.&rdquo;
+        </p>
+        <p
+          className="mt-6 font-serif text-ivory/85 leading-snug max-w-xl"
+          style={{ fontSize: "var(--text-lead)", fontWeight: 400 }}
+        >
+          — and the only metric we publish is how often we say no.
+        </p>
+      </div>
+    </div>
   );
 }
 
@@ -162,86 +177,43 @@ function DecisionCard({
   emphasis?: boolean;
 }) {
   const { ref, inView } = useInView<HTMLDivElement>();
-  const [open, setOpen] = useState(false);
   return (
     <div
       ref={ref}
       className={`bg-background ${className} transition-all duration-1000 ease-out ${
         inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
-      }`}
+      } ${emphasis ? "p-10 lg:p-14" : "p-8 lg:p-10"}`}
     >
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        className={`w-full text-left ${
-          emphasis ? "p-10 lg:p-14" : "p-8 lg:p-10"
-        } group transition-colors hover:bg-secondary/40`}
+      <p className="small-caps text-amber text-[11px] tracking-[0.28em] mb-5 font-semibold">
+        {d.label}
+      </p>
+      <h3
+        className="font-serif text-foreground mb-5 hang-punct"
+        style={{
+          fontSize: emphasis
+            ? "clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem)"
+            : "var(--text-h4)",
+          lineHeight: 1.1,
+          letterSpacing: "-0.02em",
+          fontWeight: 650,
+        }}
       >
-        {/* Weight indicator + label — small-caps, tabular */}
-        <div className="flex items-baseline justify-between mb-6">
-          <p className="small-caps text-foreground/55 text-[11px] tracking-[0.24em]">
-            {d.label}
-          </p>
-          <p
-            className="tabular text-foreground/35 text-[11px]"
-            aria-label={`${d.weight} percent of the decision`}
-          >
-            {String(d.weight).padStart(2, "0")}
-            <span className="text-foreground/25"> / 100</span>
-          </p>
-        </div>
-
-        {/* Headline — same roman-then-italic pattern as section heads */}
-        <h3
-          className="font-serif text-foreground mb-5 hang-punct"
-          style={{
-            fontSize: emphasis
-              ? "clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem)"
-              : "var(--text-h4)",
-            lineHeight: 1.12,
-            letterSpacing: "-0.018em",
-            fontWeight: 500,
-          }}
-        >
-          {d.headline}
-          {d.italic ? (
-            <span
-              className="block editorial-italic text-foreground/65"
-              style={{ fontWeight: 400 }}
-            >
-              {d.italic}
-            </span>
-          ) : null}
-        </h3>
-
-        {/* Expand affordance — quiet amber line + caption that flips on open */}
-        <div className="flex items-center gap-3">
+        {d.headline}
+        {d.italic ? (
           <span
-            className={`block h-px bg-amber transition-all duration-500 ${
-              open ? "w-16" : "w-8 group-hover:w-12"
-            }`}
-            aria-hidden
-          />
-          <span className="small-caps text-foreground/55 group-hover:text-amber transition-colors text-[10px] tracking-[0.28em]">
-            {open ? "Less" : "More"}
-          </span>
-        </div>
-
-        {/* Inline expansion — height-animated, smooth, respects reduced-motion via global guard */}
-        <div
-          className={`overflow-hidden transition-[max-height,opacity,margin] duration-500 ease-out ${
-            open ? "max-h-96 opacity-100 mt-6" : "max-h-0 opacity-0 mt-0"
-          }`}
-        >
-          <p
-            className="text-muted-foreground leading-relaxed max-w-prose"
-            style={{ fontSize: "var(--text-small)" }}
+            className="block editorial-italic text-foreground/70"
+            style={{ fontWeight: 400 }}
           >
-            {d.body}
-          </p>
-        </div>
-      </button>
+            {d.italic}
+          </span>
+        ) : null}
+      </h3>
+      <p
+        className="text-foreground/75 leading-relaxed max-w-prose"
+        style={{ fontSize: "var(--text-small)" }}
+      >
+        {d.body}
+      </p>
     </div>
   );
 }

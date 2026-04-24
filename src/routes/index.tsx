@@ -5,27 +5,25 @@ import { Resonance } from "@/components/site/Resonance";
 import { Cohort } from "@/components/site/Cohort";
 import { JourneyStrip } from "@/components/site/JourneyStrip";
 import { Journey } from "@/components/site/Journey";
-import { SynergyMap } from "@/components/site/SynergyMap";
+import { WeekRhythm } from "@/components/site/WeekRhythm";
 import { Amenities } from "@/components/site/Amenities";
 import { Leadership } from "@/components/site/Leadership";
 import { SevenDecisions } from "@/components/site/SevenDecisions";
 import { Process } from "@/components/site/Process";
 import { ConciergeForm } from "@/components/site/ConciergeForm";
 import { Footer } from "@/components/site/Footer";
-import { CursorCompanion } from "@/components/site/CursorCompanion";
-import { SectionRail } from "@/components/site/SectionRail";
 import { AmbientAudio } from "@/components/site/AmbientAudio";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Sanctuary Southeast | The room is the medicine — A private medical-wellness sanctuary in the Blue Ridge" },
+      { title: "The Sanctuary | Care, in the company of peers — Blue Ridge, North Carolina" },
       {
         name: "description",
         content:
-          "The room is the medicine. Care, in the company of peers — a private medical-wellness sanctuary in the Blue Ridge for executives, surgeons, judges, and founders.",
+          "The room is the medicine. A private medical-wellness sanctuary in the Blue Ridge for executives, surgeons, judges, and founders.",
       },
-      { property: "og:title", content: "Sanctuary Southeast | The room is the medicine" },
+      { property: "og:title", content: "The Sanctuary | Blue Ridge, North Carolina" },
       {
         property: "og:description",
         content:
@@ -50,7 +48,7 @@ function Index() {
         <Cohort />
         <JourneyStrip />
         <Journey />
-        <SynergyMap />
+        <WeekRhythm />
         <Amenities />
         <Leadership />
         <SevenDecisions />
@@ -58,8 +56,6 @@ function Index() {
         <ConciergeForm />
       </main>
       <Footer />
-      <CursorCompanion />
-      <SectionRail />
       <AmbientAudio />
     </>
   );

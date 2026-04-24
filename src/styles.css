@@ -414,6 +414,23 @@
   .bloom-halo { animation: bloomBreathe 3.4s var(--ease-luxe) infinite; transform-box: fill-box; }
   @media (prefers-reduced-motion: reduce) { .bloom-halo { animation: none !important; } }
 
+  /* v3.8 — Ken Burns drift for gallery panels.
+     Slow, alternating zoom that idles when motion is reduced. */
+  @keyframes kenBurns {
+    0%   { transform: scale(1.00) translate(0%, 0%); }
+    100% { transform: scale(1.06) translate(-1%, -1%); }
+  }
+  .gallery-kenburns {
+    animation: kenBurns 22s ease-in-out infinite alternate both;
+    will-change: transform;
+  }
+  .gallery-panel:hover .gallery-kenburns {
+    animation-play-state: paused;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gallery-kenburns { animation: none !important; }
+  }
+
   /* Print stylesheet */
   @media print {
     body { background: white !important; color: black !important; font-size: 10pt; }

@@ -3,12 +3,16 @@ import suite from "@/assets/gallery-suite-v2.jpg";
 import boardroom from "@/assets/gallery-boardroom-v2.jpg";
 import grounds from "@/assets/gallery-grounds-v2.jpg";
 import clinical from "@/assets/gallery-clinical-v2.jpg";
+import trail from "@/assets/day-3-trail.jpg";
+import court from "@/assets/amenity-pickleball.jpg";
 
 /**
- * v1.5 — every panel is now a button that opens an editorial lightbox with
- * the full image, an extended caption, and a "Speak with intake" link.
- * Color grade unified via overlay layer (cool slate + warm amber) so the
- * four photographs read as one brand without AI regen.
+ * v3.8 — Six-panel Estate gallery.
+ * - Panels: Suite (tall) · Grounds · Trail · Boardroom · Court · Clinical (trio).
+ * - Slow Ken Burns drift on every panel (paused for prefers-reduced-motion).
+ * - Hover: title underline draws, caption lifts, sibling-desaturate stays.
+ * - Mobile: persistent "Open" chip so touch users see the affordance.
+ * - Lightbox preserved.
  */
 
 type Frame = {
@@ -36,12 +40,28 @@ const frames: Frame[] = [
       "Two hundred and twelve acres of mature white-oak canopy, a stocked pond, three miles of soft-surface walking trails, and a meditation pavilion sited where the morning mist breaks across the ridge. You will walk this ridge more than you expect to. The land does most of the work.",
   },
   {
+    src: trail,
+    title: "The Trail",
+    caption:
+      "Three miles of soft-surface trail through white-oak canopy.",
+    long:
+      "The trail is the program's quiet spine. Three soft-surface miles, marked at the half-mile and looped twice for an unhurried hour. Walked alone before breakfast or with a clinician at noon — most of the breakthroughs in any week here happen somewhere along it. The land does most of the work.",
+  },
+  {
     src: boardroom,
     title: "Executive Boardroom",
     caption:
       "Sound-proofed, encrypted spaces for uninterrupted leadership.",
     long:
       "Acoustically sealed, hardened against signal interception, with redundant fiber and a secure video stack vetted by an outside firm. Built for the principal who cannot disappear. Scheduled use windows protect the rest of the program — for the calls you can't miss, and the discipline to use it sparingly.",
+  },
+  {
+    src: court,
+    title: "The Court",
+    caption:
+      "Pickleball at golden hour, with a peer who outranks the small talk.",
+    long:
+      "A private court tucked beyond the orchard, fenced in cedar so it disappears from the main lawns. Played at golden hour with a small circle of peers in residence — the kind of game that ends with a long conversation on the bench, not a scoreboard. Paddles waiting; we'll bring the cold towels.",
   },
   {
     src: clinical,
@@ -73,11 +93,13 @@ function FramePanel({
   frame,
   className = "",
   delay = 0,
+  driftDelay = 0,
   onOpen,
 }: {
   frame: Frame;
   className?: string;
   delay?: number;
+  driftDelay?: number;
   onOpen: () => void;
 }) {
   const { ref, inView } = useInView<HTMLElement>();
@@ -102,25 +124,35 @@ function FramePanel({
             loading="lazy"
             width={1280}
             height={960}
-            className="w-full h-full object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-105"
+            className="gallery-kenburns w-full h-full object-cover"
+            style={{ animationDelay: `${driftDelay}s` }}
           />
         </div>
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "linear-gradient(180deg, transparent 50%, color-mix(in oklab, var(--navy) 72%, transparent) 100%)",
+              "linear-gradient(180deg, transparent 50%, color-mix(in oklab, var(--navy) 78%, transparent) 100%)",
           }}
           aria-hidden
         />
-        <figcaption className="absolute bottom-0 left-0 right-0 p-6 lg:p-8 text-ivory">
+
+        {/* Mobile-persistent "Open" chip — tells touch users this is interactive */}
+        <span
+          aria-hidden
+          className="absolute top-4 right-4 lg:hidden inline-flex items-center gap-1.5 bg-amber/95 text-amber-foreground px-3 py-1.5 small-caps text-[10px] tracking-[0.22em] font-semibold"
+        >
+          Open <span aria-hidden>→</span>
+        </span>
+
+        <figcaption className="absolute bottom-0 left-0 right-0 p-6 lg:p-8 text-ivory transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-1">
           <div className="flex items-end justify-between gap-4">
             <div>
               <p className="small-caps text-amber/85 mb-2 text-[11px] tracking-[0.24em]">
                 {frame.title.split(" ")[0]}
               </p>
               <h3
-                className="font-serif text-xl lg:text-2xl mb-2 hang-punct"
+                className="font-serif text-xl lg:text-2xl mb-2 hang-punct gallery-title relative inline-block"
                 style={{ fontWeight: 500, lineHeight: 1.12, letterSpacing: "-0.012em" }}
               >
                 {frame.title}
@@ -129,12 +161,12 @@ function FramePanel({
                 {frame.caption}
               </p>
             </div>
-            {/* Expand affordance — quiet plus icon, amber on hover */}
+            {/* Expand affordance — quiet plus icon, ember on hover */}
             <span
-              className="shrink-0 inline-flex items-center justify-center w-10 h-10 border border-ivory/30 group-hover:border-amber group-hover:bg-amber/10 transition-colors duration-500"
+              className="hidden lg:inline-flex shrink-0 items-center justify-center w-10 h-10 border border-ivory/30 group-hover:border-ember group-hover:bg-ember/10 transition-colors duration-500"
               aria-hidden
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-ivory group-hover:text-amber transition-colors">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-ivory group-hover:text-ember transition-colors">
                 <path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6" />
               </svg>
             </span>
@@ -225,7 +257,6 @@ function Lightbox({ frame, onClose }: { frame: Frame; onClose: () => void }) {
         </svg>
       </button>
       <style>{`
-        /* Lightbox curtain — 380ms scale-from-95% on the panel + backdrop blur ramp 0→8px. */
         @keyframes lbBackdrop { from { backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); opacity: 0; } to { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); opacity: 1; } }
         @keyframes lbPanel    { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         .lb-fade     { animation: lbBackdrop 380ms cubic-bezier(0.22, 1, 0.36, 1) both; }
@@ -268,40 +299,79 @@ export function Gallery() {
           </div>
         </div>
 
+        {/*
+          v3.8 mosaic, 12-col on desktop:
+          Row A: Suite (7, row-span-2, tall) · Grounds (5)
+          Row B: ↑ Suite continues       · Trail (5)
+          Row C: Boardroom (4) · Court (4) · Clinical (4)
+        */}
         <div className="gallery-grid grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
           <FramePanel
             frame={frames[0]}
             className="lg:col-span-7 lg:row-span-2 aspect-[4/5] lg:aspect-auto lg:min-h-[680px]"
+            driftDelay={0}
             onOpen={() => setOpenFrame(frames[0])}
           />
           <FramePanel
             frame={frames[1]}
             className="lg:col-span-5 aspect-[4/3]"
             delay={120}
+            driftDelay={3}
             onOpen={() => setOpenFrame(frames[1])}
           />
           <FramePanel
             frame={frames[2]}
             className="lg:col-span-5 aspect-[4/3]"
-            delay={240}
+            delay={200}
+            driftDelay={6}
             onOpen={() => setOpenFrame(frames[2])}
           />
           <FramePanel
             frame={frames[3]}
-            className="lg:col-span-12 aspect-[16/7]"
-            delay={360}
+            className="lg:col-span-4 aspect-[4/3]"
+            delay={280}
+            driftDelay={9}
             onOpen={() => setOpenFrame(frames[3])}
+          />
+          <FramePanel
+            frame={frames[4]}
+            className="lg:col-span-4 aspect-[4/3]"
+            delay={360}
+            driftDelay={12}
+            onOpen={() => setOpenFrame(frames[4])}
+          />
+          <FramePanel
+            frame={frames[5]}
+            className="lg:col-span-4 aspect-[4/3]"
+            delay={440}
+            driftDelay={15}
+            onOpen={() => setOpenFrame(frames[5])}
           />
         </div>
 
-        {/* Magic moment: hovering one panel desaturates its siblings to focus the eye. */}
+        {/* Magic moment: hovering one panel desaturates its siblings to focus the eye.
+            Title underline draws beneath the hovered title. */}
         <style>{`
           @media (hover: hover) and (pointer: fine) {
             .gallery-grid:hover .gallery-panel { filter: saturate(0.4) brightness(0.92); transition: filter 600ms cubic-bezier(0.22, 1, 0.36, 1); }
             .gallery-grid .gallery-panel:hover { filter: saturate(1) brightness(1); }
           }
+          .gallery-title::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -3px;
+            height: 1.5px;
+            background: var(--amber);
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+          }
+          .gallery-panel:hover .gallery-title::after { transform: scaleX(1); }
           @media (prefers-reduced-motion: reduce) {
             .gallery-grid:hover .gallery-panel { filter: none; }
+            .gallery-title::after { display: none; }
           }
         `}</style>
 

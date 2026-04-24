@@ -40,15 +40,31 @@ export function JourneyStrip() {
     return () => obs.disconnect();
   }, []);
 
+  // v3.5 — throttled scroll observer (~16ms) + next-image pre-decode
   useEffect(() => {
     const rail = railRef.current;
     if (!rail) return;
     let raf = 0;
+    let lastT = 0;
+    const decoded = new Set<number>();
     const onScroll = () => {
+      const now = performance.now();
+      if (now - lastT < 16) return;
+      lastT = now;
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
         const max = rail.scrollWidth - rail.clientWidth;
-        setProgress(max > 0 ? Math.min(1, Math.max(0, rail.scrollLeft / max)) : 0);
+        const p = max > 0 ? Math.min(1, Math.max(0, rail.scrollLeft / max)) : 0;
+        setProgress(p);
+        // pre-decode the next two images so snap is buttery
+        const idx = Math.min(moments.length - 1, Math.round(p * (moments.length - 1)) + 1);
+        for (let i = idx; i < Math.min(moments.length, idx + 2); i++) {
+          if (decoded.has(i)) continue;
+          decoded.add(i);
+          const img = new Image();
+          img.src = moments[i].src;
+          img.decode?.().catch(() => {});
+        }
       });
     };
     rail.addEventListener("scroll", onScroll, { passive: true });

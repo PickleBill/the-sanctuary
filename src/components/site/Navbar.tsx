@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const sections = [
   { id: "gallery", label: "The Estate" },
@@ -9,6 +9,25 @@ const sections = [
   { id: "leadership", label: "Leadership" },
   { id: "process", label: "Process" },
 ];
+
+// v3.5 — "Tonight in the great room" — a quiet inhabited-feeling line that
+// rotates by ISO week. Hand-curated, no backend, no PII.
+const TONIGHT_LINES = [
+  "Tonight in the great room: chamber music · 8pm",
+  "This evening on the porch: a fire, a cellist, a long conversation",
+  "Tonight: a poet from Asheville, in the library at dusk",
+  "Tonight in the kitchen: the chef's six-course tasting · 7:30",
+];
+function tonightLine(): string {
+  // ISO-week index, deterministic per week
+  const d = new Date();
+  const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  const dayNum = (t.getUTCDay() + 6) % 7;
+  t.setUTCDate(t.getUTCDate() - dayNum + 3);
+  const firstThursday = new Date(Date.UTC(t.getUTCFullYear(), 0, 4));
+  const week = 1 + Math.round(((t.getTime() - firstThursday.getTime()) / 86400000 - 3 + ((firstThursday.getUTCDay() + 6) % 7)) / 7);
+  return TONIGHT_LINES[week % TONIGHT_LINES.length];
+}
 
 function scrollToId(id: string) {
   const el = document.getElementById(id);

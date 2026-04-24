@@ -1,61 +1,21 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { matchPeer } from "@/server/cohort.functions";
+import { COHORT_ROLES } from "@/lib/cohort/roles";
 
 /**
- * v3.3 — "The Cohort" Mobile-First Rebuild
+ * v3.3 → v3.4 — "The Cohort"
  *
- * What changed from v3.2:
- *  - 40 nodes (was 28), 30% faster drift, 7 max concurrent filaments (was 4)
- *  - Auto-tour on mobile: every 2.4s the next node lights up automatically
- *  - 7px nodes on mobile (was 3), 4.5px desktop — real tap targets
- *  - viewBox switches to 480×600 on mobile so constellation owns vertical space
- *  - "Currently in residence" peer badge pulses for 1.2s on each reveal
+ * v3.3: Mobile-first rebuild — 40 nodes, auto-tour, denser filaments, larger taps.
+ * v3.4: When a visitor has completed a Resonance reading, the constellation
+ *       quietly highlights ONE node that resonates with what they wrote
+ *       (matchPeer server function via Gemini Flash + tool calling).
  *
  * Pure SVG + requestAnimationFrame. No canvas, no library.
  * Reduced-motion: static graph, hover-only reveals, no drift, no auto-tour.
  */
 
-const ROLES = [
-  "Founder · raised Series C",
-  "Surgeon · Mayo",
-  "Federal Judge",
-  "Trustee · family office",
-  "Olympian · retired",
-  "Operator · two exits",
-  "Author · NYT bestseller",
-  "Parent · principal of two",
-  "Managing Partner · law",
-  "Public Official",
-  "Venture GP",
-  "CEO · public company",
-  "Chief of Staff",
-  "Cardiologist",
-  "Headmaster",
-  "Chairman · holding co.",
-  "Conductor",
-  "Foundation President",
-  "Architect · principal",
-  "Diplomat · former",
-  "Producer · feature film",
-  "Fund Manager",
-  "Chief Justice · state",
-  "Founder · second time",
-  "Editor-in-Chief",
-  "Investor · early-stage",
-  "Pediatric Oncologist",
-  "Rector",
-  "Hedge Fund Founder",
-  "Anesthesiologist · chief",
-  "Tech CEO · pre-IPO",
-  "Three-Star General · retired",
-  "Research Scientist · NIH",
-  "Concert Pianist",
-  "Olympic Coach",
-  "GC · Fortune 100",
-  "Restaurateur · Michelin",
-  "Surgeon · Cleveland Clinic",
-  "Real Estate Developer",
-  "Philanthropist",
-];
+const ROLES = COHORT_ROLES;
 
 type Node = {
   id: number;
@@ -119,6 +79,13 @@ export function Cohort() {
   const [badgePulse, setBadgePulse] = useState(0);
   const manualUntilRef = useRef<number>(0);
 
+  // v3.4 — matched peer (server function picks one role index that resonates
+  // with what the visitor wrote in the Resonance reading)
+  const matchPeerFn = useServerFn(matchPeer);
+  const [matchedId, setMatchedId] = useState<number | null>(null);
+  const [matchRationale, setMatchRationale] = useState<string>("");
+  const matchRequestedRef = useRef(false);
+
   // Build nodes once (regenerate if mobile/desktop changes)
   const nodesRef = useRef<Node[]>(buildNodes(false));
   const [nodesVersion, setNodesVersion] = useState(0);
@@ -164,6 +131,49 @@ export function Cohort() {
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
+
+  // v3.4 — On reveal, if the visitor has completed a Resonance reading, ask the
+  // server to pick a peer role index that resonates. Lights up that node.
+  useEffect(() => {
+    if (!visible || matchRequestedRef.current) return;
+    matchRequestedRef.current = true;
+    let cancelled = false;
+    try {
+      const r = localStorage.getItem("ss_resonance");
+      const i = localStorage.getItem("ss_intent");
+      if (!r) return;
+      const parsedR = JSON.parse(r) as { text?: string };
+      const parsedI = i ? (JSON.parse(i) as { signal?: string }) : null;
+      if (!parsedR?.text || parsedR.text.trim().length < 2) return;
+      (async () => {
+        try {
+          const result = await matchPeerFn({
+            data: {
+              text: parsedR.text!.slice(0, 600),
+              intentSignal: parsedI?.signal,
+            },
+          });
+          if (cancelled) return;
+          if (
+            typeof result.roleIndex === "number" &&
+            result.roleIndex >= 0 &&
+            result.roleIndex < nodesRef.current.length
+          ) {
+            setMatchedId(result.roleIndex);
+            setMatchRationale(result.rationale ?? "");
+          }
+        } catch (err) {
+          // Silent — the constellation is decorative when the match fails.
+          console.warn("[cohort] matchPeer failed", err);
+        }
+      })();
+    } catch {
+      /* ignore */
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [visible, matchPeerFn]);
 
   // Animation loop — drift + filament spawning
   useEffect(() => {
@@ -403,7 +413,8 @@ export function Cohort() {
                 {nodes.map((n) => {
                   const isActive = activeId === n.id;
                   const isNeighbor = activeNeighbors.includes(n.id);
-                  const dim = activeId != null && !isActive && !isNeighbor;
+                  const isMatched = matchedId === n.id;
+                  const dim = activeId != null && !isActive && !isNeighbor && !isMatched;
                   const cx = n.x * VIEW_W;
                   const cy = n.y * VIEW_H;
                   return (
@@ -412,7 +423,7 @@ export function Cohort() {
                       style={{
                         cursor: "pointer",
                         transition: "opacity 500ms cubic-bezier(0.22,1,0.36,1)",
-                        opacity: dim ? 0.28 : 1,
+                        opacity: dim ? 0.32 : 1,
                       }}
                       onMouseEnter={() => {
                         if (!isMobile) handleNodeActivate(n.id);
@@ -421,6 +432,17 @@ export function Cohort() {
                       onFocus={() => handleNodeActivate(n.id)}
                       tabIndex={-1}
                     >
+                      {/* Persistent matched halo — quietly pulses */}
+                      {isMatched && !isActive && (
+                        <circle
+                          cx={cx}
+                          cy={cy}
+                          r={HALO_R * 0.9}
+                          fill="url(#cohort-node-glow)"
+                          className="cohort-match-halo"
+                          style={{ transformOrigin: `${cx}px ${cy}px` }}
+                        />
+                      )}
                       {isActive && (
                         <circle
                           cx={cx}
@@ -436,9 +458,9 @@ export function Cohort() {
                       <circle
                         cx={cx}
                         cy={cy}
-                        r={isActive ? NODE_R_HOVER : isNeighbor ? NODE_R_NEIGHBOR : NODE_R_BASE}
-                        fill={isActive || isNeighbor ? "var(--amber)" : "var(--ivory)"}
-                        opacity={isActive ? 1 : isNeighbor ? 0.95 : 0.85}
+                        r={isActive ? NODE_R_HOVER : isNeighbor || isMatched ? NODE_R_NEIGHBOR : NODE_R_BASE}
+                        fill={isActive || isNeighbor || isMatched ? "var(--amber)" : "var(--ivory)"}
+                        opacity={isActive ? 1 : isMatched ? 1 : isNeighbor ? 0.95 : 0.85}
                         style={{
                           transition: "r 500ms cubic-bezier(0.22,1,0.36,1), fill 500ms ease",
                         }}
@@ -450,13 +472,13 @@ export function Cohort() {
 
               {/* Reveal panel — always visible on mobile (auto-tour fills it) */}
               <div className="mt-6 min-h-[5rem] sm:min-h-[4rem]">
-                <div className="flex items-baseline gap-3 mb-2">
+                <div className="flex items-baseline gap-3 mb-2 flex-wrap">
                   <p
                     className={`small-caps text-amber text-[11px] tracking-[0.28em] transition-opacity duration-500 ${
-                      activeNode ? "opacity-100" : "opacity-0"
+                      activeNode ? "opacity-100" : matchedId != null ? "opacity-100" : "opacity-0"
                     }`}
                   >
-                    Recent resident
+                    {activeNode && activeId === matchedId ? "A quiet resonance" : "Recent resident"}
                   </p>
                   {activeNode && (
                     <span
@@ -477,6 +499,29 @@ export function Cohort() {
                 >
                   {activeNode ? activeNode.role : "—"}
                 </p>
+
+                {/* v3.4 — When matched node is active, show the whisper rationale */}
+                {activeNode && activeId === matchedId && matchRationale && (
+                  <p
+                    key={`m-${matchedId}`}
+                    className="mt-3 max-w-md text-ivory/75 leading-relaxed editorial-italic cohort-role-rise"
+                    style={{ fontSize: "0.95rem", lineHeight: 1.55 }}
+                  >
+                    "{matchRationale}"
+                  </p>
+                )}
+
+                {/* v3.4 — Quiet hint when a match exists but visitor hasn't tapped it yet */}
+                {matchedId != null && activeId !== matchedId && (
+                  <button
+                    type="button"
+                    onClick={() => handleNodeActivate(matchedId)}
+                    className="mt-3 inline-flex items-center gap-2 small-caps text-[10px] tracking-[0.28em] text-amber/80 hover:text-amber transition-colors group"
+                  >
+                    <span aria-hidden className="block w-2 h-2 rounded-full bg-amber/70 cohort-badge-dot" />
+                    Someone in this room is carrying what you're carrying →
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -504,8 +549,16 @@ export function Cohort() {
           50%      { opacity: 1; transform: scale(1.4); }
         }
         .cohort-badge-dot { animation: cohortDotPulse 1.6s ease-in-out infinite; }
+        @keyframes cohortMatchHalo {
+          0%, 100% { opacity: 0.55; transform: scale(0.92); }
+          50%      { opacity: 1;    transform: scale(1.06); }
+        }
+        .cohort-match-halo {
+          animation: cohortMatchHalo 3.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+          transform-box: fill-box;
+        }
         @media (prefers-reduced-motion: reduce) {
-          .cohort-role-rise, .cohort-badge, .cohort-badge-dot { animation: none !important; }
+          .cohort-role-rise, .cohort-badge, .cohort-badge-dot, .cohort-match-halo { animation: none !important; }
         }
       `}</style>
     </section>

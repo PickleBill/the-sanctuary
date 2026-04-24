@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { z } from "zod";
 import { useServerFn } from "@tanstack/react-start";
 import { submitProspectus } from "@/server/resonance.functions";
+import { composePrivateReply } from "@/server/concierge.functions";
 import { TrustRail } from "@/components/site/TrustRail";
 
 /**
@@ -32,6 +33,15 @@ export function ConciergeForm() {
   const [submitted, setSubmitted] = useState(false);
   const [submittedName, setSubmittedName] = useState("");
   const [dossierUrl, setDossierUrl] = useState<string | null>(null);
+  const [replyPayload, setReplyPayload] = useState<{
+    firstName: string;
+    role: string;
+    contactMethod: string;
+    message?: string;
+    resonanceText?: string;
+    resonanceReading?: string;
+    intentSignal?: string;
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -121,6 +131,15 @@ export function ConciergeForm() {
         });
         if (result.ok) {
           setSubmittedName(submittedFirstName);
+          setReplyPayload({
+            firstName: submittedFirstName,
+            role: parsed.data.role,
+            contactMethod: parsed.data.contactMethod,
+            message: parsed.data.message,
+            resonanceText,
+            resonanceReading,
+            intentSignal,
+          });
           setSubmitted(true);
           setDossierUrl(result.dossierUrl);
         } else {
@@ -279,7 +298,7 @@ export function ConciergeForm() {
 
           <div className="lg:col-span-7">
             {submitted ? (
-              <SuccessCard dossierUrl={dossierUrl} firstName={submittedName} />
+              <SuccessCard dossierUrl={dossierUrl} firstName={submittedName} payload={replyPayload} />
             ) : (
               <div className="relative">
                 {/* Step canvas */}
@@ -468,9 +487,32 @@ function InlineSelect({
   );
 }
 
-function SuccessCard({ dossierUrl, firstName }: { dossierUrl: string | null; firstName: string }) {
+type ReplyPayload = {
+  firstName: string;
+  role: string;
+  contactMethod: string;
+  message?: string;
+  resonanceText?: string;
+  resonanceReading?: string;
+  intentSignal?: string;
+};
+
+function SuccessCard({
+  dossierUrl,
+  firstName,
+  payload,
+}: {
+  dossierUrl: string | null;
+  firstName: string;
+  payload: ReplyPayload | null;
+}) {
+  const composeReply = useServerFn(composePrivateReply);
   const [copied, setCopied] = useState(false);
   const [bodyShown, setBodyShown] = useState(false);
+  const [reply, setReply] = useState<string | null>(null);
+  const [replyLoading, setReplyLoading] = useState(true);
+  const [isFallback, setIsFallback] = useState(false);
+  const fetchedRef = useRef(false);
 
   useEffect(() => {
     const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
@@ -478,9 +520,35 @@ function SuccessCard({ dossierUrl, firstName }: { dossierUrl: string | null; fir
       setBodyShown(true);
       return;
     }
-    const t = window.setTimeout(() => setBodyShown(true), 900);
+    const t = window.setTimeout(() => setBodyShown(true), 600);
     return () => window.clearTimeout(t);
   }, []);
+
+  // v3.4 — Fetch the personalized AI acknowledgment once, then reveal word-by-word.
+  useEffect(() => {
+    if (!payload || fetchedRef.current) return;
+    fetchedRef.current = true;
+    let cancelled = false;
+    (async () => {
+      try {
+        const result = await composeReply({ data: payload });
+        if (cancelled) return;
+        setReply(result.reply);
+        setIsFallback(!!result.fallback);
+      } catch {
+        if (cancelled) return;
+        setReply(
+          `${payload.firstName}, your note arrived in the right hands. A clinician will be on the line within four hours, often sooner. Nothing is recorded until you instruct us to proceed.`,
+        );
+        setIsFallback(true);
+      } finally {
+        if (!cancelled) setReplyLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [payload, composeReply]);
 
   const onCopy = async () => {
     try {
@@ -497,19 +565,32 @@ function SuccessCard({ dossierUrl, firstName }: { dossierUrl: string | null; fir
       <span aria-hidden className="success-filament absolute left-0 right-0 bottom-0 h-px bg-amber origin-left" />
 
       <div className={`transition-opacity duration-700 ease-out ${bodyShown ? "opacity-100" : "opacity-0"}`}>
-        <p className="small-caps text-amber text-[11px] tracking-[0.32em] mb-5">Received</p>
+        <p className="small-caps text-amber text-[11px] tracking-[0.32em] mb-5">
+          {replyLoading ? "Composing — a clinician is reading…" : "A private letter"}
+        </p>
         <h3
           className="font-serif text-foreground mb-5 hang-punct"
           style={{ fontSize: "var(--text-h3)", lineHeight: 1.1, fontWeight: 500 }}
         >
           {greeting}
         </h3>
-        <p className="text-foreground/85 leading-relaxed mb-4 max-w-md editorial-italic" style={{ fontSize: "var(--text-lead)" }}>
-          A clinician will be on the line within four hours, often sooner.
-        </p>
-        <p className="text-muted-foreground leading-relaxed mb-8 max-w-md">
-          The conversation begins privately, on your terms. Nothing is recorded until you instruct us to proceed.
-        </p>
+
+        {/* v3.4 — AI-composed acknowledgment. Streams word-by-word. */}
+        <div className="mb-8 max-w-md min-h-[7rem]">
+          {replyLoading ? (
+            <p className="text-muted-foreground editorial-italic flex items-center gap-2">
+              <span aria-hidden className="inline-block w-1.5 h-1.5 rounded-full bg-amber animate-pulse" />
+              <span className="reply-loading">composing</span>
+            </p>
+          ) : reply ? (
+            <StreamedReply text={reply} />
+          ) : null}
+          {isFallback && !replyLoading && (
+            <p className="mt-4 text-xs text-muted-foreground italic">
+              Composed offline — our clinician will read your words personally on the call.
+            </p>
+          )}
+        </div>
         <div className="flex flex-col sm:flex-row gap-3">
           {dossierUrl && (
             <a
@@ -539,10 +620,61 @@ function SuccessCard({ dossierUrl, firstName }: { dossierUrl: string | null; fir
       <style>{`
         @keyframes successFilament { from { transform: scaleX(0); } to { transform: scaleX(1); } }
         .success-filament { animation: successFilament 900ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+        @keyframes replyWordIn {
+          from { opacity: 0; transform: translateY(3px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .reply-word {
+          display: inline-block;
+          opacity: 0;
+          animation: replyWordIn 240ms cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        .reply-loading::after {
+          content: "…";
+          display: inline-block;
+          animation: replyWordIn 800ms ease-in-out infinite alternate;
+        }
         @media (prefers-reduced-motion: reduce) {
           .success-filament { animation: none !important; transform: scaleX(1); }
+          .reply-word { animation: none !important; opacity: 1; transform: none; }
         }
       `}</style>
+    </div>
+  );
+}
+
+/**
+ * v3.4 — Word-by-word reveal for the AI acknowledgment.
+ * ~32ms cascade, capped at 90 words so a longer reply never drags.
+ * Preserves paragraph breaks so the two-paragraph format reads correctly.
+ */
+function StreamedReply({ text }: { text: string }) {
+  const paragraphs = text.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
+  let cursor = 0;
+  const cap = 90;
+  return (
+    <div className="space-y-4">
+      {paragraphs.map((para, pIdx) => {
+        const words = para.split(/(\s+)/);
+        return (
+          <p
+            key={pIdx}
+            className="font-serif text-foreground leading-relaxed"
+            style={{ fontSize: "var(--text-body)", lineHeight: 1.55, fontWeight: 400 }}
+          >
+            {words.map((w, i) => {
+              if (/^\s+$/.test(w)) return <span key={i}>{w}</span>;
+              const delay = Math.min(cursor, cap) * 32;
+              cursor += 1;
+              return (
+                <span key={i} className="reply-word" style={{ animationDelay: `${delay}ms` }}>
+                  {w}
+                </span>
+              );
+            })}
+          </p>
+        );
+      })}
     </div>
   );
 }

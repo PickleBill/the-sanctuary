@@ -25,7 +25,7 @@ const decisions: Decision[] = [
     headline: "Universal NDAs.",
     italic: "Cover-story by default.",
     body:
-      "Every clinician, housekeeper, driver, and contractor signs the same NDA on day one. Mail, deliveries, and travel manifests carry the Sanctuary Wellness & Longevity Institute name — never the clinical line.",
+      "Two layers stand between you and disclosure. Federal — 42 CFR Part 2 protects substance-use records above the HIPAA standard. Operational — every clinician, housekeeper, driver, and contractor signs the same NDA on day one, and correspondence runs under the Sanctuary Wellness & Longevity Institute DBA. Your name is never on a clinical envelope unless you ask for it to be.",
   },
   {
     weight: 20,
@@ -49,7 +49,7 @@ const decisions: Decision[] = [
     headline: "A cottage with a desk.",
     italic: "Encrypted comms.",
     body:
-      "The Chairman's Cottage is built for the principal who cannot disappear. Secure workspace, hardened video, scheduled windows for trusted counterparties.",
+      "For the founder mid-raise or the executive in the middle of a transaction, the Chairman's Cottage is a detached residence with a hardened workspace — secure video, encrypted email, a printer behind a sealed door. Trusted counterparties are scheduled into windows. Most principals keep a quiet two-hour daily window. Some keep none. The clinical program is composed around the window, not the other way around.",
   },
   {
     weight: 10,
@@ -120,17 +120,14 @@ export function SevenDecisions() {
                 className="block editorial-italic text-foreground/70"
                 style={{ fontWeight: 400 }}
               >
-                Half of them are privacy and speed.
+                Privacy and speed lead.
               </span>
             </h2>
             <p
               className="text-muted-foreground leading-relaxed max-w-xl"
               style={{ fontSize: "var(--text-body)" }}
             >
-              Families and their advisors weigh seven things when choosing a
-              residential program. We built Sanctuary Southeast around the
-              order of operations they actually use — not the order brochures
-              prefer.
+              Families and their advisors weigh seven things when choosing a residential program. We built Sanctuary Southeast around the order they actually use.
             </p>
           </div>
         </div>

@@ -3,7 +3,8 @@ import { Navbar } from "@/components/site/Navbar";
 import { Hero } from "@/components/site/Hero";
 import { Resonance } from "@/components/site/Resonance";
 import { Cohort } from "@/components/site/Cohort";
-import { Gallery } from "@/components/site/Gallery";
+import { JourneyStrip } from "@/components/site/JourneyStrip";
+import { Journey } from "@/components/site/Journey";
 import { SynergyMap } from "@/components/site/SynergyMap";
 import { Amenities } from "@/components/site/Amenities";
 import { Leadership } from "@/components/site/Leadership";
@@ -11,6 +12,7 @@ import { SevenDecisions } from "@/components/site/SevenDecisions";
 import { Process } from "@/components/site/Process";
 import { ConciergeForm } from "@/components/site/ConciergeForm";
 import { Footer } from "@/components/site/Footer";
+import { CursorCompanion } from "@/components/site/CursorCompanion";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -42,7 +44,8 @@ function Index() {
         <Hero />
         <Resonance />
         <Cohort />
-        <Gallery />
+        <JourneyStrip />
+        <Journey />
         <SynergyMap />
         <Amenities />
         <Leadership />
@@ -51,6 +54,7 @@ function Index() {
         <ConciergeForm />
       </main>
       <Footer />
+      <CursorCompanion />
     </>
   );
 }

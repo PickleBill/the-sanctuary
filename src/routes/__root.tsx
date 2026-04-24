@@ -46,8 +46,8 @@ export const Route = createRootRoute({
       { name: "description", content: "An ultra-luxury executive recovery retreat for high-net-worth individuals." },
       { property: "og:description", content: "An ultra-luxury executive recovery retreat for high-net-worth individuals." },
       { name: "twitter:description", content: "An ultra-luxury executive recovery retreat for high-net-worth individuals." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/Dfn8VavMxXS3yh70GuUB31JITni2/social-images/social-1777041119302-Screenshot_2026-04-24_at_10.31.38_AM.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/Dfn8VavMxXS3yh70GuUB31JITni2/social-images/social-1777041119302-Screenshot_2026-04-24_at_10.31.38_AM.webp" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/Dfn8VavMxXS3yh70GuUB31JITni2/social-images/social-1777042068184-Screenshot_2026-04-24_at_10.31.38_AM.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/Dfn8VavMxXS3yh70GuUB31JITni2/social-images/social-1777042068184-Screenshot_2026-04-24_at_10.31.38_AM.webp" },
       { property: "og:type", content: "website" },
     ],
     links: [

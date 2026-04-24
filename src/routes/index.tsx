@@ -1,12 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/site/Navbar";
 import { Hero } from "@/components/site/Hero";
+import { Resonance } from "@/components/site/Resonance";
+import { Cohort } from "@/components/site/Cohort";
 import { Gallery } from "@/components/site/Gallery";
 import { SynergyMap } from "@/components/site/SynergyMap";
-import { Resonance } from "@/components/site/Resonance";
-import { PeerCohort } from "@/components/site/PeerCohort";
 import { Amenities } from "@/components/site/Amenities";
-import { DayHere } from "@/components/site/DayHere";
 import { Leadership } from "@/components/site/Leadership";
 import { SevenDecisions } from "@/components/site/SevenDecisions";
 import { Process } from "@/components/site/Process";
@@ -16,17 +15,17 @@ import { Footer } from "@/components/site/Footer";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Sanctuary Southeast | Private Medical-Wellness Retreat in the Blue Ridge" },
+      { title: "Sanctuary Southeast | The room is the medicine — A private medical-wellness sanctuary in the Blue Ridge" },
       {
         name: "description",
         content:
-          "Swiss-standard clinical discretion in the Blue Ridge. A private medical-wellness retreat for executives and high-net-worth families. One family in residence at a time.",
+          "The room is the medicine. Care, in the company of peers — a private medical-wellness sanctuary in the Blue Ridge for executives, surgeons, judges, and founders.",
       },
-      { property: "og:title", content: "Sanctuary Southeast | Private Medical-Wellness Retreat in the Blue Ridge" },
+      { property: "og:title", content: "Sanctuary Southeast | The room is the medicine" },
       {
         property: "og:description",
         content:
-          "Swiss-standard clinical discretion in the Blue Ridge. One family in residence at a time.",
+          "Care, in the company of peers. One family in residence at a time, in the Blue Ridge.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -41,12 +40,11 @@ function Index() {
       <Navbar />
       <main>
         <Hero />
+        <Resonance />
+        <Cohort />
         <Gallery />
         <SynergyMap />
-        <Resonance />
-        <PeerCohort />
         <Amenities />
-        <DayHere />
         <Leadership />
         <SevenDecisions />
         <Process />

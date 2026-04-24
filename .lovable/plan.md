@@ -1,4 +1,12 @@
-# Phase 1 Final Cleanup — Gallery Swap
+# Phase 1 Closeout — COMPLETE (v3.9.1)
+
+Status: shipped. The 8-panel mosaic gallery is restored at the top; the bottom
+"estate, briefly" strip is now a clean 2×3 six-panel recap. Mobile hero
+text-indent forced to 0; logo gap tightened on small screens. Ready for
+Phase 2 (hardening: per-route SEO, error/notFound boundaries, perf pass,
+real OG images).
+
+---
 
 ## The mismatch you spotted
 

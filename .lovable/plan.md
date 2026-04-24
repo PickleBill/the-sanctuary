@@ -1,93 +1,122 @@
-# v3.8 — Ship the Three Refinements
+# Reset plan — stabilize first, then refine once
 
-Three focused moves. No new sections. Done in one push.
+You are right: this has become additive instead of intentional. The problem is not just a few bad components — it is that the site has been changing by layer-on-layer edits, so new interaction surfaces keep getting added before old ones are removed.
 
----
+## What is actually going wrong
 
-## Move 1 — Logo & wordmark cleanup (`Navbar.tsx`)
+1. **Additive edits without subtraction**
+   - Cohort now has multiple reveal surfaces competing with each other: the name plate above the SVG, the reveal panel below the SVG, the room sheet, the matched hint, and the matched CTA.
+   - Synergy has accumulated interaction patterns that are not visually anchored enough, so it reads like feature UI instead of one composed section.
 
-The current mark crowds the sun behind two ridges with a horizon line — it reads as visual noise at navbar size. New mark:
+2. **Broken wiring is masquerading as design failure**
+   - `Gallery.tsx` exists, but it is **not rendered on the homepage** right now. The nav still points to `#gallery`, so “Estate” effectively scrolls to nowhere.
+   - Several “speak with intake” / consultation buttons scroll to `#concierge-form`, but that anchor lands on the **TrustRail wrapper first**, not the actual first actionable input.
+   - Returning to `/` does not guarantee a hero reset, so “home” can feel like it lands mid-page.
 
-- **One ridge stroke** — single fluid amber path, 1.75px, rounded caps. The horizon line and back ridge are gone.
-- **Sun moved upper-right** to `(cx=26, cy=9, r=2.6)` — fully clear of the ridge silhouette, sitting in real negative space.
-- **Wordmark becomes "The Sanctuary"** alone — the "Blue Ridge" eyebrow above is removed. Single line, Literata 600, ivory, with `cv01` + `ss01` alternates.
-- Compact (scrolled) sizes: 28px mark, 1.1rem text. Full: 34px mark, 1.28rem text.
+3. **Conflicting design rules are stacking up**
+   - The project memory now contains multiple version-specific locks from v3.5, v3.7, and v3.8. Some of them directly push the product toward more motion and more surfaces, while the quieter design system says the opposite.
+   - Result: every pass solves one complaint while silently preserving old assumptions.
 
-Net effect: cleaner, flowing, breathable. Reads as a real wordmark, not a stamp.
+4. **There is also runtime instability**
+   - The current preview shows a hydration mismatch tied to the Synergy section.
+   - There are also SSR-sensitive patterns in the app (`Date`-driven output, client-only initial state branches) that make the experience feel less deterministic.
 
----
+## The new approach
 
-## Move 2 — Estate Gallery expanded to 6, more dynamic (`Gallery.tsx`)
+One reset pass. No new sections. No new cleverness.
 
-Add two panels, give all six visible motion, keep the lightbox flow.
+We will treat this as a **stabilization project**, not another feature iteration.
 
-**New panels:**
-- **The Trail** — `day-3-trail.jpg`. *"Three miles of soft-surface trail through white-oak canopy. The land does most of the work."*
-- **The Court** — `amenity-pickleball.jpg`. *"Pickleball at golden hour. A peer who outranks the small talk."*
+## Phase 1 — Repair the structure and remove sprawl
 
-**New 6-panel mosaic** (12-col grid):
-- Row 1: Suite (col-span-7, row-span-2, tall) · Grounds (col-span-5)
-- Row 2: ↑ Suite continues · Trail (col-span-5)
-- Row 3: Boardroom (col-span-4) · Court (col-span-4) · Clinical (col-span-4)
-- Row 4: *(removed — Clinical no longer full-bleed; the trio reads as a balanced base)*
+### 1) Fix the page wiring first
+- Put `Gallery` back into `src/routes/index.tsx` in the correct sequence.
+- Make the navbar mark always return to the hero cleanly.
+- Update all “consultation / intake” scroll targets so they land on the **actual start of the action area**, not the compliance rail above it.
+- Ensure home arrival restores top-of-page behavior consistently.
 
-**Dynamic affordances (all 6 panels):**
-- **Slow Ken Burns drift** — each image slowly scales from 1.00 → 1.06 over 18s on an infinite alternate, paused on `prefers-reduced-motion`. Different start delays per panel so they don't drift in sync.
-- **Hover state strengthened** — caption rises 4px, amber underline draws beneath the title (240ms), the existing expand-icon glows ember.
-- **Persistent "→ Open" chip on mobile** — small amber pill bottom-right of every panel so touch users see the affordance without hover.
-- The existing sibling-desaturate-on-hover stays (it works).
+### 2) Simplify the Cohort section
+- Convert Cohort from “several stacked explanation surfaces” into **one primary visual + one secondary action**.
+- Keep the constellation.
+- Remove the duplicate lower reveal block on mobile/desktop and consolidate the copy into a single readable presentation.
+- Rework the section into a cleaner composition: likely full-bleed image or stronger image-led left column with a much shorter descriptor set, then the constellation as the interactive proof.
+- Keep only one overflow pattern for extra detail: either the room sheet or the inline reveal, not both competing equally.
 
-Lightbox itself stays as-is — already strong.
+### 3) Rebuild Synergy for contrast and symmetry
+- Give Synergy its own elevated visual identity instead of letting it blend into the same navy field as neighboring sections.
+- Recompose the desktop layout on a stricter grid so the two halves feel balanced.
+- Slow and clarify the mobile interaction so it feels intentional, not like a text carousel.
+- Preserve the core idea the user liked: **clinical and holistic in deliberate contrast**.
 
----
+### 4) Clean up the logo/wordmark properly
+- Keep the wordmark as **The Sanctuary** only.
+- Redraw the mark for cleaner balance and negative space, with no extra blur/effect treatment.
+- Do one focused pass on the icon proportions and stop there — no more iterative symbol mutation after this pass.
 
-## Move 3 — SynergyMap, more dynamic with restored visual contrast (`SynergyMap.tsx`)
+### 5) Fix mobile type and spacing rhythm
+- Audit headline padding/alignment, especially hero and section titles.
+- Remove the left-compressed / hanging-looking overflow on narrow screens.
+- Reconcile `.eyebrow`, `hang-punct`, and heading spacing with the quieter design system so titles feel aligned instead of stylized-for-the-sake-of-it.
 
-The mobile card was a plain panel that scrolled too fast and lost the clinical/holistic contrast that made the desktop weave work. Rebuild as a literal **split stage**:
+## Phase 2 — Harden and lock the system
 
-**Mobile rebuild — split-stage card:**
-- Single card with **two stacked panels**: top half **navy** (Clinical, ivory text), bottom half **ivory** (Holistic, navy text). Real color contrast — you *feel* the duality before reading it.
-- A short **amber filament + dot** sits exactly on the seam, visually weaving the two halves.
-- **Auto-advance slowed from 3.8s → 6s.** First interaction (swipe / tap pager / arrow / tap card) locks auto-advance — same lock pattern, just calmer cadence.
-- **Tap-and-hold to pause** — `onTouchStart` pauses the timer, `onTouchEnd` resumes (unless already locked).
-- Pager dot for the active item gets a soft ember glow so the "you are here" reads at a glance.
+### 6) Remove unstable patterns
+- Fix the hydration issue in Synergy.
+- Replace SSR-sensitive render logic where needed so server and client output match reliably.
+- Remove any dead or duplicate interaction branches left over from interrupted passes.
 
-**Desktop weave enhancements:**
-- Add a faint horizontal divider between rows (`color-mix(in oklab, var(--ivory) 8%, transparent)`) so the grid reads as paired entries, not a flat list. This is structural, not decorative — it earns its place by making the pairing legible.
-- Whole row becomes clickable; clicking opens a small modal showing the pair larger with one sentence of context (e.g. *"Genetic & metabolic panel pairs with the long table because nutrition turns the markers."*). Eight pair-context sentences; quick to write, big payoff.
-- Hover keeps the existing amber-fill connector animation.
+### 7) Prune the design memory and freeze the rules
+- Collapse the competing v3.x memory rules into one current direction.
+- Keep only the rules that support the final site.
+- Explicitly forbid modal/overlay duplication and new interaction surfaces unless something is removed first.
 
-**WeekRhythm footer strip** stays unchanged — it's working.
+### 8) Adopt a safer collaboration workflow
+- Future requests get handled in this order:
+  1. diagnose
+  2. identify what to remove
+  3. propose one contained change set
+  4. implement
+  5. verify nothing else regressed
+- No more “one more enhancement” passes without a subtraction check.
 
----
+## Deliverable after this reset
 
-## Files changed
+A calmer homepage with:
+- working navigation
+- a single clear intake path
+- one strong Cohort story instead of stacked reveals
+- a composed Synergy section with real contrast
+- a final logo treatment that is balanced and finished
+- mobile typography that feels deliberate
+- fewer moving parts overall
 
-| File                                       | Change                                                                                                 |
-| ------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
-| `src/components/site/Navbar.tsx`           | New logomark — one ridge stroke + separated sun. Wordmark to "The Sanctuary" alone (no eyebrow).       |
-| `src/components/site/Gallery.tsx`          | 6 panels (add Trail + Court). Ken Burns drift on all panels. Mobile "→ Open" chip. New 12-col mosaic.  |
-| `src/components/site/SynergyMap.tsx`       | Mobile: navy/ivory split-stage card, 6s auto, tap-to-hold. Desktop: row dividers + click-to-modal pair context. |
-| `src/styles.css`                           | Add `@keyframes kenBurns` + `.gallery-kenburns` utility. Pair-modal animation reuses `.lb-panel`.      |
-| `.lovable/memory/design/v38-clarity.md`    | NEW — codify: logo = one ridge + separated sun; gallery panels always have motion + clear affordance; mobile must preserve visual contrast not just textual. |
-| `.lovable/memory/index.md`                 | Add v3.8 reference line.                                                                               |
+## Technical details
 
----
+Files likely touched:
+- `src/routes/index.tsx`
+- `src/components/site/Navbar.tsx`
+- `src/components/site/Gallery.tsx`
+- `src/components/site/Cohort.tsx`
+- `src/components/site/CohortRoomSheet.tsx`
+- `src/components/site/SynergyMap.tsx`
+- `src/components/site/ConciergeForm.tsx`
+- `src/components/site/Hero.tsx`
+- `src/components/site/Footer.tsx`
+- `src/styles.css`
+- `.lovable/memory/index.md` and related design memory files
 
-## v3.8 exit criteria
+Guardrails for the implementation pass:
+- remove before adding
+- one primary interaction per section
+- no duplicate modal/reveal systems
+- no new section-level features
+- verify mobile first at 402px width
+- fix runtime mismatches before visual polish
 
-- Logo reads cleanly at both compact and full sizes — sun and ridge clearly separated.
-- "Blue Ridge" eyebrow gone from navbar; "The Sanctuary" stands alone.
-- Estate gallery has 6 panels in a balanced mosaic; every panel has visible motion (Ken Burns) and a clear "click me" cue on both desktop hover and mobile.
-- SynergyMap mobile uses real navy/ivory color contrast — no longer a plain panel.
-- SynergyMap mobile auto-advance feels unhurried (6s); tap-and-hold pauses.
-- Desktop SynergyMap rows are clickable for deeper context.
+## Approval options
 
----
+Reply with one of these:
 
-## What I need from you
-
-Reply with one of:
-
-1. **"Ship v3.8"** — execute all three moves in one push.
-2. **"Ship with these changes: …"** — name what to swap (e.g. *"skip the desktop click-to-modal, keep desktop static"*, or *"use a different image for The Trail"*).
+1. **"Ship the reset"** — do the full two-phase stabilization pass.
+2. **"Ship Phase 1 only first"** — fix structure, cohort, synergy, logo, and scroll behavior before hardening/freeze.
+3. **"Ship the reset with these changes: ..."** — if you want to narrow or redirect any part of the reset.

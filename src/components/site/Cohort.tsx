@@ -332,20 +332,23 @@ export function Cohort() {
           }`}
         >
           <div className="lg:col-span-5">
-            {/* v3.5 — signature people-moment portrait above the headline */}
-            <div className="mb-7 overflow-hidden aspect-[16/9] bg-navy/50">
+            {/*
+              v3.9 reset — peer moment portrait. Same image, but the section
+              now relies on it as the visual anchor with much shorter copy.
+            */}
+            <div className="mb-7 overflow-hidden aspect-[16/10] bg-navy/50">
               <img
                 src={cohortPortrait}
                 alt="A hand resting on the page of a leather journal in soft window light"
                 loading="lazy"
                 width={1920}
-                height={1080}
+                height={1200}
                 className="w-full h-full object-cover opacity-90"
               />
             </div>
             <p className="eyebrow mb-5">The Cohort</p>
             <h2
-              className="font-serif text-ivory mb-7 hang-punct"
+              className="font-serif text-ivory mb-6 hang-punct"
               style={{
                 fontSize: "clamp(2rem, 1.5rem + 3vw, 3.75rem)",
                 lineHeight: 1.06,
@@ -359,13 +362,10 @@ export function Cohort() {
               </span>
             </h2>
             <p
-              className="text-ivory/90 leading-relaxed mb-6"
-              style={{ fontSize: "var(--text-lead)", lineHeight: 1.55 }}
+              className="text-ivory/85 leading-relaxed max-w-md"
+              style={{ fontSize: "var(--text-body)", lineHeight: 1.6 }}
             >
-              Anonymous, by design. Each point on this map is a recent resident — a peer who walked in carrying weight you would recognize.
-            </p>
-            <p className="mt-8 text-sm text-ivory/65 italic leading-relaxed max-w-sm">
-              No names. No faces. We never confirm a particular guest. Some of them now refer their friends.
+              Anonymous, by design. Each point in the room is a recent resident — a peer who walked in carrying weight you would recognize.
             </p>
           </div>
 

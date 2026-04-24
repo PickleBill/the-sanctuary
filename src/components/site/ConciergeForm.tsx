@@ -298,7 +298,7 @@ export function ConciergeForm() {
 
           <div className="lg:col-span-7">
             {submitted ? (
-              <SuccessCard dossierUrl={dossierUrl} firstName={submittedName} />
+              <SuccessCard dossierUrl={dossierUrl} firstName={submittedName} payload={replyPayload} />
             ) : (
               <div className="relative">
                 {/* Step canvas */}

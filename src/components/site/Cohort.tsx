@@ -531,35 +531,15 @@ export function Cohort() {
                 })}
               </svg>
 
-              {/* Reveal panel — always visible on mobile (auto-tour fills it) */}
-              <div className="mt-6 min-h-[5rem] sm:min-h-[4rem]">
-                <div className="flex items-baseline gap-3 mb-2 flex-wrap">
-                  <p
-                    className={`small-caps text-amber text-[11px] tracking-[0.28em] transition-opacity duration-500 ${
-                      activeNode ? "opacity-100" : matchedId != null ? "opacity-100" : "opacity-0"
-                    }`}
-                  >
-                    {activeNode && activeId === matchedId ? "A quiet resonance" : "Recent resident"}
-                  </p>
-                  {activeNode && (
-                    <span
-                      key={badgePulse}
-                      className="cohort-badge inline-flex items-center gap-1.5 px-2 py-[3px] border border-amber/40 text-[9px] tracking-[0.22em] uppercase text-amber/90"
-                    >
-                      <span aria-hidden className="block w-1.5 h-1.5 rounded-full bg-amber cohort-badge-dot" />
-                      In residence
-                    </span>
-                  )}
-                </div>
-                <p
-                  key={`${activeId}-${badgePulse}`}
-                  className={`font-serif editorial-italic text-ivory/95 cohort-role-rise ${
-                    activeNode ? "opacity-100" : "opacity-0"
-                  }`}
-                  style={{ fontSize: "var(--text-h4)", fontWeight: 400 }}
-                >
-                  {activeNode ? activeNode.role : "—"}
-                </p>
+              {/*
+                v3.9 reset — duplicate name plate removed. The plate above
+                the SVG is the only source of truth for the active archetype.
+                What lives here now is action + context only:
+                  - matched-rationale (when AI match is active)
+                  - "Continue privately" CTA (when matched node is active)
+                  - quiet hint + "View the room" chip
+              */}
+              <div className="mt-6 min-h-[2.5rem]">
 
                 {/* v3.4 — When matched node is active, show the whisper rationale */}
                 {activeNode && activeId === matchedId && matchRationale && (

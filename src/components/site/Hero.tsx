@@ -222,12 +222,12 @@ export function Hero() {
                 fontWeight: 500,
               }}
             >
-              <span className="block">Real medicine,</span>
+              <span className="block">Care worth coming to.</span>
               <span
                 className="block text-ivory/85 editorial-italic"
                 style={{ fontWeight: 400 }}
               >
-                in a place worth coming back to.
+                Among peers who understand.
               </span>
             </h1>
 
@@ -249,7 +249,7 @@ export function Hero() {
                 color: "color-mix(in oklab, var(--ivory) 90%, transparent)",
               }}
             >
-              Among peers who already understand. One family in residence — board-certified leadership, 4:1 staff-to-guest, the week is yours.
+              A private medical-wellness sanctuary in the Blue Ridge — for high-functioning leaders, in the company of peers who&rsquo;ve sat in the same chair. The work is real. The week is yours.
             </p>
 
             <div

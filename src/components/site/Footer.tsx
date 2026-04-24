@@ -10,32 +10,26 @@ function scrollToId(id: string) {
 export function Footer() {
   return (
     <footer className="bg-primary text-primary-foreground">
-      {/* v3 thesis line — the locked value proposition, set as a quiet pull-quote
-          above the operational invariants. The invariants now read as proofs of
-          the thesis, not as a standalone rail. */}
+      {/* Invariants rail — speed-of-admission as a published commitment */}
       <div>
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 py-14 lg:py-16">
-          <p className="font-serif text-primary-foreground/95 text-xl sm:text-2xl lg:text-3xl leading-snug max-w-4xl tracking-[-0.01em]">
-            Real medicine, in a place worth coming back to —
-            <span className="editorial-italic text-primary-foreground/80"> among peers who already understand.</span>
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-10 mt-10 lg:mt-12 pt-8 border-t border-primary-foreground/10">
-            <p className="font-serif text-primary-foreground/85 text-base leading-snug">
+        <div className="mx-auto max-w-7xl px-6 lg:px-10 py-12 lg:py-14">
+          <p className="small-caps text-amber text-[11px] tracking-[0.24em] mb-6">Our Invariants</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-10">
+            <p className="font-serif text-primary-foreground/90 text-lg leading-snug">
               30-minute clinician callback
-              <span className="block text-primary-foreground/50 text-[12px] mt-1.5 small-caps tracking-[0.18em]">
+              <span className="block text-primary-foreground/55 text-[13px] mt-1.5 small-caps tracking-[0.18em]">
                 day or night
               </span>
             </p>
-            <p className="font-serif text-primary-foreground/85 text-base leading-snug">
+            <p className="font-serif text-primary-foreground/90 text-lg leading-snug">
               24–72 hour admission window
-              <span className="block text-primary-foreground/50 text-[12px] mt-1.5 small-caps tracking-[0.18em]">
+              <span className="block text-primary-foreground/55 text-[13px] mt-1.5 small-caps tracking-[0.18em]">
                 from first conversation
               </span>
             </p>
-            <p className="font-serif text-primary-foreground/85 text-base leading-snug">
+            <p className="font-serif text-primary-foreground/90 text-lg leading-snug">
               One conversation, one principal
-              <span className="block text-primary-foreground/50 text-[12px] mt-1.5 small-caps tracking-[0.18em]">
+              <span className="block text-primary-foreground/55 text-[13px] mt-1.5 small-caps tracking-[0.18em]">
                 no call centers
               </span>
             </p>

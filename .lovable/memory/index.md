@@ -4,7 +4,7 @@ Updated: just now
 # Sanctuary Southeast — Project Memory
 
 ## Core
-Positioning line (v3, locked verbatim): "Real medicine, in a place worth coming back to — among peers who already understand." Used in Hero subhead, Footer thesis, and homepage meta description.
+Positioning line (v1.6): "Care worth coming to. Among peers who quietly understand."
 Three pillars in priority: clinical depth, peer belonging, restorative pleasure. Privacy is the FLOOR, not the headline.
 Geography: Western North Carolina (Asheville / Tryon / Lake Lure / Highlands corridor) — say "Blue Ridge", not "the Southeast".
 Audience is THREE: principal/family, referral professional (interventionist/concierge MD/family-office advisor/attorney), trusted advisor the URL is forwarded to.
@@ -19,8 +19,7 @@ HIPAA: NO PHI on the marketing site or in Cloud DB. Clinical data belongs in EMR
 Impeccable framework vendored at .impeccable/ — use its 18 commands as design lenses; project context locked in .impeccable.md.
 
 ## Memories
-- [Positioning v3](mem://design/positioning-v3) — LOCKED value prop: "Real medicine, in a place worth coming back to — among peers who already understand." + three proofs + verbatim Hero/Footer/meta copy
-- [Positioning v2](mem://design/positioning-v2) — v1.6 thesis (superseded for headline copy; voice do/don't table still authoritative)
+- [Positioning v2](mem://design/positioning-v2) — v1.6 thesis: privacy is floor, peer belonging + restorative pleasure are pillars; do/don't voice rules
 - [GTM positioning](mem://research/gtm-positioning) — Strategic Brief §3: 10 referral channels, HNW behavior, brand narrative, anti-patterns
 - [Investor thesis vol II](mem://research/investor-thesis-vol2) — Pricing tiers ($95K/$150K/$200K), seven decision criteria + weights, ten objections, Chairman's Cottage product spec, cover-story DBA, catchment geography
 - [HIPAA posture](mem://research/hipaa-posture) — Strategic Brief §4.1/§4.2: BAA boundaries, what belongs in EMR vs Lovable

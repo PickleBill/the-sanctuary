@@ -1,111 +1,137 @@
 
 
-# v2.1 — Imagery, Animation, Delight (then v2.2 — Retrospective)
+# v2.3 — Close-out + v3 — The Distilled Rebuild
 
-Two phases. Ship v2.1 to land the deliverable. Then v2.2 is a pure retrospective — no code, just lessons. You asked for both; I'm scoping both.
+Two artifacts. **v2.3** is one push that operationalizes the retro and ships a refined site. **v3** is four sequential prompts that rebuild from a distilled value prop — drop assumptions, break old patterns, land a final state.
 
 ---
 
-## v2.1 — What we ship (one push, three lenses, no scope creep)
+## v2.3 — Close-out (one push, the audit + the cuts the retro demanded)
 
-The canvas is finally quiet. Now we put the *one signature image* and the *one signature motion moment* on it. Lenses applied: **`/colorize`** + **`/animate`** + **`/delight`** (in that order — color is the foundation, motion is the tempo, delight is the surprise).
+The retro named the work and I never did it. v2.3 does it. No new sections, no new animations, no new images. Subtraction + the "section audit pass" + applying the three "next time" rules retroactively to what's on the page today.
 
-### 1. Hero — one signature photograph, regenerated
+### 1. Section audit (the move the retro promised but skipped)
+Walk the homepage at 402px and 1440px. Score each of the 12 sections on **"is this still pulling weight for the three-pillar thesis?"** (clinical depth / peer belonging / restorative pleasure). Cut or merge anything ambiguous.
 
-Current `hero-estate-aerial.jpg` is decent but reads "stock aerial," not "Architectural Digest cover." We regenerate via `google/gemini-3-pro-image-preview` with one tightly-scoped prompt:
+Probable cuts (final call during exec, but this is the working list):
+- **`Objections.tsx`** — duplicates work `SevenDecisions` already does. Merge the two highest-leverage objections into `SevenDecisions`, delete the section.
+- **`SynergyMap.tsx`** — clinical/holistic map is the most "framework-y" surface on the site. Either earns its keep with a single sharper paragraph in `Leadership`, or stays. Audit decides.
+- **`ChairmansCottage.tsx`** vs **`Amenities.tsx`** — overlap on "the property." Likely merge: cottage becomes the lead panel of Amenities, not a standalone section.
 
-> *"Editorial Architectural Digest cover, twilight aerial of a private Blue Ridge mountain estate, century white oaks, infinity pool catching the last gold light, soft ridge fog rolling in, cinematic, shallow depth of field on the foreground oaks, warm amber accents on cool slate-blue shadows, 16:9, no people, no text, no logos."*
+Target: **8–9 sections**, not 12. Ten high-conviction surfaces beat twelve hedged ones (retro §4 quote).
 
-Save as `hero-signature.jpg` (don't overwrite — keeps a rollback). Wire into `Hero.tsx`. Keep the existing parallax + Ken Burns + filament burn-in + mist canvas — the plumbing is right, only the asset changes.
+### 2. Apply "one subtract per add" retroactively
+Walk every component touched in v2.1 and remove one element that isn't doing a job:
+- `Resonance.tsx` — the word-by-word stream is delight; the eyebrow above it can go.
+- `Gallery.tsx` — sibling-desaturate stays; the bottom stat ledger goes (already pure-whitespace post-v2.0, but verify it's still earning the vertical real estate).
+- `ConciergeForm.tsx` — success-filament stays; trim form copy to ≤3 lines.
 
-### 2. Gallery — four images regraded as one set
+### 3. Mobile-first walk (the rule the retro added)
+For each remaining section, screenshot at 360px and 402px. Fix anything that wouldn't survive a brief screenshot:
+- Per-section: line wraps, orphan words, gap collisions, image crops.
+- Tap target audit: every link/button ≥44×44.
+- Verify the v2.0 line count holds — no regressions.
 
-The four gallery photos (suite, grounds, boardroom, clinical) are stylistically inconsistent — different lens, different time-of-day. Regenerate all four with one shared prompt suffix that locks the look:
+### 4. Copy distillation pass (`/distill` lens)
+Every H2 ≤6 words. Every body paragraph ≤3 sentences. Every caption ≤12 words. The retro flagged "oscillating positioning" — one read-through with a red pen, voice locked to `positioning-v2`'s do/don't table.
 
-> *"… shot on Hasselblad, golden-hour warm-cool split, shallow DOF, editorial architectural digest, no people, no text."*
+### 5. `/professionals` depth (the retro's recommended next move)
+Currently thin. Add only what an interventionist or family-office advisor needs to forward-with-confidence:
+- Named clinical leadership masthead (re-use `Leadership` portraits).
+- Anti-kickback transparency line, plain print.
+- One-paragraph intake protocol.
+- Direct line + dossier link.
 
-Each image gets its own subject sentence (Suite: *"a single Blue Ridge stone-and-cedar bedroom suite at dusk, cashmere throw on a reading chair, brass library lamp lit"* etc.). Save as `gallery-{slot}-v2.jpg`. Remove the `mix-blend-soft-light` color-grade overlay in `Gallery.tsx` — once the source images are unified we don't need the band-aid filter on top.
+No new sections beyond those four blocks. This is the page that gets forwarded — it is the conversion surface for the actual buyer.
 
-### 3. Leadership — two portraits regenerated as one cohort
-
-`leader-medical-director.jpg` and `leader-clinical-director.jpg` are inconsistent. Regenerate both with a unified portrait prompt:
-
-> *"Editorial portrait, 50-something physician in soft charcoal blazer, library backdrop with brass and walnut, Rembrandt lighting, Hasselblad medium format, warm amber rim, cool slate shadows, dignified, no smile, looking past the camera, 4:5, no text."*
-
-Vary subject (one MD coat over the blazer, one PhD without). Strip the soft-light overlay from `Leadership.tsx` once images are unified.
-
-### 4. Animation pass (`/animate` — three additions, no more)
-
-We currently have: hero parallax, hero filament burn-in, hero Ken Burns, mist canvas, Synergy Map row filaments, DayHere spine. That's already a generous motion vocabulary. We add **only three** moments:
-
-| Where | What | Why |
-|---|---|---|
-| `Gallery.tsx` panel reveal | 1500ms staggered fade + 8px upward drift, IntersectionObserver-triggered, `cubic-bezier(0.22, 1, 0.36, 1)` | The hero panel currently snaps in — the gallery is the second-most-looked-at surface, it deserves the same easing as the hero. |
-| `Gallery` lightbox open | Replace current 220ms fade with a 380ms scale-from-95% + backdrop blur ramp 0→8px | Currently feels abrupt. This is the one *delight* moment — opening a panel should feel like a curtain pulling back. |
-| `Resonance.tsx` reading panel | The AI response stream now fades in word-by-word (250ms per word, capped at 80 words to not feel slow) | Already a functional state change; making it cinematic earns its keep. |
-
-That is it. We do **not** add hover micro-interactions, parallax to other sections, or scroll-triggered ornaments. The `/quieter` v2.0 rules still bind.
-
-### 5. Delight pass (`/delight` — one moment, three details)
-
-One real "magic" moment, three hand-finishing touches:
-
-- **Magic moment:** When the user hovers a `Gallery` panel, the *other three panels* desaturate to 40% over 600ms. Cursor leaves → they restore. This is the brand saying *"focus on this one thing."* Pure CSS, no JS.
-- **Detail 1:** Hero CTA (`Request the Clinical Dossier`) gets a 700ms amber inner-glow on hover (replaces the current scale-x line — that line was the only `luxe-rule` survivor outside the hero filament, and it duplicates the brand mark).
-- **Detail 2:** Phone CTA gets a 1.2s amber pulse on the icon every 4 seconds *only* when the page has been idle 8+ seconds (no scroll, no mouse). Disabled at `prefers-reduced-motion`. Subtle "we're here" signal.
-- **Detail 3:** `ConciergeForm` success state — when the form submits, the form's border bottom does a 900ms filament-draw across before the success copy crossfades in. Echoes the hero's signature filament moment as a closing rhyme.
-
-### 6. Mobile polish (the "junk" you keep seeing)
-
-Walking the 402px viewport, three remaining issues to fix in this pass:
-
-- `Hero.tsx` — the per-line `<span class="block">` split is correct, but on 360px the second line (*"Among peers who understand."*) wraps to 2 lines awkwardly. Tighten the clamp lower bound from `2.375rem` → `2.0rem`.
-- `Gallery.tsx` — the lightbox grid uses `gap-px bg-border` which puts a hairline between image and copy panel. That's a v2.0 violation. Switch to `gap-0`.
-- `Leadership.tsx` — same `gap-px bg-border` between the two leader cards. Switch to `gap-y-px` only on mobile, `gap-0` on desktop with a single internal divider only if needed (probably not).
-
-### Files touched in v2.1
-
+### Files touched in v2.3
 | File | Change |
 |---|---|
-| `src/assets/hero-signature.jpg` | NEW — generated |
-| `src/assets/gallery-{suite,grounds,boardroom,clinical}-v2.jpg` | NEW — generated |
-| `src/assets/leader-{medical,clinical}-director-v2.jpg` | NEW — generated |
-| `Hero.tsx` | Swap image, lower clamp min, replace CTA scale-x with amber inner-glow, add idle-pulse to phone icon |
-| `Gallery.tsx` | Swap images, remove soft-light overlay, add stagger reveal, retune lightbox transition + grid gap, add hover-defocus on sibling panels |
-| `Leadership.tsx` | Swap images, remove soft-light overlay, fix `gap-px` |
-| `ConciergeForm.tsx` | Add filament-draw on success border-bottom before copy crossfade |
-| `Resonance.tsx` | Add word-by-word stream-in on AI reading |
-| `.lovable/memory/design/` | NEW: `imagery-v2.md` documenting the locked AD-cover prompt suffix so future regens stay on-brand |
+| `src/routes/index.tsx` | Remove cut sections from the render order |
+| `Objections.tsx` | Delete (after merging top 2 objections into SevenDecisions) |
+| `SevenDecisions.tsx` | Absorb merged objections; ≤6-word headers |
+| `Amenities.tsx` | Absorb ChairmansCottage as lead panel (if audit says merge) |
+| `ChairmansCottage.tsx` | Delete (if merged) |
+| `Resonance.tsx`, `Gallery.tsx`, `ConciergeForm.tsx` | Remove one element each per "subtract per add" |
+| `routes/professionals.tsx` | Tighten to four-block masthead/transparency/intake/contact layout |
+| All site components | Mobile-first 360/402px walk; copy distill ≤6/≤3/≤12 |
+| `mem://design/audit-v23.md` | NEW — record the audit verdicts so v3 inherits them |
 
-### Image generation cost note
-
-Six images via `google/gemini-3-pro-image-preview`. I'll generate, eyeball each one, regen any that miss the brief (typically 1–2 misses per batch). Output files saved into `src/assets/` directly. No Cloud storage needed since they're build-time bundled.
+### v2.3 exit criteria
+- ≤9 homepage sections
+- ≤6 decorative lines (v2.0 ceiling holds)
+- 360px screenshots of every section pass the "would I send this to a referring MD?" test
+- /professionals reads like a one-page private-bank intro letter
 
 ---
 
-## v2.2 — Retrospective (separate phase, no code, after v2.1 ships)
+## v3 — The Distilled Rebuild (four sequential prompts)
 
-You explicitly asked for "lessons learned, recommendation on whether to start fresh." Worth doing properly, not as a footnote. So v2.2 is a **document deliverable**, not a code push.
+After v2.3 ships, run these four prompts in order. Each is one push. Each is holistic enough to move the needle, scoped tight enough to not spiral. Together they rebuild the site from the value prop down — dropping any pattern that no longer serves.
 
-**What v2.2 produces:**
+### Prompt 1 of 4 — *"Re-distill the value proposition into one sentence and three proofs. Apply `/clarify` + `/distill` lenses. Update `mem://design/positioning-v3` with the result. Then rewrite the Hero (headline, sub, CTA), the Footer invariants line, and the meta description to that single sentence. Touch nothing else this push."*
 
-1. **`.lovable/memory/retro/v1-to-v2.md`** — a candid retrospective covering:
-   - What worked (the v2.0 subtraction pass; the typography lock-in; positioning-v2)
-   - What burned cycles (the 11 luxe-rule eyebrows that took until v2.0 to remove; oscillating between "privacy fortress" and "peer connection"; chasing "delight" before subtracting noise)
-   - Specific anti-patterns I committed (additive design — every push *added* a section, an animation, a card, until v2.0 forced subtraction; over-indexing on the Impeccable framework as if invoking the command was the work, when the work was *removing things*)
-2. **A direct answer to your three questions:**
-   - *"Am I doing the wrong thing invoking Impeccable scripts?"* — Honest answer with caveats.
-   - *"Should I have uploaded deep research reports?"* — Honest answer with caveats.
-   - *"Should I branch and start fresh?"* — Honest recommendation (preview: probably no, but with one specific reset move).
-3. **Three concrete "next time" rules** scoped narrowly enough to be testable.
+**Why first:** every other surface descends from this. The retro confirms positioning oscillated for 7 pushes. Lock it in one.
 
-This deliverable is ~800–1200 words, not a 5000-word essay. You'll be able to read it in one sitting and either nod or push back.
+### Prompt 2 of 4 — *"Apply `/critique` against the three personas (Principal, Referral Pro, Trusted Advisor) on the post-v2.3 homepage. Score each section 1–5 on heuristics. Any section scoring ≤3 from any persona: cut or rewrite. Output the scorecard to `mem://design/critique-v3.md` before any code edits, then execute the cuts. No new sections."*
 
-I'm scoping v2.2 as its own phase because mixing retrospective into the v2.1 build is exactly the kind of additive-scope move that caused the spiral in the first place. Ship the imagery. Then look back.
+**Why second:** independent verification that v2.3's audit was honest. The personas reference (`mem://design/critique-v1`) already exists — re-run it against the leaner site.
+
+### Prompt 3 of 4 — *"Apply `/colorize` + `/typeset` as one combined push. Audit color usage (amber should still be <10% visual weight per `.impeccable.md`); audit type scale (verify the Literata opsz 7..72 system is doing real work, not just present). Fix one structural issue, not five cosmetic ones. Document the locked color/type tokens in `mem://design/system-v3.md` as the canonical reference, deprecating `system.md`."*
+
+**Why third:** with positioning + sections locked, the visual system can be tuned to the final shape rather than a moving target.
+
+### Prompt 4 of 4 — *"Apply `/polish` + `/harden` as the close. Mobile walk at 360/375/402/414px. Lighthouse pass. WCAG AA verification on both light and dark themes. Add per-route `og:image` for `/`, `/professionals`, `/privacy-policy`, `/terms`. Fix anything below 90 on Performance, Accessibility, SEO. No design changes — only correctness."*
+
+**Why last:** this is the "ship it" gate. Hardening before polishing wastes polish; polishing before subtraction wastes subtraction. Both come last.
+
+### v3 exit criteria
+- One-sentence value prop, written down, used verbatim in three places
+- Every remaining section scored ≥4 from all three personas
+- Lighthouse ≥90 on Performance/A11y/SEO across all routes
+- Per-route OG images, distinct meta descriptions
+- No regressions on the v2.0 line ceiling or the v2.3 section ceiling
+
+---
+
+## Strategic recommendations — edge functions & post-v3 "pop"
+
+Three high-leverage moves, ranked by ROI on the *brand*, not on engineering effort. Pick at most two.
+
+### A. Concierge AI handoff (edge function — highest leverage)
+Today the `ConciergeForm` posts to a fallback. Wire a server function that:
+1. Accepts the inquiry.
+2. Calls `google/gemini-2.5-pro` (Lovable AI Gateway, no key) with a system prompt locked to `positioning-v3`'s voice + the HIPAA posture (NO PHI in or out).
+3. Generates a two-paragraph private response: one acknowledging the inquiry in the brand voice, one offering the dossier + 24/7 line.
+4. Sends the response via Resend (transactional email) to the inquirer + a copy to the admissions inbox.
+5. Logs to a `inquiries` table (no PHI; just timestamp, channel, inquiry-type-bucket).
+
+**Brand effect:** the first touch from Sanctuary is composed, not auto-generated boilerplate. The HNW prospect notices.
+
+### B. Personalized "reading" deepening (extends `Resonance.tsx`)
+The Resonance section already streams an AI reading. Today it's generic. Make it *responsive*:
+- Three quiet pre-fills ("for a family member," "for myself," "for a client I refer").
+- Each pre-fill yields a different AI reading, voice locked to the brand, ≤120 words, streamed word-by-word (the v2.1 animation).
+- No data stored. No account required. Pure stateless reading.
+
+**Brand effect:** the site reads back to the visitor in the visitor's frame. This is the one moment of "wow" that doesn't require a single new image.
+
+### C. Forward-friendly preview cards (post-v3 polish)
+Every route gets a hand-tuned `og:image` (1200×630) generated once via `google/gemini-3-pro-image-preview` using the `imagery-v2` prompt grammar. When the URL is forwarded in iMessage/Slack/email, the unfurl IS the brand. This is the highest-leverage move per dollar of effort because the *forward* is the buying signal for HNW (per the retro and the GTM positioning research).
+
+### What I'd skip
+- A blog / journal — content debt, requires governance, not on the buyer's path.
+- Live chat — wrong channel for the audience; the 24/7 phone line is the correct medium.
+- Account/login — no buyer asks for it; adds liability surface without lift.
+- Analytics dashboards as a feature — fine internally, never as a public surface.
 
 ---
 
 ## What I need from you
 
-Just confirm: **proceed with v2.1 as scoped, then v2.2 retrospective as a separate push.** If you want to swap or skip any of the six animation/delight moments, name which — otherwise I execute the list verbatim.
+Reply with one of:
+1. **"Ship v2.3 as scoped"** — I execute the close-out push verbatim.
+2. **"Ship v2.3 with these changes: …"** — name the cuts you disagree with.
+3. **"Skip v2.3, go straight to v3 prompt 1"** — riskier, but valid if you trust v2.1 is enough as the floor.
 
+For v3, no decision needed today — the four prompts are written so you copy-paste them in order after v2.3 lands. For the strategic recommendations, name **A, B, C, or none** when v3 prompt 4 finishes.

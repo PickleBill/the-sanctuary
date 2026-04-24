@@ -3,13 +3,13 @@ import { useEffect, useRef, useState } from "react";
 const items = [
   {
     num: "I",
-    title: "Discretion, by default",
-    desc: "Universal NDAs, encrypted channels, private arrival. The privacy is so complete you stop thinking about it — which is the point.",
+    title: "The Chairman's Cottage",
+    desc: "A detached residence on the estate. One guest. A hardened private office with encrypted comms and conference-grade fiber. The same clinical team. None of the interruption — for the principal who cannot be away.",
   },
   {
     num: "II",
-    title: "The work, when it must continue",
-    desc: "A sound-proof private office, satellite-grade fiber, and a secure conference stack — for the calls you cannot miss. Used sparingly, by design.",
+    title: "Discretion, by default",
+    desc: "Universal NDAs, encrypted channels, private arrival. The privacy is so complete you stop thinking about it — which is the point.",
   },
   {
     num: "III",
@@ -19,11 +19,11 @@ const items = [
   {
     num: "IV",
     title: "Food you would order on purpose",
-    desc: "A private chef working from a metabolic dietitian's brief. Plated as hospitality. Designed as medicine. You will eat better here than at home.",
+    desc: "A private chef working from a metabolic dietitian's brief. Plated as hospitality. Designed as medicine.",
   },
   {
     num: "V",
-    title: "Family, brought back into the room",
+    title: "Family, brought back",
     desc: "On-site lodging for spouses and counsel. Family-systems sessions led by senior clinicians. The conversation you've been postponing, made possible.",
   },
 ];

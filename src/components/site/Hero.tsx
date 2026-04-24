@@ -369,3 +369,100 @@ export function Hero() {
     </section>
   );
 }
+
+/**
+ * Mini-network whisper — 5 nodes drift across the bottom-left of the hero,
+ * with a single filament connecting two at a time. 30% opacity. A hint of the
+ * Cohort section below the fold. ~6 lines of SVG, no perf cost.
+ */
+function MiniNetwork() {
+  const [reduce, setReduce] = useState(false);
+  const [tick, setTick] = useState(0);
+  const nodesRef = useRef(
+    [0, 1, 2, 3, 4].map((i) => ({
+      x: 0.1 + i * 0.18 + (Math.sin(i * 1.7) * 0.04),
+      y: 0.4 + (Math.cos(i * 2.3) * 0.3),
+      vx: 0.005 + (i % 3) * 0.002,
+      vy: (i % 2 === 0 ? 1 : -1) * 0.003,
+    })),
+  );
+  const linkRef = useRef({ a: 0, b: 2, born: 0, duration: 3600 });
+
+  useEffect(() => {
+    const mq = window.matchMedia?.("(prefers-reduced-motion: reduce)");
+    setReduce(!!mq?.matches);
+  }, []);
+
+  useEffect(() => {
+    if (reduce) return;
+    let raf = 0;
+    let last = performance.now();
+    const step = (now: number) => {
+      const dt = Math.min(64, now - last) / 1000;
+      last = now;
+      const ns = nodesRef.current;
+      for (const n of ns) {
+        n.x += n.vx * dt;
+        n.y += n.vy * dt;
+        if (n.x < 0.05 || n.x > 0.95) n.vx *= -1;
+        if (n.y < 0.15 || n.y > 0.85) n.vy *= -1;
+      }
+      const link = linkRef.current;
+      if (now - link.born > link.duration) {
+        link.a = Math.floor(Math.random() * ns.length);
+        link.b = (link.a + 1 + Math.floor(Math.random() * (ns.length - 1))) % ns.length;
+        link.born = now;
+      }
+      setTick((t) => (t + 1) % 1_000_000);
+      raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [reduce]);
+
+  const ns = nodesRef.current;
+  const link = linkRef.current;
+  const t = reduce ? 0.5 : Math.min(1, (performance.now() - link.born) / link.duration);
+  let op = 0;
+  if (t < 0.4) op = t / 0.4;
+  else if (t < 0.7) op = 1;
+  else op = 1 - (t - 0.7) / 0.3;
+  op = Math.max(0, Math.min(1, op)) * 0.5;
+
+  const W = 280;
+  const H = 100;
+  const a = ns[link.a];
+  const b = ns[link.b];
+
+  return (
+    <svg
+      aria-hidden
+      viewBox={`0 0 ${W} ${H}`}
+      className="hidden sm:block absolute left-6 lg:left-10 bottom-6 z-10 pointer-events-none"
+      style={{ width: 220, height: 80, opacity: 0.32 }}
+      data-tick={tick}
+    >
+      {a && b && (
+        <line
+          x1={a.x * W}
+          y1={a.y * H}
+          x2={b.x * W}
+          y2={b.y * H}
+          stroke="var(--amber)"
+          strokeWidth={0.6}
+          opacity={op}
+        />
+      )}
+      {ns.map((n, i) => (
+        <circle
+          key={i}
+          cx={n.x * W}
+          cy={n.y * H}
+          r={2}
+          fill="var(--amber)"
+          opacity={0.85}
+        />
+      ))}
+    </svg>
+  );
+}

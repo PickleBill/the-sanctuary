@@ -549,8 +549,16 @@ export function Cohort() {
           50%      { opacity: 1; transform: scale(1.4); }
         }
         .cohort-badge-dot { animation: cohortDotPulse 1.6s ease-in-out infinite; }
+        @keyframes cohortMatchHalo {
+          0%, 100% { opacity: 0.55; transform: scale(0.92); }
+          50%      { opacity: 1;    transform: scale(1.06); }
+        }
+        .cohort-match-halo {
+          animation: cohortMatchHalo 3.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+          transform-box: fill-box;
+        }
         @media (prefers-reduced-motion: reduce) {
-          .cohort-role-rise, .cohort-badge, .cohort-badge-dot { animation: none !important; }
+          .cohort-role-rise, .cohort-badge, .cohort-badge-dot, .cohort-match-halo { animation: none !important; }
         }
       `}</style>
     </section>

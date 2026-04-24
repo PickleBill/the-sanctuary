@@ -2,6 +2,7 @@ import { useState, useTransition } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { generateResonance } from "@/server/resonance.functions";
 import type { ResonanceReading } from "@/lib/resonance/prompt";
+import { AIPresenceChip } from "@/components/site/AIPresenceChip";
 
 const PREFILLS = [
   {
@@ -200,27 +201,33 @@ export function Resonance() {
             <div className="mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4">
               <button
                 onClick={() => {
+                  const el = document.getElementById("cohort");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="group w-full sm:w-auto bg-amber text-amber-foreground px-7 py-4 min-h-[52px] text-[11px] tracking-[0.28em] uppercase font-semibold hover:-translate-y-0.5 transition-transform duration-300 flex items-center justify-center gap-3"
+              >
+                Meet your room
+                <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </button>
+              <button
+                onClick={() => {
                   const el = document.getElementById("concierge-form");
                   if (el) el.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="w-full sm:w-auto bg-amber text-amber-foreground px-7 py-4 min-h-[52px] text-[11px] tracking-[0.28em] uppercase font-semibold hover:-translate-y-0.5 transition-transform duration-500"
+                className="w-full sm:w-auto border border-foreground/30 px-7 py-4 min-h-[52px] text-[11px] tracking-[0.28em] uppercase font-medium text-foreground hover:border-amber hover:text-amber transition-colors duration-300 text-center flex items-center justify-center"
               >
                 Continue Privately
               </button>
-              <a
-                href="/clinical-dossier.pdf"
-                download
-                className="w-full sm:w-auto border border-border px-7 py-4 min-h-[52px] text-[11px] tracking-[0.28em] uppercase font-medium text-foreground hover:border-amber hover:text-amber transition-colors duration-500 text-center flex items-center justify-center"
-              >
-                Download the Clinical Dossier
-              </a>
             </div>
 
-            {reading.fallback && (
-              <p className="mt-6 text-xs text-muted-foreground italic">
-                Composed offline — our intake clinician will read your words personally if you continue.
-              </p>
-            )}
+            <div className="mt-6 flex items-center gap-3 flex-wrap">
+              <AIPresenceChip variant="navy" />
+              {reading.fallback && (
+                <p className="text-xs text-muted-foreground italic">
+                  Composed offline — a clinician will read your words personally if you continue.
+                </p>
+              )}
+            </div>
           </article>
         )}
       </div>

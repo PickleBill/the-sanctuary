@@ -16,7 +16,10 @@ export function CursorCompanion() {
   useEffect(() => {
     const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     const fine = window.matchMedia?.("(hover: hover) and (pointer: fine)").matches;
-    if (reduce || !fine) return;
+    const ua = navigator.userAgent;
+    const isIOS = /iPad|iPhone|iPod/.test(ua);
+    const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+    if (reduce || !fine || isIOS || isSafari) return;
     setEnabled(true);
 
     const onMove = (e: MouseEvent) => {

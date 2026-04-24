@@ -13,6 +13,8 @@ import { Process } from "@/components/site/Process";
 import { ConciergeForm } from "@/components/site/ConciergeForm";
 import { Footer } from "@/components/site/Footer";
 import { CursorCompanion } from "@/components/site/CursorCompanion";
+import { SectionRail } from "@/components/site/SectionRail";
+import { AmbientAudio } from "@/components/site/AmbientAudio";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,7 +32,9 @@ export const Route = createFileRoute("/")({
           "Care, in the company of peers. One family in residence at a time, in the Blue Ridge.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "/og-home.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "/og-home.jpg" },
     ],
   }),
   component: Index,
@@ -55,6 +59,8 @@ function Index() {
       </main>
       <Footer />
       <CursorCompanion />
+      <SectionRail />
+      <AmbientAudio />
     </>
   );
 }

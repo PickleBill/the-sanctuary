@@ -73,9 +73,9 @@ const moments: Moment[] = [
     src: porch,
     eyebrow: "Belonging",
     title: "On the porch, after",
-    caption: "Two glasses. Two figures. One ridge.",
-    long: "The unscheduled hour, after dinner. Fellow residents. A glass of something quiet. The conversation you didn't know you needed, with someone who's sat in your chair.",
-    alt: "Two figures laughing on a porch overlooking the Blue Ridge at sunset",
+    caption: "Two chairs. One ridge. The conversation you didn't know you needed.",
+    long: "The unscheduled hour, after dinner. Two chairs facing the long fold of the mountains. Fellow residents. The conversation you didn't know you needed, with someone who's sat in your chair.",
+    alt: "Two figures sitting in Adirondack chairs on a porch overlooking the Blue Ridge at sunset",
   },
   {
     src: clinical,
@@ -162,8 +162,8 @@ function MomentTile({
             {moment.eyebrow}
           </p>
           <h3
-            className="font-serif text-lg sm:text-xl lg:text-2xl mb-1.5 hang-punct text-on-image-strong"
-            style={{ fontWeight: 500, lineHeight: 1.12, letterSpacing: "-0.012em" }}
+            className="font-serif text-lg sm:text-xl lg:text-2xl mb-1.5 hang-punct text-luxe"
+            style={{ fontWeight: 600, lineHeight: 1.12, letterSpacing: "-0.018em" }}
           >
             {moment.title}
           </h3>
@@ -368,6 +368,10 @@ export function Journey() {
             0%   { transform: scale(1.02) translate3d(0, 0, 0); }
             50%  { transform: scale(1.09) translate3d(-1.5%, -1%, 0); }
             100% { transform: scale(1.02) translate3d(0, 0, 0); }
+          }
+          .journey-tile {
+            content-visibility: auto;
+            contain-intrinsic-size: 200px 200px;
           }
           .journey-tile-img {
             animation: journeyKenBurns 22s ease-in-out infinite;

@@ -438,6 +438,14 @@
     .cta-flame::before { animation: none !important; }
   }
 
+  /* v3.5 — "Tonight" line ember pulse in navbar */
+  @keyframes tonightPulse {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50%      { opacity: 1;    transform: scale(1.6); box-shadow: 0 0 8px var(--ember); }
+  }
+  .tonight-pulse { animation: tonightPulse 2.4s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .tonight-pulse { animation: none !important; } }
+
   /* ──────────────────────────────────────────────────────────────────────
    * v3.5 — print stylesheet for the homepage as a one-page brief.
    * If a referral pro prints the homepage to share with their client, it

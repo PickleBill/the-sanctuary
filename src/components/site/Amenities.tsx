@@ -3,6 +3,7 @@ import suite from "@/assets/gallery-suite-v2.jpg";
 import grounds from "@/assets/gallery-grounds-v2.jpg";
 import boardroom from "@/assets/gallery-boardroom-v2.jpg";
 import clinical from "@/assets/gallery-clinical-v2.jpg";
+import pickleball from "@/assets/amenity-pickleball.jpg";
 
 /**
  * v3.3 — Amenities + Building deck
@@ -28,7 +29,7 @@ const items = [
   {
     num: "III",
     title: "Things worth doing again",
-    desc: "Fly fishing on private water. A round at a quiet course. An hour with a horse who doesn't care what you do for a living.",
+    desc: "Fly fishing on private water. A quiet round at the club. Pickleball at golden hour with a peer who outranks the small talk. An hour with a horse who doesn't care what you do for a living.",
   },
   {
     num: "IV",
@@ -45,6 +46,7 @@ const items = [
 const buildings = [
   { src: suite, label: "The Suite", caption: "Where the day begins.", alt: "A serene private suite with mountain light" },
   { src: grounds, label: "The Grounds", caption: "Forty acres, one family.", alt: "The Blue Ridge grounds at golden hour" },
+  { src: pickleball, label: "The Court", caption: "Pickleball at golden hour.", alt: "A private pickleball court at sunset, paddles waiting on a wooden bench" },
   { src: boardroom, label: "The Office", caption: "Conference-grade fiber, hardened comms.", alt: "A private executive office with warm wood paneling" },
   { src: clinical, label: "The Clinic", caption: "Hospitality, dressed as medicine.", alt: "A discreet clinical wellness suite" },
 ];

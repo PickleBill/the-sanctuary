@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { matchPeer } from "@/server/cohort.functions";
 import { COHORT_ROLES } from "@/lib/cohort/roles";
-import { AIPresenceChip } from "@/components/site/AIPresenceChip";
 import { CohortRoomSheet } from "@/components/site/CohortRoomSheet";
 import cohortPortrait from "@/assets/cohort-portrait.jpg";
 
@@ -578,6 +577,7 @@ export function Cohort() {
         onClose={() => setRoomOpen(false)}
         matchedId={matchedId}
         activeId={activeId}
+        matchRationale={matchRationale}
         onPick={(id) => handleNodeActivate(id)}
       />
 

@@ -623,6 +623,15 @@ export function Cohort() {
         </div>
       </div>
 
+      {/* v3.7 — Bottom-sheet listing all 40 archetypes */}
+      <CohortRoomSheet
+        open={roomOpen}
+        onClose={() => setRoomOpen(false)}
+        matchedId={matchedId}
+        activeId={activeId}
+        onPick={(id) => handleNodeActivate(id)}
+      />
+
       <style>{`
         @keyframes cohortRoleRise {
           from { opacity: 0; transform: translateY(6px); }

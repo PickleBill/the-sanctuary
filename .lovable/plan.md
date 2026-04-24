@@ -1,137 +1,157 @@
 
 
-# v2.3 — Close-out + v3 — The Distilled Rebuild
+# v3.2 — Show The Network. Stop Telling.
 
-Two artifacts. **v2.3** is one push that operationalizes the retro and ships a refined site. **v3** is four sequential prompts that rebuild from a distilled value prop — drop assumptions, break old patterns, land a final state.
+You're right, and you've put your finger on the actual problem: **we've been polishing a brochure for a private cottage when you wanted a manifesto for a peer network.** Every pass made the cottage prettier. None of them made the network *visible*.
+
+This plan is two pushes, scoped tight, and they answer your three asks:
+- Make the site *interactive* (you can touch the network, not just read about it)
+- Make the message *futuristic / community* (the room is the product, not the building)
+- Make it *stand out* (one moment that no other treatment-site has)
 
 ---
 
-## v2.3 — Close-out (one push, the audit + the cuts the retro demanded)
+## The honest diagnosis (why every pass felt marginal)
 
-The retro named the work and I never did it. v2.3 does it. No new sections, no new animations, no new images. Subtraction + the "section audit pass" + applying the three "next time" rules retroactively to what's on the page today.
+I read the homepage section by section. The "private cottage" feel isn't from any one element — it's from the **information architecture itself**:
 
-### 1. Section audit (the move the retro promised but skipped)
-Walk the homepage at 402px and 1440px. Score each of the 12 sections on **"is this still pulling weight for the three-pillar thesis?"** (clinical depth / peer belonging / restorative pleasure). Cut or merge anything ambiguous.
+| Section | What it says | What you see |
+|---|---|---|
+| Hero | "Care worth coming to. Among peers who understand." | Aerial of an empty estate. No peers visible. |
+| Gallery | Building, building, building, building | Buildings. |
+| SynergyMap | Clinical + holistic = synthesis | A clever diagram. Still about *services*. |
+| Resonance | An AI mirror | One of two interactive moments — buried mid-page |
+| **PeerCohort** | **"You are not the first."** | **Six static words: Founder, Surgeon, Trustee, Justice, Operator, Parent. That's your dead space.** |
+| Amenities | The cottage, the grounds | Cottage. |
+| DayHere | A day's rhythm | A timeline of *one person* alone. |
+| Leadership | Two named MDs | The ONLY humans on the page. |
 
-Probable cuts (final call during exec, but this is the working list):
-- **`Objections.tsx`** — duplicates work `SevenDecisions` already does. Merge the two highest-leverage objections into `SevenDecisions`, delete the section.
-- **`SynergyMap.tsx`** — clinical/holistic map is the most "framework-y" surface on the site. Either earns its keep with a single sharper paragraph in `Leadership`, or stays. Audit decides.
-- **`ChairmansCottage.tsx`** vs **`Amenities.tsx`** — overlap on "the property." Likely merge: cottage becomes the lead panel of Amenities, not a standalone section.
+The whole second half is "things you'll have." Nothing on the page conveys **the room is composed of people like you, working together, right now**. PeerCohort literally tells you "you are not the first" and then shows you a list of nouns. Of course it feels dead.
 
-Target: **8–9 sections**, not 12. Ten high-conviction surfaces beat twelve hedged ones (retro §4 quote).
+That is what v3.2 fixes — not by adding sections, but by **rebuilding two existing surfaces to embody the network**, plus turning on the first AI edge function so the site *responds to who's reading it*.
 
-### 2. Apply "one subtract per add" retroactively
-Walk every component touched in v2.1 and remove one element that isn't doing a job:
-- `Resonance.tsx` — the word-by-word stream is delight; the eyebrow above it can go.
-- `Gallery.tsx` — sibling-desaturate stays; the bottom stat ledger goes (already pure-whitespace post-v2.0, but verify it's still earning the vertical real estate).
-- `ConciergeForm.tsx` — success-filament stays; trim form copy to ≤3 lines.
+---
 
-### 3. Mobile-first walk (the rule the retro added)
-For each remaining section, screenshot at 360px and 402px. Fix anything that wouldn't survive a brief screenshot:
-- Per-section: line wraps, orphan words, gap collisions, image crops.
-- Tap target audit: every link/button ≥44×44.
-- Verify the v2.0 line count holds — no regressions.
+## v3.2 — The Network Push (one build)
 
-### 4. Copy distillation pass (`/distill` lens)
-Every H2 ≤6 words. Every body paragraph ≤3 sentences. Every caption ≤12 words. The retro flagged "oscillating positioning" — one read-through with a red pen, voice locked to `positioning-v2`'s do/don't table.
+Three lenses, applied as one move: **`/shape`** (rebuild PeerCohort + Hero), **`/animate`** (give the network breath), **`/delight`** (one signature moment), **`/distill`** (cut what no longer pulls weight).
 
-### 5. `/professionals` depth (the retro's recommended next move)
-Currently thin. Add only what an interventionist or family-office advisor needs to forward-with-confidence:
-- Named clinical leadership masthead (re-use `Leadership` portraits).
-- Anti-kickback transparency line, plain print.
-- One-paragraph intake protocol.
-- Direct line + dossier link.
+### 1. Rebuild PeerCohort → "The Cohort" — the network made visible
 
-No new sections beyond those four blocks. This is the page that gets forwarded — it is the conversion surface for the actual buyer.
+Replace the static 6-word list with a **living constellation**: 24–32 anonymous nodes (small filled circles, amber/ivory) softly drifting on a navy field, connected by faint amber filaments that draw and fade between nodes every few seconds. Each node has a hover-revealed *category* (`Founder · raised Series C`, `Surgeon · Mayo`, `Federal Judge`, `Trustee · family office`, `Olympian · retired`, `Operator · two exits`, `Author · NYT bestseller`, `Parent · principal of two`). No names, no faces, no testimonials — pure category, true to brand.
 
-### Files touched in v2.3
+**Interaction:**
+- Idle: nodes drift slowly, filaments draw between random pairs (1.4s ease, fade out 2s) — roughly one new connection per 3s. Visualizes "the room is talking to itself."
+- Hover a node: that node brightens, surrounding 3–5 nodes connect to it with amber filaments, the category label fades in beneath. Sibling nodes desaturate to 30% — same focus-grammar as the gallery. (Keyboard: arrow keys cycle through nodes; Enter reveals.)
+- Reduced-motion: static graph, hover-only reveals, no drift, no auto-filaments.
+
+**Implementation:** single SVG, 60fps capped, ≤32 nodes (fits comfortably on a 360px viewport at ~12px node spacing), pure React + `requestAnimationFrame`, no canvas, no library. The filament-draw uses the same `cubic-bezier(0.22, 1, 0.36, 1)` and amber stroke as Hero/SynergyMap — the network *is* the brand mark, drawn out.
+
+This is the section that converts "another treatment center" → "a peer network with a clinic attached." It's the magic moment.
+
+### 2. Hero — make the network the headline
+
+Two changes, both copy + composition, no asset regen:
+
+- **Headline rewrite** (locks v3 positioning that we said we'd lock and never did):
+  > **The room is the medicine.**
+  > *Care, in the company of peers.*
+  This puts the *room* (network) in front of the *care* (clinical) — the order matters. "Care worth coming to" puts the building first; this puts the people first.
+- **Sub-copy** trimmed to one sentence:
+  > A private medical-wellness sanctuary in the Blue Ridge — where executives, surgeons, judges, and founders restore in the company of peers who've sat in the same chair.
+- **Mini-network preview**: 5 small amber nodes drift across the bottom-left of the hero (above the CTA cluster), with the same connect-and-fade behavior as The Cohort, at 30% opacity. A whisper of what's below the fold. ~6 lines of SVG, no perf cost.
+
+### 3. Resonance — promote it from buried form to "talk to the room"
+
+The AI mirror is your strongest interactive asset and it sits seventh on the page. Two structural moves:
+
+- **Move it directly after Hero** (becomes second section). The first thing a visitor does after the headline is *talk to the site* — that's the futuristic feel you're asking for.
+- **Add three pre-fills** (the v3 strategic-rec B that you asked us to ship now): `For myself` · `For someone I love` · `For a client I refer`. Each pre-fill seeds the textarea and slightly tunes the system prompt's voice (we already have a server function — this is one parameter).
+- Reading panel adds one new line: *"Three other people are reading something quiet right now."* (Static for v3.2 — no fake telemetry. Becomes real in v3.3 if you ship the inquiry-log edge function. See strategic recs below.)
+
+### 4. Distill — cut what no longer carries
+
+With The Cohort doing the peer-network job and Resonance doing the interactive job, two sections become redundant:
+- **DayHere** (the solo-timeline) — merge its single best line ("You will rise to a quiet bell") into Amenities as a one-line caption. Delete the section. (The cottage-day was the most "private retreat" surface on the site — it works against the new positioning.)
+- **PeerCohort** as it exists today — fully replaced by The Cohort.
+
+End state: **9 sections** (was 10). Hero → Resonance → The Cohort → Gallery → SynergyMap → Amenities → Leadership → SevenDecisions → Process → ConciergeForm. The first four pages of scroll all *show the network in motion*.
+
+### 5. Files touched
+
 | File | Change |
 |---|---|
-| `src/routes/index.tsx` | Remove cut sections from the render order |
-| `Objections.tsx` | Delete (after merging top 2 objections into SevenDecisions) |
-| `SevenDecisions.tsx` | Absorb merged objections; ≤6-word headers |
-| `Amenities.tsx` | Absorb ChairmansCottage as lead panel (if audit says merge) |
-| `ChairmansCottage.tsx` | Delete (if merged) |
-| `Resonance.tsx`, `Gallery.tsx`, `ConciergeForm.tsx` | Remove one element each per "subtract per add" |
-| `routes/professionals.tsx` | Tighten to four-block masthead/transparency/intake/contact layout |
-| All site components | Mobile-first 360/402px walk; copy distill ≤6/≤3/≤12 |
-| `mem://design/audit-v23.md` | NEW — record the audit verdicts so v3 inherits them |
+| `PeerCohort.tsx` | Rename → `Cohort.tsx`. Full rebuild as SVG constellation w/ drift + filaments + hover reveal. |
+| `Hero.tsx` | Headline + sub rewrite. Add 5-node mini-network SVG bottom-left. |
+| `Resonance.tsx` | Add three pre-fill chips. Add "three others reading" line under reading panel. |
+| `routes/index.tsx` | Reorder: Hero → Resonance → Cohort → Gallery → SynergyMap → Amenities → Leadership → SevenDecisions → Process → ConciergeForm. Remove DayHere. |
+| `Amenities.tsx` | Absorb DayHere's "rise to a quiet bell" line as one caption. |
+| `DayHere.tsx` | DELETE. |
+| `mem://design/positioning-v3.md` | NEW — lock "The room is the medicine" verbatim. |
+| `.lovable/memory/index.md` | Update positioning core line. |
 
-### v2.3 exit criteria
-- ≤9 homepage sections
-- ≤6 decorative lines (v2.0 ceiling holds)
-- 360px screenshots of every section pass the "would I send this to a referring MD?" test
-- /professionals reads like a one-page private-bank intro letter
+### v3.2 exit criteria
+- The Cohort is the section users screenshot and send to friends. (If it isn't, I missed.)
+- "Futuristic / community" is *visible* in the first three scrolls — not implied in copy.
+- Section count down to 9. No regressions on the v2.0 line-ceiling.
 
 ---
 
-## v3 — The Distilled Rebuild (four sequential prompts)
+## v3.3 — Concierge AI Handoff (one build, one edge function)
 
-After v2.3 ships, run these four prompts in order. Each is one push. Each is holistic enough to move the needle, scoped tight enough to not spiral. Together they rebuild the site from the value prop down — dropping any pattern that no longer serves.
+The first AI edge function from the strategic-recs (move A — highest ROI). One push, scoped to the back-end + a small UI tweak.
 
-### Prompt 1 of 4 — *"Re-distill the value proposition into one sentence and three proofs. Apply `/clarify` + `/distill` lenses. Update `mem://design/positioning-v3` with the result. Then rewrite the Hero (headline, sub, CTA), the Footer invariants line, and the meta description to that single sentence. Touch nothing else this push."*
+### What ships
+1. New server function `composePrivateReply` calls `google/gemini-2.5-pro` via Lovable AI Gateway with a system prompt locked to v3 positioning ("The room is the medicine") + HIPAA posture (no PHI, no diagnosis, no clinical advice).
+2. On `ConciergeForm` submit:
+   - Inquiry inserts into existing `prospectus_requests` table (already there).
+   - `composePrivateReply` runs in parallel — generates a two-paragraph response in brand voice (acknowledgment + dossier offer + 24/7 line).
+   - Reply sent via Lovable Email (built-in, no Resend) to the inquirer + admissions inbox.
+   - Success state shows: *"A private note is on its way to you."* (replaces today's generic confirmation).
+3. Logs to a new `inquiry_replies` table: timestamp, role, response-length, fallback-bool. **No PHI. No message body. Just metadata.**
 
-**Why first:** every other surface descends from this. The retro confirms positioning oscillated for 7 pushes. Lock it in one.
+### Why this, why now
+You said pick two AI moves. v3.2 ships move B (Resonance pre-fills) inline because the plumbing is already there. v3.3 ships move A standalone because it requires:
+- New edge function with retry/fallback
+- Email infrastructure (Lovable Emails — built-in, no Resend account needed)
+- A new logging table + RLS
 
-### Prompt 2 of 4 — *"Apply `/critique` against the three personas (Principal, Referral Pro, Trusted Advisor) on the post-v2.3 homepage. Score each section 1–5 on heuristics. Any section scoring ≤3 from any persona: cut or rewrite. Output the scorecard to `mem://design/critique-v3.md` before any code edits, then execute the cuts. No new sections."*
+That's its own push. Trying to cram it into v3.2 is exactly the additive-spiral that burned cycles before.
 
-**Why second:** independent verification that v2.3's audit was honest. The personas reference (`mem://design/critique-v1`) already exists — re-run it against the leaner site.
+### Files touched in v3.3
+| File | Change |
+|---|---|
+| `src/server/concierge.functions.ts` | NEW — `composePrivateReply` server function |
+| `src/lib/concierge/prompt.ts` | NEW — locked system prompt |
+| `ConciergeForm.tsx` | Wire success state to new server fn; new copy |
+| Email templates | NEW — `concierge-acknowledgment` React Email template |
+| Migration | NEW — `inquiry_replies` table + RLS |
+| Lovable Email infra | Setup via tool (one-time) |
 
-### Prompt 3 of 4 — *"Apply `/colorize` + `/typeset` as one combined push. Audit color usage (amber should still be <10% visual weight per `.impeccable.md`); audit type scale (verify the Literata opsz 7..72 system is doing real work, not just present). Fix one structural issue, not five cosmetic ones. Document the locked color/type tokens in `mem://design/system-v3.md` as the canonical reference, deprecating `system.md`."*
-
-**Why third:** with positioning + sections locked, the visual system can be tuned to the final shape rather than a moving target.
-
-### Prompt 4 of 4 — *"Apply `/polish` + `/harden` as the close. Mobile walk at 360/375/402/414px. Lighthouse pass. WCAG AA verification on both light and dark themes. Add per-route `og:image` for `/`, `/professionals`, `/privacy-policy`, `/terms`. Fix anything below 90 on Performance, Accessibility, SEO. No design changes — only correctness."*
-
-**Why last:** this is the "ship it" gate. Hardening before polishing wastes polish; polishing before subtraction wastes subtraction. Both come last.
-
-### v3 exit criteria
-- One-sentence value prop, written down, used verbatim in three places
-- Every remaining section scored ≥4 from all three personas
-- Lighthouse ≥90 on Performance/A11y/SEO across all routes
-- Per-route OG images, distinct meta descriptions
-- No regressions on the v2.0 line ceiling or the v2.3 section ceiling
+### v3.3 exit criteria
+- An inquiry submitted at 2am gets a brand-voice email by 2:01am.
+- Admissions inbox gets a copy with the form data + the AI's reply.
+- No PHI logged. No clinical claims in the reply (system-prompt guarded).
 
 ---
 
-## Strategic recommendations — edge functions & post-v3 "pop"
+## What's deferred (and why I'm not adding it)
 
-Three high-leverage moves, ranked by ROI on the *brand*, not on engineering effort. Pick at most two.
+You have a few builds left. After v3.2 + v3.3 the site is *stunning, interactive, and on-brand*. What I'd consciously skip rather than spread thin:
+- **Strategic rec C (per-route OG images)** — 30 minutes of polish, do it as the very last move only if you have a build to spare.
+- A `/critique` formal scorecard — v3.2's structural rebuild *is* the critique response. A scorecard at this point is bureaucracy.
+- Any new section. The page does not need more rooms; it needs the existing rooms to be alive.
 
-### A. Concierge AI handoff (edge function — highest leverage)
-Today the `ConciergeForm` posts to a fallback. Wire a server function that:
-1. Accepts the inquiry.
-2. Calls `google/gemini-2.5-pro` (Lovable AI Gateway, no key) with a system prompt locked to `positioning-v3`'s voice + the HIPAA posture (NO PHI in or out).
-3. Generates a two-paragraph private response: one acknowledging the inquiry in the brand voice, one offering the dossier + 24/7 line.
-4. Sends the response via Resend (transactional email) to the inquirer + a copy to the admissions inbox.
-5. Logs to a `inquiries` table (no PHI; just timestamp, channel, inquiry-type-bucket).
-
-**Brand effect:** the first touch from Sanctuary is composed, not auto-generated boilerplate. The HNW prospect notices.
-
-### B. Personalized "reading" deepening (extends `Resonance.tsx`)
-The Resonance section already streams an AI reading. Today it's generic. Make it *responsive*:
-- Three quiet pre-fills ("for a family member," "for myself," "for a client I refer").
-- Each pre-fill yields a different AI reading, voice locked to the brand, ≤120 words, streamed word-by-word (the v2.1 animation).
-- No data stored. No account required. Pure stateless reading.
-
-**Brand effect:** the site reads back to the visitor in the visitor's frame. This is the one moment of "wow" that doesn't require a single new image.
-
-### C. Forward-friendly preview cards (post-v3 polish)
-Every route gets a hand-tuned `og:image` (1200×630) generated once via `google/gemini-3-pro-image-preview` using the `imagery-v2` prompt grammar. When the URL is forwarded in iMessage/Slack/email, the unfurl IS the brand. This is the highest-leverage move per dollar of effort because the *forward* is the buying signal for HNW (per the retro and the GTM positioning research).
-
-### What I'd skip
-- A blog / journal — content debt, requires governance, not on the buyer's path.
-- Live chat — wrong channel for the audience; the 24/7 phone line is the correct medium.
-- Account/login — no buyer asks for it; adds liability surface without lift.
-- Analytics dashboards as a feature — fine internally, never as a public surface.
+If you finish v3.2 and v3.3 and decide one more polish push is worth it, that's **v3.4 — Polish & Harden**: per-route OG images, Lighthouse pass, WCAG AA verify, mobile walk at 360/375/402/414. No design changes — only correctness. That's the ship-it gate.
 
 ---
 
 ## What I need from you
 
-Reply with one of:
-1. **"Ship v2.3 as scoped"** — I execute the close-out push verbatim.
-2. **"Ship v2.3 with these changes: …"** — name the cuts you disagree with.
-3. **"Skip v2.3, go straight to v3 prompt 1"** — riskier, but valid if you trust v2.1 is enough as the floor.
+One reply:
+1. **"Ship v3.2"** — I rebuild PeerCohort as The Cohort, rewrite Hero, promote Resonance, cut DayHere. One push.
+2. **"Ship v3.2 with these changes: …"** — name what you'd swap (e.g. "keep DayHere," or "use different roles in The Cohort").
+3. **"Skip v3.2, ship v3.3 first"** — possible but not advised; the AI handoff lands harder when the network is visible first.
 
-For v3, no decision needed today — the four prompts are written so you copy-paste them in order after v2.3 lands. For the strategic recommendations, name **A, B, C, or none** when v3 prompt 4 finishes.
+For v3.3 (the edge function) — no decision needed today. After v3.2 lands, just say "ship v3.3." For v3.4 polish — only if you want it after the two main pushes.
+

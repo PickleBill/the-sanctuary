@@ -182,12 +182,12 @@ export function Amenities() {
             ──────────────────────────────────────────────────────────────── */}
         <div className="mt-20 lg:mt-28 pt-12 lg:pt-16 border-t border-border">
           <div className="flex items-baseline justify-between mb-8 lg:mb-10">
-            <p className="eyebrow">The buildings, briefly</p>
+            <p className="eyebrow">The estate, briefly</p>
             <p className="hidden sm:block small-caps text-foreground/45 text-[10px] tracking-[0.28em] tabular">
-              Four rooms · One estate
+              Five rooms · One estate
             </p>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
             {buildings.map((b, i) => (
               <figure
                 key={b.label}

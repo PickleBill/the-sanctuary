@@ -1,14 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
 /**
- * v3.2 — "The Cohort"
+ * v3.3 — "The Cohort" Mobile-First Rebuild
  *
- * The peer-network made visible. Replaces the static PeerCohort word-list with
- * a living constellation: anonymous nodes drifting on a navy field, connected
- * by amber filaments that draw and fade. Hover a node to reveal the category.
+ * What changed from v3.2:
+ *  - 40 nodes (was 28), 30% faster drift, 7 max concurrent filaments (was 4)
+ *  - Auto-tour on mobile: every 2.4s the next node lights up automatically
+ *  - 7px nodes on mobile (was 3), 4.5px desktop — real tap targets
+ *  - viewBox switches to 480×600 on mobile so constellation owns vertical space
+ *  - "Currently in residence" peer badge pulses for 1.2s on each reveal
  *
- * Pure SVG + requestAnimationFrame. No canvas, no library. ≤32 nodes.
- * Reduced-motion: static graph, hover-only reveals, no drift, no auto-filaments.
+ * Pure SVG + requestAnimationFrame. No canvas, no library.
+ * Reduced-motion: static graph, hover-only reveals, no drift, no auto-tour.
  */
 
 const ROLES = [
@@ -40,51 +43,60 @@ const ROLES = [
   "Investor · early-stage",
   "Pediatric Oncologist",
   "Rector",
+  "Hedge Fund Founder",
+  "Anesthesiologist · chief",
+  "Tech CEO · pre-IPO",
+  "Three-Star General · retired",
+  "Research Scientist · NIH",
+  "Concert Pianist",
+  "Olympic Coach",
+  "GC · Fortune 100",
+  "Restaurateur · Michelin",
+  "Surgeon · Cleveland Clinic",
+  "Real Estate Developer",
+  "Philanthropist",
 ];
 
 type Node = {
   id: number;
   role: string;
-  // Normalized 0..1 position (we map to viewBox)
   x: number;
   y: number;
-  // Drift velocity (per second, normalized units)
   vx: number;
   vy: number;
-  // Phase offset for subtle pulsing
   phase: number;
 };
 
 type Filament = {
   a: number;
   b: number;
-  // Lifecycle 0..1 (draws 0->0.5, fades 0.5->1)
   t: number;
-  duration: number; // ms
-  born: number; // ms timestamp
+  duration: number;
+  born: number;
 };
 
-const VIEW_W = 800;
-const VIEW_H = 480;
+const VIEW_W_DESKTOP = 800;
+const VIEW_H_DESKTOP = 480;
+const VIEW_W_MOBILE = 480;
+const VIEW_H_MOBILE = 600;
 
-function buildNodes(): Node[] {
-  // Quasi-grid jitter so nodes are well-distributed but not regular.
-  const cols = 7;
-  const rows = 4;
-  const total = Math.min(28, ROLES.length);
+function buildNodes(isMobile: boolean): Node[] {
+  // Adapt grid to viewport so distribution is even on both shapes.
+  const cols = isMobile ? 5 : 8;
+  const rows = isMobile ? 8 : 5;
+  const total = Math.min(40, ROLES.length);
   const out: Node[] = [];
+  const round = (v: number) => Math.round(v * 10000) / 10000;
   for (let i = 0; i < total; i++) {
     const c = i % cols;
     const r = Math.floor(i / cols) % rows;
     const baseX = (c + 0.5) / cols;
     const baseY = (r + 0.5) / rows;
-    const jitterX = (Math.sin(i * 12.9898) * 0.5 + 0.5 - 0.5) * 0.08;
-    const jitterY = (Math.cos(i * 78.233) * 0.5 + 0.5 - 0.5) * 0.08;
+    const jitterX = (Math.sin(i * 12.9898) * 0.5 + 0.5 - 0.5) * 0.07;
+    const jitterY = (Math.cos(i * 78.233) * 0.5 + 0.5 - 0.5) * 0.07;
     const angle = (i * 137.5) % 360;
-    const speed = 0.004 + ((i * 13) % 7) * 0.0008;
-    // Round to 4 decimals so SSR-serialized values match client-computed values
-    // exactly and we avoid React hydration mismatches on the rendered cx/cy.
-    const round = (v: number) => Math.round(v * 10000) / 10000;
+    // 30% faster drift than v3.2
+    const speed = 0.0052 + ((i * 13) % 7) * 0.001;
     out.push({
       id: i,
       role: ROLES[i % ROLES.length],
@@ -101,10 +113,15 @@ function buildNodes(): Node[] {
 export function Cohort() {
   const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
-  const [hoverId, setHoverId] = useState<number | null>(null);
+  const [activeId, setActiveId] = useState<number | null>(null);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [badgePulse, setBadgePulse] = useState(0);
+  const manualUntilRef = useRef<number>(0);
 
-  const nodesRef = useRef<Node[]>(buildNodes());
+  // Build nodes once (regenerate if mobile/desktop changes)
+  const nodesRef = useRef<Node[]>(buildNodes(false));
+  const [nodesVersion, setNodesVersion] = useState(0);
   const filamentsRef = useRef<Filament[]>([]);
   const [, setTick] = useState(0);
 
@@ -115,6 +132,20 @@ export function Cohort() {
     const handler = () => setReduceMotion(!!mq?.matches);
     mq?.addEventListener?.("change", handler);
     return () => mq?.removeEventListener?.("change", handler);
+  }, []);
+
+  // Detect viewport (mobile vs desktop) — drives viewBox + node geometry
+  useEffect(() => {
+    const mq = window.matchMedia?.("(max-width: 1023px)");
+    const apply = () => {
+      const m = !!mq?.matches;
+      setIsMobile(m);
+      nodesRef.current = buildNodes(m);
+      setNodesVersion((v) => v + 1);
+    };
+    apply();
+    mq?.addEventListener?.("change", apply);
+    return () => mq?.removeEventListener?.("change", apply);
   }, []);
 
   // Reveal on scroll
@@ -134,7 +165,7 @@ export function Cohort() {
     return () => obs.disconnect();
   }, []);
 
-  // Animation loop — only when visible and motion allowed
+  // Animation loop — drift + filament spawning
   useEffect(() => {
     if (!visible || reduceMotion) return;
     let raf = 0;
@@ -142,11 +173,10 @@ export function Cohort() {
     let lastFilament = performance.now();
 
     const step = (now: number) => {
-      const dt = Math.min(64, now - last) / 1000; // seconds, capped
+      const dt = Math.min(64, now - last) / 1000;
       last = now;
       const nodes = nodesRef.current;
 
-      // Drift nodes, bounce softly off edges
       for (const n of nodes) {
         n.x += n.vx * dt;
         n.y += n.vy * dt;
@@ -154,8 +184,8 @@ export function Cohort() {
         if (n.y < 0.06 || n.y > 0.94) n.vy *= -1;
       }
 
-      // Spawn a filament every ~3s
-      if (now - lastFilament > 2800 && filamentsRef.current.length < 4) {
+      // Denser filaments: every 1.6s, max 7 concurrent
+      if (now - lastFilament > 1600 && filamentsRef.current.length < 7) {
         const a = Math.floor(Math.random() * nodes.length);
         let b = Math.floor(Math.random() * nodes.length);
         if (b === a) b = (b + 1) % nodes.length;
@@ -163,13 +193,12 @@ export function Cohort() {
           a,
           b,
           t: 0,
-          duration: 3200,
+          duration: 3000,
           born: now,
         });
         lastFilament = now;
       }
 
-      // Advance filament lifecycles, drop expired
       filamentsRef.current = filamentsRef.current.filter((f) => {
         f.t = (now - f.born) / f.duration;
         return f.t < 1;
@@ -182,50 +211,96 @@ export function Cohort() {
     return () => cancelAnimationFrame(raf);
   }, [visible, reduceMotion]);
 
-  // Compute hover-revealed adjacency
-  const hoveredNeighbors = useMemo(() => {
-    if (hoverId == null) return [] as number[];
+  // Auto-tour on mobile: cycle through nodes every 2.4s
+  // Tap takes over for 8s, then auto resumes.
+  useEffect(() => {
+    if (!visible || reduceMotion || !isMobile) return;
+    const tick = window.setInterval(() => {
+      const now = performance.now();
+      if (now < manualUntilRef.current) return;
+      const nodes = nodesRef.current;
+      setActiveId((id) => {
+        const next = id == null ? 0 : (id + 1) % nodes.length;
+        return next;
+      });
+      setBadgePulse((p) => p + 1);
+    }, 2400);
+    return () => window.clearInterval(tick);
+  }, [visible, reduceMotion, isMobile]);
+
+  // First mobile reveal: kick off immediately so users see motion on land
+  useEffect(() => {
+    if (!visible || !isMobile || reduceMotion) return;
+    if (activeId == null) {
+      setActiveId(0);
+      setBadgePulse((p) => p + 1);
+    }
+  }, [visible, isMobile, reduceMotion, activeId]);
+
+  // Compute neighbors for the active node
+  const activeNeighbors = useMemo(() => {
+    if (activeId == null) return [] as number[];
     const nodes = nodesRef.current;
-    const hovered = nodes[hoverId];
-    if (!hovered) return [];
-    const dists = nodes
-      .filter((n) => n.id !== hoverId)
+    const active = nodes[activeId];
+    if (!active) return [];
+    return nodes
+      .filter((n) => n.id !== activeId)
       .map((n) => ({
         id: n.id,
-        d: Math.hypot(n.x - hovered.x, n.y - hovered.y),
+        d: Math.hypot(n.x - active.x, n.y - active.y),
       }))
       .sort((a, b) => a.d - b.d)
-      .slice(0, 4)
+      .slice(0, 3)
       .map((n) => n.id);
-    return dists;
-  }, [hoverId]);
+    // nodesVersion is read indirectly via nodesRef on each render
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeId, nodesVersion]);
 
-  // Keyboard nav
   const onSvgKey = (e: React.KeyboardEvent<SVGSVGElement>) => {
     const nodes = nodesRef.current;
     if (e.key === "ArrowRight" || e.key === "ArrowDown") {
       e.preventDefault();
-      setHoverId((id) => (id == null ? 0 : (id + 1) % nodes.length));
+      manualUntilRef.current = performance.now() + 8000;
+      setActiveId((id) => (id == null ? 0 : (id + 1) % nodes.length));
+      setBadgePulse((p) => p + 1);
     } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
       e.preventDefault();
-      setHoverId((id) => (id == null ? 0 : (id - 1 + nodes.length) % nodes.length));
+      manualUntilRef.current = performance.now() + 8000;
+      setActiveId((id) => (id == null ? 0 : (id - 1 + nodes.length) % nodes.length));
+      setBadgePulse((p) => p + 1);
     } else if (e.key === "Escape") {
-      setHoverId(null);
+      setActiveId(null);
     }
   };
 
+  const handleNodeActivate = (id: number) => {
+    manualUntilRef.current = performance.now() + 8000;
+    setActiveId(id);
+    setBadgePulse((p) => p + 1);
+  };
+
+  const VIEW_W = isMobile ? VIEW_W_MOBILE : VIEW_W_DESKTOP;
+  const VIEW_H = isMobile ? VIEW_H_MOBILE : VIEW_H_DESKTOP;
+  const NODE_R_BASE = isMobile ? 7 : 4.5;
+  const NODE_R_HOVER = isMobile ? 9 : 6;
+  const NODE_R_NEIGHBOR = isMobile ? 7.5 : 5;
+  const HALO_R = isMobile ? 26 : 20;
+
   const nodes = nodesRef.current;
-  const hoveredNode = hoverId != null ? nodes[hoverId] : null;
+  const activeNode = activeId != null ? nodes[activeId] : null;
 
   return (
     <section
       ref={sectionRef}
       id="cohort"
-      className="relative bg-navy py-24 sm:py-28 lg:py-36 scroll-mt-24 overflow-hidden"
+      className="relative bg-navy py-20 sm:py-28 lg:py-36 scroll-mt-24 overflow-hidden"
     >
+      {/* Section-boundary filament — top */}
+      <span aria-hidden className="section-filament-top" />
+
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div
-          className={`grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] ${
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
@@ -251,12 +326,6 @@ export function Cohort() {
             >
               Anonymous, by design. Each point on this map is a recent resident — a peer who walked in carrying weight you would recognize.
             </p>
-            <p
-              className="text-ivory/60 leading-relaxed"
-              style={{ fontSize: "var(--text-body)" }}
-            >
-              Touch a point. Let the room introduce itself.
-            </p>
             <p className="mt-8 text-xs text-ivory/40 italic leading-relaxed max-w-sm">
               No names. No faces. We never confirm a particular guest. Some of them now refer their friends.
             </p>
@@ -266,17 +335,19 @@ export function Cohort() {
             <div className="relative w-full">
               <svg
                 viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
-                className="w-full h-auto outline-none"
+                className="w-full h-auto outline-none cohort-svg"
                 role="img"
                 aria-label="A constellation of anonymous peer residents. Use arrow keys to navigate."
                 tabIndex={0}
                 onKeyDown={onSvgKey}
-                onMouseLeave={() => setHoverId(null)}
+                onMouseLeave={() => {
+                  if (!isMobile) setActiveId(null);
+                }}
               >
                 <defs>
                   <radialGradient id="cohort-node-glow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="var(--amber)" stopOpacity="0.9" />
-                    <stop offset="60%" stopColor="var(--amber)" stopOpacity="0.15" />
+                    <stop offset="0%" stopColor="var(--amber)" stopOpacity="0.95" />
+                    <stop offset="55%" stopColor="var(--amber)" stopOpacity="0.2" />
                     <stop offset="100%" stopColor="var(--amber)" stopOpacity="0" />
                   </radialGradient>
                 </defs>
@@ -287,12 +358,11 @@ export function Cohort() {
                     const a = nodes[f.a];
                     const b = nodes[f.b];
                     if (!a || !b) return null;
-                    // Opacity envelope: fade in 0..0.4, hold 0.4..0.7, fade out 0.7..1
                     let op = 0;
                     if (f.t < 0.4) op = f.t / 0.4;
                     else if (f.t < 0.7) op = 1;
                     else op = 1 - (f.t - 0.7) / 0.3;
-                    op = Math.max(0, Math.min(1, op)) * 0.45;
+                    op = Math.max(0, Math.min(1, op)) * 0.5;
                     return (
                       <line
                         key={i}
@@ -301,27 +371,27 @@ export function Cohort() {
                         x2={b.x * VIEW_W}
                         y2={b.y * VIEW_H}
                         stroke="var(--amber)"
-                        strokeWidth={0.6}
+                        strokeWidth={0.7}
                         opacity={op}
                       />
                     );
                   })}
 
-                {/* Hover-revealed filaments */}
-                {hoveredNode &&
-                  hoveredNeighbors.map((nid) => {
+                {/* Active node filaments to neighbors */}
+                {activeNode &&
+                  activeNeighbors.map((nid) => {
                     const b = nodes[nid];
                     if (!b) return null;
                     return (
                       <line
                         key={`h-${nid}`}
-                        x1={hoveredNode.x * VIEW_W}
-                        y1={hoveredNode.y * VIEW_H}
+                        x1={activeNode.x * VIEW_W}
+                        y1={activeNode.y * VIEW_H}
                         x2={b.x * VIEW_W}
                         y2={b.y * VIEW_H}
                         stroke="var(--amber)"
-                        strokeWidth={0.9}
-                        opacity={0.75}
+                        strokeWidth={1.1}
+                        opacity={0.85}
                         style={{
                           transition: "opacity 700ms cubic-bezier(0.22,1,0.36,1)",
                         }}
@@ -331,9 +401,9 @@ export function Cohort() {
 
                 {/* Nodes */}
                 {nodes.map((n) => {
-                  const isHover = hoverId === n.id;
-                  const isNeighbor = hoveredNeighbors.includes(n.id);
-                  const dim = hoverId != null && !isHover && !isNeighbor;
+                  const isActive = activeId === n.id;
+                  const isNeighbor = activeNeighbors.includes(n.id);
+                  const dim = activeId != null && !isActive && !isNeighbor;
                   const cx = n.x * VIEW_W;
                   const cy = n.y * VIEW_H;
                   return (
@@ -342,27 +412,33 @@ export function Cohort() {
                       style={{
                         cursor: "pointer",
                         transition: "opacity 500ms cubic-bezier(0.22,1,0.36,1)",
-                        opacity: dim ? 0.3 : 1,
+                        opacity: dim ? 0.28 : 1,
                       }}
-                      onMouseEnter={() => setHoverId(n.id)}
-                      onFocus={() => setHoverId(n.id)}
+                      onMouseEnter={() => {
+                        if (!isMobile) handleNodeActivate(n.id);
+                      }}
+                      onClick={() => handleNodeActivate(n.id)}
+                      onFocus={() => handleNodeActivate(n.id)}
                       tabIndex={-1}
                     >
-                      {/* Glow halo on hover */}
-                      {isHover && (
+                      {isActive && (
                         <circle
                           cx={cx}
                           cy={cy}
-                          r={18}
+                          r={HALO_R}
                           fill="url(#cohort-node-glow)"
                         />
+                      )}
+                      {/* Invisible larger hit target on mobile for tap accuracy */}
+                      {isMobile && (
+                        <circle cx={cx} cy={cy} r={16} fill="transparent" />
                       )}
                       <circle
                         cx={cx}
                         cy={cy}
-                        r={isHover ? 4.5 : isNeighbor ? 3.6 : 3}
-                        fill={isHover || isNeighbor ? "var(--amber)" : "var(--ivory)"}
-                        opacity={isHover ? 1 : isNeighbor ? 0.95 : 0.85}
+                        r={isActive ? NODE_R_HOVER : isNeighbor ? NODE_R_NEIGHBOR : NODE_R_BASE}
+                        fill={isActive || isNeighbor ? "var(--amber)" : "var(--ivory)"}
+                        opacity={isActive ? 1 : isNeighbor ? 0.95 : 0.85}
                         style={{
                           transition: "r 500ms cubic-bezier(0.22,1,0.36,1), fill 500ms ease",
                         }}
@@ -372,28 +448,66 @@ export function Cohort() {
                 })}
               </svg>
 
-              {/* Category label — fades in beneath the constellation */}
-              <div className="mt-6 min-h-[3.5rem] sm:min-h-[3rem]">
+              {/* Reveal panel — always visible on mobile (auto-tour fills it) */}
+              <div className="mt-6 min-h-[5rem] sm:min-h-[4rem]">
+                <div className="flex items-baseline gap-3 mb-2">
+                  <p
+                    className={`small-caps text-amber text-[11px] tracking-[0.28em] transition-opacity duration-500 ${
+                      activeNode ? "opacity-100" : "opacity-0"
+                    }`}
+                  >
+                    Recent resident
+                  </p>
+                  {activeNode && (
+                    <span
+                      key={badgePulse}
+                      className="cohort-badge inline-flex items-center gap-1.5 px-2 py-[3px] border border-amber/40 text-[9px] tracking-[0.22em] uppercase text-amber/90"
+                    >
+                      <span aria-hidden className="block w-1.5 h-1.5 rounded-full bg-amber cohort-badge-dot" />
+                      In residence
+                    </span>
+                  )}
+                </div>
                 <p
-                  className={`small-caps text-amber text-[11px] tracking-[0.28em] mb-2 transition-opacity duration-500 ${
-                    hoveredNode ? "opacity-100" : "opacity-0"
-                  }`}
-                >
-                  Recent resident
-                </p>
-                <p
-                  className={`font-serif editorial-italic text-ivory/90 transition-opacity duration-500 ${
-                    hoveredNode ? "opacity-100" : "opacity-0"
+                  key={`${activeId}-${badgePulse}`}
+                  className={`font-serif editorial-italic text-ivory/95 cohort-role-rise ${
+                    activeNode ? "opacity-100" : "opacity-0"
                   }`}
                   style={{ fontSize: "var(--text-h4)", fontWeight: 400 }}
                 >
-                  {hoveredNode ? hoveredNode.role : "—"}
+                  {activeNode ? activeNode.role : "—"}
                 </p>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes cohortRoleRise {
+          from { opacity: 0; transform: translateY(6px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .cohort-role-rise {
+          animation: cohortRoleRise 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @keyframes cohortBadgePulse {
+          0%   { box-shadow: 0 0 0 0 color-mix(in oklab, var(--amber) 60%, transparent); }
+          70%  { box-shadow: 0 0 0 8px color-mix(in oklab, var(--amber) 0%, transparent); }
+          100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--amber) 0%, transparent); }
+        }
+        .cohort-badge {
+          animation: cohortBadgePulse 1200ms cubic-bezier(0.22, 1, 0.36, 1) 1;
+        }
+        @keyframes cohortDotPulse {
+          0%, 100% { opacity: 0.6; transform: scale(1); }
+          50%      { opacity: 1; transform: scale(1.4); }
+        }
+        .cohort-badge-dot { animation: cohortDotPulse 1.6s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) {
+          .cohort-role-rise, .cohort-badge, .cohort-badge-dot { animation: none !important; }
+        }
+      `}</style>
     </section>
   );
 }

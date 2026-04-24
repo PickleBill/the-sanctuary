@@ -132,7 +132,49 @@ export function Cohort() {
     return () => obs.disconnect();
   }, []);
 
-  // Animation loop — drift + filament spawning
+  // v3.4 — On reveal, if the visitor has completed a Resonance reading, ask the
+  // server to pick a peer role index that resonates. Lights up that node.
+  useEffect(() => {
+    if (!visible || matchRequestedRef.current) return;
+    matchRequestedRef.current = true;
+    let cancelled = false;
+    try {
+      const r = localStorage.getItem("ss_resonance");
+      const i = localStorage.getItem("ss_intent");
+      if (!r) return;
+      const parsedR = JSON.parse(r) as { text?: string };
+      const parsedI = i ? (JSON.parse(i) as { signal?: string }) : null;
+      if (!parsedR?.text || parsedR.text.trim().length < 2) return;
+      (async () => {
+        try {
+          const result = await matchPeerFn({
+            data: {
+              text: parsedR.text!.slice(0, 600),
+              intentSignal: parsedI?.signal,
+            },
+          });
+          if (cancelled) return;
+          if (
+            typeof result.roleIndex === "number" &&
+            result.roleIndex >= 0 &&
+            result.roleIndex < nodesRef.current.length
+          ) {
+            setMatchedId(result.roleIndex);
+            setMatchRationale(result.rationale ?? "");
+          }
+        } catch (err) {
+          // Silent — the constellation is decorative when the match fails.
+          console.warn("[cohort] matchPeer failed", err);
+        }
+      })();
+    } catch {
+      /* ignore */
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [visible, matchPeerFn]);
+
   useEffect(() => {
     if (!visible || reduceMotion) return;
     let raf = 0;

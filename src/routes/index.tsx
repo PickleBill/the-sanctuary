@@ -3,8 +3,8 @@ import { Navbar } from "@/components/site/Navbar";
 import { Hero } from "@/components/site/Hero";
 import { Resonance } from "@/components/site/Resonance";
 import { Cohort } from "@/components/site/Cohort";
+import { Gallery } from "@/components/site/Gallery";
 import { JourneyStrip } from "@/components/site/JourneyStrip";
-import { Journey } from "@/components/site/Journey";
 import { SynergyMap } from "@/components/site/SynergyMap";
 import { Amenities } from "@/components/site/Amenities";
 import { Leadership } from "@/components/site/Leadership";
@@ -42,12 +42,20 @@ function Index() {
   return (
     <>
       <Navbar />
+      {/*
+        v3.9 reset — order locked:
+        Hero → Resonance → Cohort → Gallery (Estate) → JourneyStrip
+        → SynergyMap (Week) → Amenities → Leadership → SevenDecisions
+        → Process → ConciergeForm.
+        Journey was removed in this pass — JourneyStrip already covers
+        "a day, in pictures" and Journey duplicated the same beat.
+      */}
       <main>
         <Hero />
         <Resonance />
         <Cohort />
+        <Gallery />
         <JourneyStrip />
-        <Journey />
         <SynergyMap />
         <Amenities />
         <Leadership />

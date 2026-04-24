@@ -370,12 +370,15 @@ export function Cohort() {
           </div>
 
           <div className="lg:col-span-7">
-            {/* v3.7 — Mobile name plate ABOVE the constellation. Always-visible
-                focal point so visitors always know which archetype is lit. */}
-            <div className="lg:hidden mb-5 min-h-[88px]">
+            {/*
+              v3.9 reset — single name plate ABOVE the constellation on
+              every viewport. Removes the duplicate reveal that previously
+              lived below the SVG. One source of truth for "who is lit".
+            */}
+            <div className="mb-5 min-h-[88px]">
               <div className="flex items-baseline gap-3 mb-2 flex-wrap">
                 <p
-                  className={`small-caps text-amber text-[10px] tracking-[0.32em] font-semibold transition-opacity duration-500 ${
+                  className={`small-caps text-amber text-[11px] tracking-[0.28em] font-semibold transition-opacity duration-500 ${
                     activeNode || matchedId != null ? "opacity-100" : "opacity-0"
                   }`}
                 >
@@ -394,7 +397,7 @@ export function Cohort() {
               <p
                 key={`mp-name-${activeId}-${badgePulse}`}
                 className="font-serif editorial-italic text-ivory cohort-role-rise leading-snug"
-                style={{ fontSize: "1.4rem", fontWeight: 400, minHeight: "1.4em" }}
+                style={{ fontSize: "clamp(1.4rem, 1.05rem + 0.9vw, 1.85rem)", fontWeight: 400, minHeight: "1.4em" }}
               >
                 {activeNode ? activeNode.role : "—"}
               </p>

@@ -175,6 +175,7 @@ export function Cohort() {
     };
   }, [visible, matchPeerFn]);
 
+  // Animation loop — drift + filament spawning
   useEffect(() => {
     if (!visible || reduceMotion) return;
     let raf = 0;

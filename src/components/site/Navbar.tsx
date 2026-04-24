@@ -94,10 +94,14 @@ export function Navbar() {
 
   const onLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (typeof window === "undefined") return;
+    // Always scroll to the very top when the logo is clicked, regardless
+    // of which route the visitor is on. If we're already on "/", we
+    // intercept the link entirely so the smooth scroll runs instead of
+    // a same-route navigation that does nothing visible.
     if (window.location.pathname === "/") {
       e.preventDefault();
-      scrollToTop();
     }
+    scrollToTop();
   };
 
   return (

@@ -82,14 +82,17 @@ function buildNodes(): Node[] {
     const jitterY = (Math.cos(i * 78.233) * 0.5 + 0.5 - 0.5) * 0.08;
     const angle = (i * 137.5) % 360;
     const speed = 0.004 + ((i * 13) % 7) * 0.0008;
+    // Round to 4 decimals so SSR-serialized values match client-computed values
+    // exactly and we avoid React hydration mismatches on the rendered cx/cy.
+    const round = (v: number) => Math.round(v * 10000) / 10000;
     out.push({
       id: i,
       role: ROLES[i % ROLES.length],
-      x: baseX + jitterX,
-      y: baseY + jitterY,
-      vx: Math.cos((angle * Math.PI) / 180) * speed,
-      vy: Math.sin((angle * Math.PI) / 180) * speed,
-      phase: (i * 0.37) % (Math.PI * 2),
+      x: round(baseX + jitterX),
+      y: round(baseY + jitterY),
+      vx: round(Math.cos((angle * Math.PI) / 180) * speed),
+      vy: round(Math.sin((angle * Math.PI) / 180) * speed),
+      phase: round((i * 0.37) % (Math.PI * 2)),
     });
   }
   return out;

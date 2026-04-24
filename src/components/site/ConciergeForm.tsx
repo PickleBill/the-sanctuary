@@ -398,7 +398,10 @@ export function ConciergeForm() {
           .step-enter-right, .step-enter-left { animation: none !important; }
         }
       `}</style>
-    </section>
+      </section>
+      {/* TrustRail — quiet trust footer beneath the form, not above it. */}
+      <TrustRail />
+    </>
   );
 }
 

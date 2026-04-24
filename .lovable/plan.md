@@ -1,190 +1,138 @@
-# v3.3 — Make It MOVE. (then v3.4 — The AI That Knows You)
-
-You felt it. The Cohort was the unlock — the site became *a place* the moment the network got visible. v3.3 takes that signal and runs the same playbook across the whole experience: **stop describing, start showing, and make every surface breathe on mobile first.** v3.4 adds two AI moments that make the site feel like it *recognizes* the visitor.
-
-Two pushes. High pizazz. Mobile-first. Aspirational, not corporate.
-
----
-
-## v3.3 — Show the Journey (one push, mobile-first, /overdrive sanctioned)
-
-Six moves, executed as one build. Every move has an "I'll know it worked when…" so we don't argue about taste.
-
-### Move 1 — Cohort: rebuild for mobile-first, autoplay, fluid
-
-This is your top complaint and you're right. On a 402px viewport the nodes are too small to touch and "hover to reveal" is a desktop assumption.
-
-- **Bigger nodes on touch**: 7px radius on mobile, 4.5px desktop (tap target effectively 24px with the glow halo).
-- **Auto-tour on mobile**: every 2.4s the constellation auto-selects the next node, draws filaments to its 3 nearest peers, and surfaces the role label — runs continuously until the user taps. Tap = take over, manual reveal sticks for 8s, then auto-tour resumes. Desktop hover unchanged.
-- **More fluid drift**: 2× node count (28 → 40), velocity raised ~30%, filaments spawn every 1.6s instead of 2.8s, max concurrent filaments raised 4 → 7. The room is *busier*.
-- **Mobile aspect**: viewBox switches from 800×480 to 480×600 below `lg` so the constellation owns the vertical space instead of squashing into a postcard.
-- **Caption upgrades**: when a node is selected, the role label rises with a 320ms editorial-italic fade *and* one peer badge ("currently in residence") pulses amber for 1.2s. Movement that says *real people, right now.*
-
-**Done when:** on a 360px screen, the Cohort fills the viewport, animates without input, and a category label is always visible.
-
-### Move 2 — Hero: cinematic video loop instead of one still photograph
-
-The hero is a still aerial. That's the "private cottage" problem at the source. Replace it with a **silent, looping cinemagraph stack** — three short clips cross-fading on a 14s cycle:
-
-- A wide ridge-line dawn, mist drifting across the canopy..,how about transforms into a mindless of sorts, a meditation or idea brainstorm?
-- A pair of figures walking the trail at golden hour (back-of-shoulder, anonymous)...how about transforms to a more sunrise golf session in early AM and drenched in sunlight?
-- A close-up: hands on a porcelain teacup, steam rising...transform to sauna/steam room and/or hot yoga visual
-
-We don't have these assets. We **generate them as still frames** with `google/gemini-3-pro-image-preview` (3 hero-grade frames at 1920×1280, brand-locked prompts) and animate them with **CSS Ken Burns + cross-fade in a `<picture>` stack**. No real video file required — looks like a video, ships like 3 JPEGs. Reduced-motion: holds on frame 1.
-
-Headline stays. Sub-copy trims by one clause. Mini-network whisper stays.
-
-**Done when:** the hero feels like the opening of a film, not a brochure.
-
-### Move 3 — Gallery → "The Journey" — replace 4 building photos with 8 *moments*
-
-Today's gallery is four buildings: suite, grounds, boardroom, clinical. That's `/show me the building`. The user wants `/show me the life`. Rebuild as an **eight-tile editorial mosaic** of *moments*, generated fresh with the image model:
 
 
-| #   | Moment                                                   | Why                                |
-| --- | -------------------------------------------------------- | ---------------------------------- |
-| 1   | Dawn meditation on a fog-soft trail                      | introspection                      |
-| 2   | Equestrian — a hand on a horse's neck                    | activation                         |
-| 3   | A cellist playing in the great room                      | culture / soul                     |
-| 4   | Sauna door opening, steam pouring                        | restoration                        |
-| 5   | A chef plating, no faces                                 | hospitality                        |
-| 6   | Two figures laughing on the porch (peers, not principal) | belonging                          |
-| 7   | The clinical suite — gleaming, empty                     | medicine, dressed like hospitality |
-| 8   | Stars over the ridge, 11pm                               | the one quiet thing                |
+# v3.5 — The Final Polish (and a Bolder Brand)
 
+You're right on every count. The site has the right *bones* now (the network is visible, the AI works, the journey scrolls), but it still **whispers when it should sing**. This is the final push: typography that grabs you, color with real heat, imagery that matches a wellness/recovery sanctuary, and obvious AI moments that lead the visitor forward like a guided tour.
 
-^^ please take above "transform suggestions" from hero sectionand expand/place/layer in here where applicable
-
-Layout: asymmetric Bento grid, varying aspect ratios, **"hover-to-zoom-in" → "tap-to-Ken-Burns" on mobile** — every visible tile slow-pans automatically, no input required. Sibling-desaturate stays. Lightbox stays.
-
-The current 4 building images become the *secondary* deck inside Amenities (which is where they belong).
-
-**Done when:** scrolling through the gallery feels like watching a sizzle reel, not flipping a brochure.
-
-### Move 4 — The Journey Strip: a new horizontal "day-in-residence" rail
-
-Between Cohort and Gallery, a **single full-bleed horizontal scrolling rail**: 6 portrait-orientation moments stitched together by a single amber filament that draws as you scroll the rail. Each moment has 2 words underneath (`6:14 AM · Rise`, `9:00 AM · Clinic`, `1:30 PM · Trail`, `5:00 PM · Sauna`, `7:30 PM · Table`, `10:00 PM · Stars`). The rail snap-scrolls horizontally on mobile (one card at a time, momentum preserved), parallax-drifts on desktop.
-
-This is the section that **shows the day** instead of telling it. Six images. Twelve words. No paragraph.
-
-**Done when:** anyone can describe a day on the property after spending 15 seconds with this rail.
-
-### Move 5 — ConciergeForm: white-glove, lively, single-question-at-a-time
-
-The form is currently a flat stack of 5 inputs. Rebuild as a **conversational vertical stepper** — one question at a time, framed as a sentence, with the answer field embedded in the prose. Like:
-
-> *"My name is `[___]`, and the easiest way to reach me is by `[Email▾]` at `[___________]`."*
-
-Five steps, slide-and-fade transitions (320ms, the cohort easing), a thin amber filament progress bar at the bottom that draws as you complete each step. On submit: the existing success-filament stays, plus one new touch — the success card now contains the visitor's *first name* in the brand-voice acknowledgment (no AI required for this push; just `Hello, ${name}.`). The AI rewrite of the acknowledgment lands in v3.4.
-
-Mobile: each step is full-card, big tap targets, keyboard pulled up automatically, never scrolls within itself.
-
-**Done when:** filling out the form feels like a conversation with a concierge, not a tax return.
-
-### Move 6 — Global polish (the /delight pass that earns its name)
-
-Three small additions that lift the whole site without adding sections:
-
-- **Section transitions:** a faint amber filament draws horizontally across the boundary between every section as it scrolls into view (180ms ease, 0.3 opacity, 24px wide). The site reads as one continuous document, not 9 disconnected blocks.
-- **Cursor companion (desktop only):** a single 8px amber dot tracks the cursor with a 120ms spring lag. Over interactive elements it grows to 28px and ghost-fills. This is the move that says "we cared."
-- **Scroll-driven amber accent:** the `--amber` CSS variable subtly shifts from cool amber (#C99B5A → at top) to warm amber (#D9A95F → at bottom) over the scroll, so the page literally warms up as you move through it. Imperceptible per-pixel, real per-page.
-
-**Done when:** the site feels *alive* between the big moments, not just at them.
-
-### v3.3 file budget
-
-
-| File                                   | Change                                                                                                                              |
-| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `Cohort.tsx`                           | Mobile-first viewBox, auto-tour, larger nodes, denser filaments                                                                     |
-| `Hero.tsx`                             | Cinemagraph stack + 3 new generated frames, keep mini-network                                                                       |
-| `Gallery.tsx` → `Journey.tsx` (rename) | 8-tile mosaic of moments, auto-Ken-Burns on mobile                                                                                  |
-| **NEW** `JourneyStrip.tsx`             | Horizontal day-in-residence rail (6 cards, 12 words, 1 filament)                                                                    |
-| `ConciergeForm.tsx`                    | Stepper rebuild, 5 conversational steps, amber progress filament                                                                    |
-| `Amenities.tsx`                        | Absorbs the 4 original building photos as secondary deck                                                                            |
-| `routes/index.tsx`                     | Hero → Resonance → Cohort → JourneyStrip → Journey → SynergyMap → Amenities → Leadership → SevenDecisions → Process → ConciergeForm |
-| `styles.css`                           | Section-boundary filament utility, cursor companion, scroll-driven amber                                                            |
-| `mem://design/show-not-tell-v33.md`    | NEW — locks the "show, don't tell" rule for all future pushes                                                                       |
-| **Image gen**                          | 3 hero frames + 8 journey moments + 6 day-rail portraits = 17 generated assets                                                      |
-
-
-**End state:** still 9 sections + 1 sub-rail. Section count holds. The site shifts from "described" to "seen."
-
-### v3.3 exit criteria
-
-- On a 360px viewport, **3 of the first 4 scrolls show motion without user input** (Hero cinemagraph, Cohort auto-tour, Journey Strip auto-pan).
-- "Show, don't tell" rule documented in memory and applied retroactively to every section.
-- Form submission feels like a conversation, not a database insert.
-- Cursor companion + section filaments + warm-amber drift make the page feel one continuous breath.  --> Should we experiment with different/more bold colors?
-
-I hope my edits to the plan capture the vibe and activation I'm looking to exude.  Please take this back and forth into a v3.5 "vibe exploration" if we can
+One push, six moves, designed so it ships clean and *finishes* the site.
 
 ---
 
-## v3.4 — The AI That Knows You (one push, two edge functions, real magic)
+## Move 1 — The Bolder Brand (typography + color overhaul)
 
-After v3.3 ships, the site *moves*. v3.4 makes it *recognize*. Two AI moments — both via Lovable AI Gateway, no extra keys.
+The dull orange (`#B45309`, oklch 0.55 0.142 55) is the root cause of "sterile." It's a chocolate amber — historically correct, visually quiet. Same with the headlines: Literata at weight 500 reads beautifully on ivory but **vanishes on photographs**.
 
-### A. Concierge AI Handoff (the form upgrade)
+**Color** (token-level, retroactively warms the entire site):
+- **Amber** → upgrade from chocolate `#B45309` to a vivid Sanctuary Gold `oklch(0.74 0.165 70)` (~`#E8A33E`). Warmer, brighter, more confident. Same hue family — no rebrand, just turning up the lights.
+- **Add a second accent — Ember** `oklch(0.62 0.20 35)` (~`#E26B3F`). Used sparingly: AI-active states, the matched cohort node, success filaments, "you are here" indicators. The site goes from monochrome-with-gold to **gold + ember duet** — the duet is what the eye registers as "alive."
+- **Navy** → deepen by 4% for stronger contrast against the brighter amber: `oklch(0.18 0.045 265)`. Photos pop harder.
+- **Ivory on photos** → replace `text-on-image` shadow with a true **letterpress shadow** (1px ember-tinted glow + 0px 2px deep navy). Headlines on the hero/journey become genuinely punchy.
 
-Already scoped in the prior plan, now with v3.3's white-glove form as the front door:
+**Typography** (no font swap — Literata stays — but bolder usage):
+- All section H2s move from weight 500 → **600** at desktop, 550 at mobile. Optical-sizing axis pushed up 8pt. The letterforms stop "sitting back."
+- Hero headline: lock at **weight 600**, letterspacing tightened to `-0.028em`, and split — first line at full weight, italic second line stays elegant. The contrast is what makes it editorial.
+- Eyebrows: increase tracking to `0.32em` and bump to amber-bright instead of amber-muted. They become navigation signposts, not decoration.
+- Add a **`.text-luxe`** utility — applies the new letterpress shadow + slight font-feature `cv01` (Literata's contextual alternates) for a hand-set feel on every photo-overlaid headline.
 
-1. New server function `composePrivateReply` calls `google/gemini-2.5-pro` with a system prompt locked to v3 positioning + HIPAA posture (no PHI, no diagnosis).
-2. On form submit: the `ConciergeForm` success card now **streams a personalized two-paragraph acknowledgment** into the success state in real time (word-by-word, the same animation as Resonance). The visitor watches the response compose itself.
-3. That same response is sent to the inquirer + admissions inbox via Lovable Email.
-4. Logs to `inquiry_replies` (timestamp, role, length — no PHI).
-
-**Brand effect:** the very first interaction with Sanctuary is a hand-typed letter, not a confirmation receipt. HNW prospects notice this in 2 seconds.
-
-### B. The Cohort whispers what *you* might be (the new magic moment)
-
-This is the move I want to add — not in the original strategic recs, but it's the v3.3 + v3.4 multiplier.
-
-When the visitor finishes a Resonance reading **and** scrolls to The Cohort, the constellation does something new: **one node lights up amber and a filament draws to it from the center**, and the label reads:
-
-> *"You belong somewhere in this room. Here's a recent peer who arrived carrying what you're carrying."*
-
-The match is generated by a server function `matchPeer` that takes the Resonance reading's `intent_signal` and returns the most thematically aligned role from the ROLES array (via Gemini Flash, structured output via tool calling — single call, ~400ms). No PHI, no name, no claim of clinical match. Just *resonance*.
-
-**Brand effect:** the site reads back to the visitor in their own emotional register. This is the moment that gets screenshotted.
-
-### v3.4 file budget
-
-
-| File                                | Change                                                                         |
-| ----------------------------------- | ------------------------------------------------------------------------------ |
-| `src/server/concierge.functions.ts` | NEW — `composePrivateReply` (streaming)                                        |
-| `src/server/cohort.functions.ts`    | NEW — `matchPeer` (structured output)                                          |
-| `src/lib/concierge/prompt.ts`       | NEW — locked acknowledgment system prompt                                      |
-| `src/lib/cohort/prompt.ts`          | NEW — locked peer-matching system prompt                                       |
-| `ConciergeForm.tsx`                 | Wire streaming success state                                                   |
-| `Cohort.tsx`                        | Read `ss_intent` from localStorage, request peer match, light the matched node |
-| Email templates                     | NEW — `concierge-acknowledgment` React Email                                   |
-| Migration                           | NEW — `inquiry_replies` table + RLS, no PHI columns                            |
-| Email infrastructure                | One-time setup via tool                                                        |
-
-
-### v3.4 exit criteria
-
-- A submitted inquiry produces a real, brand-voice email within 60 seconds.
-- A visitor who completes a Resonance reading sees one Cohort node light up *for them* on scroll.
-- Zero PHI in any database column. Anti-kickback line stays prominent.
+**One token change cascades through every section** because everything already pulls from `--amber` / `--navy` / `--ivory`. No per-component edits needed for the color half.
 
 ---
 
-## What's recorded, what's deferred
+## Move 2 — Make the AI Journey Obvious (the big "what's next" cue)
 
-**Recorded to memory** (so we never re-add what you said you don't want):
+Right now both AI moments are *quiet* (which was intentional — but you correctly noted the visitor doesn't know they're there). Add three deliberate signposts:
 
-- `mem://design/show-not-tell-v33.md` — *Every section earns the right to use words. Default to imagery. Maximum one paragraph per section. No corporate framing language.*
-- `mem://design/mobile-first-v33.md` — *Every interactive element must autoplay on mobile. Hover is a desktop bonus, never a mobile gate.*
-- `mem://design/aspirational-tone-v33.md` — *Adventure AND introspection. Activation AND restoration. Never one without the other.*
+1. **Resonance → Cohort handoff (the new linchpin)**. After the Resonance reading renders, append a **"Meet your room →"** button that scroll-locks to Cohort *and* triggers a one-time amber pulse-ring around the matched node. The hint already exists in Cohort but currently relies on the visitor scrolling there blindly. This makes the connection **causal and obvious**: "you wrote this → here is the peer who matches."
+2. **Cohort → Concierge handoff**. When the matched node is revealed, the rationale card grows a "Continue privately →" CTA that scrolls to the form *and* pre-seeds step 4 (role) based on the matched archetype (Founder → "Principal", Surgeon → "Medical Professional", Trustee → "Trusted Advisor", etc.).
+3. **AI presence indicator** — a small persistent **"Composed by a clinician, sometimes with AI assist · explain"** chip that sits unobtrusively at the bottom of the Resonance reading and the Concierge success card. Tapping it opens a 3-line explainer: this was written for you, by us, with AI for tone — never for clinical claims. **Trust earned through transparency**, not hidden tech.
 
-**Deferred (not now, possibly later):**
+This turns three separate AI surfaces into **one continuous guided journey**: reflect → meet your peer → speak with the clinician. The visitor *sees* the path.
 
-- Per-route OG images (v3.5, 30-min polish push)
-- Lighthouse hardening (v3.5)
-- Real cinemagraph video files (only if generated frames + Ken Burns aren't enough)
+---
+
+## Move 3 — Fix the Imagery (no wine, better matches, more vibrancy)
+
+**The wine problem:** `journey-6-porch.jpg` shows two figures with "Two glasses. Two figures. One ridge." caption on a wellness/recovery site. Inexcusable. Regenerate as **two figures on the porch at sunset, no glasses**, caption changes to *"Two chairs. One ridge. The conversation you didn't know you needed."* — same belonging cue, zero substance imagery.
+
+**Other imagery audits + regens**:
+- **Hero frame 2 (golf)** — currently reads as "golf course resort." Regenerate as **two figures walking a fairway at sunrise** with mountain backdrop, focus on light + landscape, not the sport. Caption-free anyway.
+- **Journey 5 (chef)** — current image is decent but generic. Regenerate to clearly show **plated whole-food dish on a pale ceramic, hand pouring herb oil, no faces** — visually obvious that this is *medicine plated as hospitality*, matching the long copy.
+- **Journey 7 (clinical)** — feels a bit cold/empty. Regenerate to add **warm late-afternoon light through a window** + a single soft amber fixture, so it reads "hospitality-grade clinical" instead of "hospital."
+- **Day-3-trail** & **Day-5-table** — both fine; small color-grade pass to push warmth ~5% (handled by image gen, not CSS).
+
+**New: one signature "people moment" image** — currently every human is a back/silhouette. Generate **one editorial portrait** for the Cohort section: a hand on a leather-bound journal, soft window light, no face. Sits above the Cohort headline as a 16:9 strip. Adds humanity without showing a person — perfect for the brand.
+
+Total regenerations: **5 images**. All via Gemini 3 Pro Image Preview, 1920px, brand-locked prompts.
+
+---
+
+## Move 4 — Snappier Animations + Mobile Hardening
+
+You said some load slowly. Audit results:
+- **Hero cinemagraph** loads all 3 frames eagerly. Switch frames 2 & 3 to `loading="lazy"` and **start cycling only after frame 1 paints** (already partly done — tighten with a `decode()` await).
+- **Cohort drift loop** runs `requestAnimationFrame` even when the section is offscreen. Add an `IntersectionObserver` gate so it pauses when not visible — frees CPU for the rest of the page.
+- **Journey Ken Burns** runs all 8 tiles simultaneously. Stagger via `animation-delay` with `prefers-reduced-data` honored, and add `content-visibility: auto` to off-screen tiles. **~40% paint reduction on mobile.**
+- **JourneyStrip rail** — convert the scroll listener to a single passive observer, throttle to 16ms, and pre-decode the next image on scroll. Snappy snap.
+- **CursorCompanion** — disable entirely on touch (`hover: none`) and on Safari iOS (it's running there too and wasting battery).
+- **ConciergeForm step transitions** — currently 320ms. Drop to **240ms with a sharper out-curve** (`cubic-bezier(0.32, 0, 0.18, 1)`) so it feels responsive instead of polite.
+- All section reveals: trigger at `threshold: 0.05` instead of `0.15` — content appears as the user *starts* scrolling into it, not after they've waited.
+
+Mobile-specific:
+- Hero `min-height` switches from `100svh` to `min(100svh, 720px)` so the iPhone notch + URL bar don't push the CTAs offscreen.
+- Cohort active label sits in a fixed-height container (no layout shift on auto-tour).
+- All min-tap targets verified ≥ 44×44.
+
+---
+
+## Move 5 — Vibrancy & Eye-Catch (the /delight + /overdrive pass)
+
+Three small but high-impact additions that give the site *personality*:
+
+- **Living amber pulse on the Cohort match** — when AI selects the peer node, the rationale text doesn't just appear, it **types out** with the same word-cascade as the Resonance reading. Then the matched node *gently breathes* (scale 0.94 → 1.06 over 3.4s, indefinite). Two AI-aware moments, both visibly alive.
+- **Hero CTA — flame border on hover** (desktop). The "Request the Clinical Dossier" button gets a subtle **gradient-conic ember halo** that rotates slowly on hover. ~14 lines of CSS. Reads as confident, not gimmicky.
+- **Section "you are here" rail** (mobile only) — a tiny vertical filament on the right edge with ~8 dots, one per section, lighting up amber as you pass each. Quietly orienting. Disappears on desktop where the navbar handles it.
+
+---
+
+## Move 6 — What You're Missing (the real opportunities to shine)
+
+You asked. Here are five high-leverage adds — I'm including all five in this push because each is small and they compound:
+
+1. **Open-graph images per route** — `/`, `/professionals`, `/privacy`, `/terms` each get their own social share card (1200×630, generated). When a referral pro forwards the URL on iMessage/Slack/email, **the preview is gorgeous and route-specific**. Currently the root og config is empty so links unfurl as a grey box. Highest-ROI 30-min add on the entire site.
+2. **A "How we work with referrers" prompt-card on `/professionals`** — currently that page exists but is sparse. Add a single AI-powered "Compose a private referral note" tool: the pro types one sentence about their client, the AI returns a HIPAA-clean intro paragraph the pro can copy-paste. Zero PHI stored. Makes the page *useful*, not just informational.
+3. **Audio whisper** — a single optional 28-second ambient track (a creek, distant cicadas, a wood stove cracking). Off by default; a small speaker icon in the corner toggles it. **The first wellness site that actually sounds like what it sells.** Files in `/public/ambient.mp3`, ~400KB. (No autoplay — never autoplay audio.)
+4. **A "what tonight looks like" live moment** — a single small line in the navbar: *"Tonight in the great room: chamber music · 8pm"* — rotates 4 hand-curated lines weekly. Static array, no backend. Makes the site **feel inhabited** every time you visit.
+5. **Print-optimized stylesheet for the Clinical Dossier link** — currently it's a static PDF. We can leave the PDF but add `@media print` so if a referral pro prints the homepage to share with their client, it lays out as a beautiful one-page brief instead of the web view. Three new CSS rules. They'll thank you.
+
+---
+
+## v3.5 file budget
+
+| File | Change |
+|---|---|
+| `src/styles.css` | Token overhaul (amber → gold, add ember, deeper navy), `.text-luxe`, sharper easing, mobile section rail, print stylesheet |
+| `src/components/site/Hero.tsx` | Bolder type weights, lazy frames 2&3, decode-await, conic-ember CTA halo, mobile height fix |
+| `src/components/site/Cohort.tsx` | IntersectionObserver gate on RAF loop, breathing matched node, AI-aware rationale word-cascade, "Continue privately →" CTA seeding role |
+| `src/components/site/Resonance.tsx` | "Meet your room →" CTA after reading, AI-presence chip + explainer |
+| `src/components/site/ConciergeForm.tsx` | 240ms transitions, AI-presence chip, accept pre-seeded role, snappier reveals |
+| `src/components/site/Journey.tsx` | Caption fix on porch tile, content-visibility, staggered Ken Burns |
+| `src/components/site/JourneyStrip.tsx` | Throttled scroll observer, image pre-decode |
+| `src/components/site/Navbar.tsx` | "Tonight in the great room" rotating line |
+| `src/components/site/CursorCompanion.tsx` | Touch + iOS Safari disable |
+| **NEW** `src/components/site/SectionRail.tsx` | Mobile "you are here" vertical filament |
+| **NEW** `src/components/site/AmbientAudio.tsx` | Optional 28s loop with mute toggle |
+| **NEW** `src/components/site/AIPresenceChip.tsx` | Reusable transparency chip + popover |
+| **NEW** `src/server/referrer.functions.ts` | `composeReferralNote` AI function for /professionals |
+| **NEW** `src/lib/referrer/prompt.ts` | Locked HIPAA-safe referrer system prompt |
+| `src/routes/professionals.tsx` | Wire the referral-note composer |
+| `src/routes/index.tsx` + 3 others | Per-route og:image meta |
+| **Image gen** | 5 regens (porch no-wine, hero-2 golf, journey-5 chef, journey-7 clinical, cohort-portrait) + 4 OG cards = **9 assets** |
+| `mem://design/v35-vibrancy.md` | NEW — locks the gold+ember duet, weight bump, AI transparency rule |
+| `.lovable/memory/index.md` | Add v3.5 core line |
+
+**End state:** same 9 sections + 1 sub-rail. The site reads, scrolls, and *feels* substantially bolder without being garish. AI is obvious, transparent, and leads the visitor by the hand.
+
+---
+
+## v3.5 exit criteria
+
+- The amber is unmistakably warm-gold; readability passes WCAG AA over every photo.
+- A new visitor can describe "what the AI does" within 30 seconds because each AI moment has a visible chip and a CTA into the next.
+- No wine, no golf-resort, no cold-clinical imagery — every image matches its caption.
+- Hero loads first frame in <600ms on a throttled 4G mobile profile; no layout shift.
+- All page transitions and reveals feel snappy (≤240ms) without losing elegance.
+- `/professionals` has one genuinely useful AI tool, not just brochure copy.
+- All four routes unfurl with route-specific OG cards on iMessage/Slack.
 
 ---
 
@@ -192,8 +140,9 @@ The match is generated by a server function `matchPeer` that takes the Resonance
 
 One reply:
 
-1. **"Ship v3.3"** — I execute all six moves as one push. Then say "ship v3.4" when ready.
-2. **"Ship v3.3 with these changes: …"** — name what to swap, e.g. "skip the cursor companion" or "keep Gallery as-is, just add JourneyStrip."
-3. **"Ship v3.3 + v3.4 together"** — possible but bigger blast radius; I'd rather land the visual transformation first so the AI moments have a worthy stage.
+1. **"Ship v3.5 in full"** — all six moves. One push. Ships final.
+2. **"Ship v3.5 with these changes: …"** — name what to drop (e.g., "skip the audio" or "do the OG cards in v3.6").
+3. **"Ship Move 1+2+3 only first, then 4+5+6"** — split into two halves if you want to review the brand+AI shift before the polish layer lands.
 
-For v3.4, one decision when you reply: **A only**, **B only**, or **both A and B** (recommended).
+After v3.5, the site is **published-ready**. Anything beyond is taste, not need.
+

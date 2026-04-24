@@ -58,7 +58,12 @@ export const getRouter = () => {
   const router = createRouter({
     routeTree,
     context: {},
+    // Phase 1 closeout — scroll restoration ON for back/forward navigation,
+    // but the cache key is the pathname so navigating TO "/" always returns
+    // to the top of the home page rather than restoring a stale mid-page
+    // scroll position from a previous visit.
     scrollRestoration: true,
+    getScrollRestorationKey: (location) => location.pathname,
     defaultPreloadStaleTime: 0,
     defaultErrorComponent: DefaultErrorComponent,
   });

@@ -260,6 +260,11 @@
    */
   .hang-punct {
     hanging-punctuation: first last;
+    /* v3.9.1 — explicit zero indent at all sizes by default; the
+       desktop Safari rule below opts back into the small negative
+       indent for true hanging-punctuation behavior. Prevents any
+       phantom left nudge on mobile (e.g. the Hero title at 402px). */
+    text-indent: 0;
   }
   @supports (hanging-punctuation: first) {
     @media (min-width: 1024px) {

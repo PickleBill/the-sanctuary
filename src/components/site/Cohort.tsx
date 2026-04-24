@@ -1,61 +1,21 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { matchPeer } from "@/server/cohort.functions";
+import { COHORT_ROLES } from "@/lib/cohort/roles";
 
 /**
- * v3.3 — "The Cohort" Mobile-First Rebuild
+ * v3.3 → v3.4 — "The Cohort"
  *
- * What changed from v3.2:
- *  - 40 nodes (was 28), 30% faster drift, 7 max concurrent filaments (was 4)
- *  - Auto-tour on mobile: every 2.4s the next node lights up automatically
- *  - 7px nodes on mobile (was 3), 4.5px desktop — real tap targets
- *  - viewBox switches to 480×600 on mobile so constellation owns vertical space
- *  - "Currently in residence" peer badge pulses for 1.2s on each reveal
+ * v3.3: Mobile-first rebuild — 40 nodes, auto-tour, denser filaments, larger taps.
+ * v3.4: When a visitor has completed a Resonance reading, the constellation
+ *       quietly highlights ONE node that resonates with what they wrote
+ *       (matchPeer server function via Gemini Flash + tool calling).
  *
  * Pure SVG + requestAnimationFrame. No canvas, no library.
  * Reduced-motion: static graph, hover-only reveals, no drift, no auto-tour.
  */
 
-const ROLES = [
-  "Founder · raised Series C",
-  "Surgeon · Mayo",
-  "Federal Judge",
-  "Trustee · family office",
-  "Olympian · retired",
-  "Operator · two exits",
-  "Author · NYT bestseller",
-  "Parent · principal of two",
-  "Managing Partner · law",
-  "Public Official",
-  "Venture GP",
-  "CEO · public company",
-  "Chief of Staff",
-  "Cardiologist",
-  "Headmaster",
-  "Chairman · holding co.",
-  "Conductor",
-  "Foundation President",
-  "Architect · principal",
-  "Diplomat · former",
-  "Producer · feature film",
-  "Fund Manager",
-  "Chief Justice · state",
-  "Founder · second time",
-  "Editor-in-Chief",
-  "Investor · early-stage",
-  "Pediatric Oncologist",
-  "Rector",
-  "Hedge Fund Founder",
-  "Anesthesiologist · chief",
-  "Tech CEO · pre-IPO",
-  "Three-Star General · retired",
-  "Research Scientist · NIH",
-  "Concert Pianist",
-  "Olympic Coach",
-  "GC · Fortune 100",
-  "Restaurateur · Michelin",
-  "Surgeon · Cleveland Clinic",
-  "Real Estate Developer",
-  "Philanthropist",
-];
+const ROLES = COHORT_ROLES;
 
 type Node = {
   id: number;

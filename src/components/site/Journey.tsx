@@ -273,7 +273,8 @@ export function Journey() {
   const [openMoment, setOpenMoment] = useState<Moment | null>(null);
 
   return (
-    <section id="journey" className="py-24 lg:py-36 bg-background scroll-mt-24">
+    <section id="journey" className="relative py-24 lg:py-36 bg-background scroll-mt-24">
+      <span aria-hidden className="section-filament-top" />
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-12 lg:mb-16">
           <div className="lg:col-span-8">

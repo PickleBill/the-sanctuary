@@ -36,9 +36,12 @@ function scrollToTop() {
 }
 
 /**
- * The Sanctuary mark.
- * 40×32 viewBox. One gold ridge stroke, a single sun disc clearly above
- * and to the right of the ridge. No haze, no horizon line, no eyebrow.
+ * The Sanctuary mark — final.
+ *
+ * Two simple mountain peaks (a far peak behind, a near peak in front) with
+ * a single sun centered above. Drawn as straight strokes so the mark reads
+ * crisply at favicon/navbar sizes. Sun + ridge are vertically and
+ * horizontally balanced inside a 40×32 viewBox. No haze, no extra ornament.
  */
 function SanctuaryMark({ compact = false }: { compact?: boolean }) {
   const size = compact ? 30 : 36;
@@ -48,18 +51,26 @@ function SanctuaryMark({ compact = false }: { compact?: boolean }) {
         width={size}
         height={(size * 32) / 40}
         viewBox="0 0 40 32"
+        fill="none"
         aria-hidden
         className="shrink-0"
       >
-        {/* sun — sits well clear of the ridge in real negative space */}
-        <circle cx="29.5" cy="9" r="2.6" fill="var(--amber)" />
-        {/* ridge — one fluid stroke, balanced from edge to edge */}
+        {/* Sun — centered, sitting above the saddle of the ridge */}
+        <circle cx="20" cy="9" r="2.6" fill="var(--amber)" />
+
+        {/* Far peak — softer, sits behind */}
         <path
-          d="M 2 24
-             C 7 16, 11 16, 15 21
-             S 22 26, 26 21
-             S 33 16, 38 24"
-          fill="none"
+          d="M 4 26 L 14 14 L 22 22"
+          stroke="var(--amber)"
+          strokeOpacity="0.55"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+
+        {/* Near peak — crisp, sits in front */}
+        <path
+          d="M 12 26 L 24 12 L 36 26"
           stroke="var(--amber)"
           strokeWidth="1.75"
           strokeLinecap="round"

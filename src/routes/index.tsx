@@ -5,7 +5,7 @@ import { Resonance } from "@/components/site/Resonance";
 import { Cohort } from "@/components/site/Cohort";
 import { JourneyStrip } from "@/components/site/JourneyStrip";
 import { Journey } from "@/components/site/Journey";
-import { WeekRhythm } from "@/components/site/WeekRhythm";
+import { SynergyMap } from "@/components/site/SynergyMap";
 import { Amenities } from "@/components/site/Amenities";
 import { Leadership } from "@/components/site/Leadership";
 import { SevenDecisions } from "@/components/site/SevenDecisions";
@@ -48,7 +48,7 @@ function Index() {
         <Cohort />
         <JourneyStrip />
         <Journey />
-        <WeekRhythm />
+        <SynergyMap />
         <Amenities />
         <Leadership />
         <SevenDecisions />

@@ -141,6 +141,19 @@ export function ReferralNoteComposer() {
             )}
             {note && (
               <>
+                <div className="flex items-center gap-2 mb-4 flex-wrap">
+                  <span
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 small-caps text-[9px] tracking-[0.28em] font-semibold"
+                    style={{
+                      color: "var(--bloom)",
+                      background: "color-mix(in oklab, var(--bloom) 12%, transparent)",
+                      border: "1px solid color-mix(in oklab, var(--bloom) 40%, transparent)",
+                    }}
+                    aria-label="Composed for you by AI"
+                  >
+                    ✦ Composed for you
+                  </span>
+                </div>
                 <p className="font-serif text-foreground/90 leading-relaxed text-[15px] whitespace-pre-line flex-1">
                   {note}
                 </p>

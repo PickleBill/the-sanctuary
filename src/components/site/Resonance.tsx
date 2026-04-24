@@ -174,6 +174,10 @@ export function Resonance() {
               "{reading.echo}"
             </p>
             <StreamedReading text={reading.reading} />
+            <p className="small-caps text-muted-foreground/60 text-[10px] tracking-[0.32em] mb-8 -mt-2">
+              <span className="inline-block w-1 h-1 rounded-full bg-amber/70 mr-2 align-middle animate-pulse" />
+              Three others are reading something quiet right now.
+            </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-border max-w-2xl">
               <div className="bg-background p-6">
                 <p className="small-caps text-muted-foreground/70 text-[10px] tracking-[0.32em] mb-2">

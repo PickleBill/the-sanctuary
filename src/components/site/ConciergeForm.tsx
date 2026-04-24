@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { z } from "zod";
 import { useServerFn } from "@tanstack/react-start";
 import { submitProspectus } from "@/server/resonance.functions";
+import { composePrivateReply } from "@/server/concierge.functions";
 import { TrustRail } from "@/components/site/TrustRail";
 
 /**

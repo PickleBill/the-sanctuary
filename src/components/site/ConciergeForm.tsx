@@ -33,6 +33,15 @@ export function ConciergeForm() {
   const [submitted, setSubmitted] = useState(false);
   const [submittedName, setSubmittedName] = useState("");
   const [dossierUrl, setDossierUrl] = useState<string | null>(null);
+  const [replyPayload, setReplyPayload] = useState<{
+    firstName: string;
+    role: string;
+    contactMethod: string;
+    message?: string;
+    resonanceText?: string;
+    resonanceReading?: string;
+    intentSignal?: string;
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 

@@ -165,9 +165,22 @@ export function Resonance() {
 
         {reading && (
           <article className="border-t border-amber/40 pt-10 lg:pt-12 animate-[fadeUp_900ms_cubic-bezier(0.22,1,0.36,1)]">
-            <p className="small-caps text-amber text-[11px] tracking-[0.32em] mb-5">
-              Your Resonance Reading
-            </p>
+            <div className="flex items-center gap-3 mb-5 flex-wrap">
+              <p className="small-caps text-amber text-[11px] tracking-[0.32em] font-semibold">
+                Your Resonance Reading
+              </p>
+              <span
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 small-caps text-[9px] tracking-[0.28em] font-semibold"
+                style={{
+                  color: "var(--bloom)",
+                  background: "color-mix(in oklab, var(--bloom) 12%, transparent)",
+                  border: "1px solid color-mix(in oklab, var(--bloom) 40%, transparent)",
+                }}
+                aria-label="Composed for you by AI"
+              >
+                ✦ Composed for you
+              </span>
+            </div>
             <p
               className="font-serif editorial-italic text-foreground/70 mb-6 max-w-2xl"
               style={{ fontSize: "var(--text-lead)" }}

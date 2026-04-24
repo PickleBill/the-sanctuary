@@ -597,16 +597,26 @@ export function Cohort() {
                         const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
                         el?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
                       }}
-                      className="group inline-flex items-center gap-2 bg-amber text-amber-foreground px-5 py-3 small-caps text-[10px] tracking-[0.28em] hover:-translate-y-0.5 transition-transform duration-300 font-semibold"
+                      className="cta-flame group inline-flex items-center gap-2 bg-amber text-amber-foreground px-6 py-3.5 small-caps text-[10.5px] tracking-[0.28em] hover:-translate-y-0.5 transition-transform duration-300 font-semibold"
                     >
-                      Continue privately
+                      ✦ Continue privately
                       <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                     </button>
-                    <span className="hidden sm:inline-block">
-                      {/* AIPresenceChip rendered inline; ivory variant for navy bg */}
-                    </span>
+                    <AIPresenceChip variant="ivory" />
                   </div>
                 )}
+
+                {/* v3.7 — "View the room" chip — opens bottom sheet w/ all 40 archetypes */}
+                <button
+                  type="button"
+                  onClick={() => setRoomOpen(true)}
+                  className="mt-6 inline-flex items-center gap-2 small-caps text-[10px] tracking-[0.28em] text-ivory/65 hover:text-amber transition-colors group"
+                  aria-label="See all forty archetypes in the room"
+                >
+                  <span aria-hidden className="block w-1 h-1 rounded-full bg-amber" />
+                  View the room — 40
+                  <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                </button>
               </div>
             </div>
           </div>

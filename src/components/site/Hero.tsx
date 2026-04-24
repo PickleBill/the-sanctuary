@@ -293,11 +293,11 @@ export function Hero() {
               {/* Tertiary — small-caps, not italic body. Reads as a navigation
                   cue rather than a sentence floating in space. */}
               <button
-                onClick={() => scrollToId("day-here")}
+                onClick={() => scrollToId("cohort")}
                 className="mt-8 sm:mt-9 text-ivory/55 hover:text-amber transition-colors duration-500 small-caps text-[11px] tracking-[0.24em] flex items-center gap-3 group"
               >
                 <span aria-hidden className="block w-6 h-px bg-ivory/30 group-hover:bg-amber transition-colors" />
-                <span>See a day here</span>
+                <span>Meet the room</span>
                 <span aria-hidden className="inline-block transition-transform duration-500 group-hover:translate-x-1">→</span>
               </button>
             </div>
@@ -305,6 +305,10 @@ export function Hero() {
           <div className="hidden lg:block lg:col-span-4 xl:col-span-5" aria-hidden />
         </div>
       </div>
+
+      {/* Mini-network whisper — bottom-left, 30% opacity, hint of what's below.
+          5 amber nodes drift slowly with one filament connecting two at a time. */}
+      <MiniNetwork />
 
       {/* Scroll indicator — desktop only; on mobile the tertiary "See a day here"
           link does the same job and the small viewport doesn't need a second cue. */}

@@ -41,12 +41,12 @@ type Filament = {
 const VIEW_W_DESKTOP = 800;
 const VIEW_H_DESKTOP = 480;
 const VIEW_W_MOBILE = 480;
-const VIEW_H_MOBILE = 600;
+const VIEW_H_MOBILE = 480;
 
 function buildNodes(isMobile: boolean): Node[] {
   // Adapt grid to viewport so distribution is even on both shapes.
-  const cols = isMobile ? 5 : 8;
-  const rows = isMobile ? 8 : 5;
+  const cols = isMobile ? 6 : 8;
+  const rows = isMobile ? 7 : 5;
   const total = Math.min(40, ROLES.length);
   const out: Node[] = [];
   const round = (v: number) => Math.round(v * 10000) / 10000;
@@ -80,6 +80,7 @@ export function Cohort() {
   const [reduceMotion, setReduceMotion] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [badgePulse, setBadgePulse] = useState(0);
+  const [roomOpen, setRoomOpen] = useState(false);
   const manualUntilRef = useRef<number>(0);
 
   // v3.4 — matched peer (server function picks one role index that resonates

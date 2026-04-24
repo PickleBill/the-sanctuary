@@ -3,6 +3,7 @@ import suite from "@/assets/gallery-suite-v2.jpg";
 import grounds from "@/assets/gallery-grounds-v2.jpg";
 import boardroom from "@/assets/gallery-boardroom-v2.jpg";
 import clinical from "@/assets/gallery-clinical-v2.jpg";
+import pickleball from "@/assets/amenity-pickleball.jpg";
 
 /**
  * v3.3 — Amenities + Building deck
@@ -28,7 +29,7 @@ const items = [
   {
     num: "III",
     title: "Things worth doing again",
-    desc: "Fly fishing on private water. A round at a quiet course. An hour with a horse who doesn't care what you do for a living.",
+    desc: "Fly fishing on private water. A quiet round at the club. Pickleball at golden hour with a peer who outranks the small talk. An hour with a horse who doesn't care what you do for a living.",
   },
   {
     num: "IV",
@@ -45,6 +46,7 @@ const items = [
 const buildings = [
   { src: suite, label: "The Suite", caption: "Where the day begins.", alt: "A serene private suite with mountain light" },
   { src: grounds, label: "The Grounds", caption: "Forty acres, one family.", alt: "The Blue Ridge grounds at golden hour" },
+  { src: pickleball, label: "The Court", caption: "Pickleball at golden hour.", alt: "A private pickleball court at sunset, paddles waiting on a wooden bench" },
   { src: boardroom, label: "The Office", caption: "Conference-grade fiber, hardened comms.", alt: "A private executive office with warm wood paneling" },
   { src: clinical, label: "The Clinic", caption: "Hospitality, dressed as medicine.", alt: "A discreet clinical wellness suite" },
 ];
@@ -180,12 +182,12 @@ export function Amenities() {
             ──────────────────────────────────────────────────────────────── */}
         <div className="mt-20 lg:mt-28 pt-12 lg:pt-16 border-t border-border">
           <div className="flex items-baseline justify-between mb-8 lg:mb-10">
-            <p className="eyebrow">The buildings, briefly</p>
+            <p className="eyebrow">The estate, briefly</p>
             <p className="hidden sm:block small-caps text-foreground/45 text-[10px] tracking-[0.28em] tabular">
-              Four rooms · One estate
+              Five rooms · One estate
             </p>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
             {buildings.map((b, i) => (
               <figure
                 key={b.label}

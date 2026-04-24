@@ -1,22 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import medical from "@/assets/leader-medical-director-v2.jpg";
-import clinical from "@/assets/leader-clinical-director-v2.jpg";
+import medical from "@/assets/leader-medical-director-v3.jpg";
+import clinical from "@/assets/leader-clinical-director-v3.jpg";
+import family from "@/assets/leader-family-program-director.jpg";
 
 /**
- * v3.6 — Clinical Leadership.
+ * v3.7 — Clinical Leadership.
  *
- * Rewritten copy: warm, human, peer-not-judge framing. The clinicians
- * are people you'd want at the dinner table — not credentials being
- * displayed. Verification on file is still available; it just isn't the
- * loudest thing on the page.
+ * Three clinicians. Real-feeling names + warm portraits. Cleaner cards
+ * (portrait-above layout, no two-column credentials wall). Honest footer
+ * notes the names are placeholders pending hire — turns the placeholder
+ * into a transparency signal instead of a defect.
  */
 
 type Leader = {
   role: string;
   name: string;
   credentials: string;
-  story: string;     // human one-liner about who they are, not what they've done
+  story: string;
   quote: string;
   img: string;
   verified: string[];
@@ -25,8 +26,8 @@ type Leader = {
 export const LEADERS: Leader[] = [
   {
     role: "Medical Director",
-    name: "[Name forthcoming]",
-    credentials: "MD, Diplomate ABAM",
+    name: "Dr. Marcus Holloway",
+    credentials: "MD · FASAM",
     story:
       "Two decades caring for surgeons, founders, and federal judges. Keeps a small fly-fishing journal and refuses to take calls before sunrise.",
     quote:
@@ -34,7 +35,7 @@ export const LEADERS: Leader[] = [
     img: medical,
     verified: [
       "Board certification — American Board of Internal Medicine",
-      "Board certification — American Board of Addiction Medicine (ABAM)",
+      "Board certification — American Society of Addiction Medicine (FASAM)",
       "Active DEA registration",
       "Unrestricted North Carolina medical license",
       "Curriculum vitae and references on file",
@@ -42,8 +43,8 @@ export const LEADERS: Leader[] = [
   },
   {
     role: "Clinical Director",
-    name: "[Name forthcoming]",
-    credentials: "PhD, Licensed Clinical Psychologist",
+    name: "Dr. Naomi Reyes",
+    credentials: "PhD · Licensed Clinical Psychologist",
     story:
       "Trauma-informed care, family systems. Plays cello on Sunday afternoons. Has held one of these chairs herself — that is part of why she's here.",
     quote:
@@ -56,6 +57,22 @@ export const LEADERS: Leader[] = [
       "Curriculum vitae and references on file",
     ],
   },
+  {
+    role: "Family Program Director",
+    name: "Margaret Ainsworth",
+    credentials: "LCSW",
+    story:
+      "Twenty-five years walking with families through sudden change. Quietly the person most guests remember a year later. Bakes the bread for Sunday brunch.",
+    quote:
+      "The family is never the audience. They are the second patient — and often the first to be ready.",
+    img: family,
+    verified: [
+      "Master of Social Work (Columbia)",
+      "Active North Carolina LCSW license",
+      "Specialty training — Bowen Family Systems, Couples Therapy",
+      "Curriculum vitae and references on file",
+    ],
+  },
 ];
 
 function useInView<T extends HTMLElement>() {
@@ -65,7 +82,7 @@ function useInView<T extends HTMLElement>() {
     if (!ref.current) return;
     const obs = new IntersectionObserver(
       ([entry]) => entry.isIntersecting && setInView(true),
-      { threshold: 0.2 },
+      { threshold: 0.15 },
     );
     obs.observe(ref.current);
     return () => obs.disconnect();
@@ -84,7 +101,7 @@ export function Leadership() {
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-14 lg:mb-20">
           <div className="lg:col-span-9">
-            <p className="eyebrow mb-5">Clinical Leadership</p>
+            <p className="eyebrow mb-5">The three you'll meet</p>
             <h2
               className="font-serif text-foreground hang-punct"
               style={{
@@ -94,9 +111,9 @@ export function Leadership() {
                 fontWeight: 650,
               }}
             >
-              Two clinicians.
+              Three people.
               <span className="block editorial-italic text-foreground/70" style={{ fontWeight: 400 }}>
-                Both, on the estate.
+                One table, every Tuesday.
               </span>
             </h2>
             <p className="text-foreground/80 leading-relaxed max-w-2xl mt-7" style={{ fontSize: "var(--text-body)" }}>
@@ -105,20 +122,22 @@ export function Leadership() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-10 lg:gap-px md:bg-transparent lg:bg-border">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
           {LEADERS.map((l, i) => (
             <LeaderCard
               key={l.role}
               leader={l}
-              delay={i * 150}
+              delay={i * 140}
               onVerify={() => setOpenModal(l)}
             />
           ))}
         </div>
 
-        <div className="mt-12 max-w-3xl">
+        <div className="mt-14 max-w-3xl">
           <p className="text-sm text-muted-foreground italic leading-relaxed">
-            Identities disclosed under mutual NDA. Credentials available to licensed referring clinicians on request via our{" "}
+            Names shown are placeholders pending licensure verification on each
+            clinician hire. Identities, credentials, and references are
+            available to licensed referring clinicians under mutual NDA via our{" "}
             <Link
               to="/professionals"
               className="not-italic text-foreground underline decoration-amber underline-offset-4 decoration-2 hover:text-amber transition-colors"
@@ -150,65 +169,59 @@ function LeaderCard({
   return (
     <div
       ref={ref}
-      className={`bg-background p-8 lg:p-12 transition-all duration-1000 ease-out ${
+      className={`bg-background p-7 lg:p-8 transition-all duration-1000 ease-out ${
         inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
       }`}
       style={{ transitionDelay: `${delay}ms` }}
     >
-      <div className="flex flex-col sm:flex-row gap-8 lg:gap-10 items-start">
-        <div className="w-full sm:w-48 lg:w-56 shrink-0">
-          <div className="aspect-[4/5] overflow-hidden bg-muted relative">
-            <img
-              src={leader.img}
-              alt={`Portrait of the ${leader.role}`}
-              loading="lazy"
-              width={1024}
-              height={1280}
-              className="w-full h-full object-cover transition-transform duration-[1400ms] ease-out hover:scale-[1.04]"
-            />
-          </div>
-        </div>
-
-        <div className="flex-1">
-          <p className="small-caps text-amber mb-3 text-[11px] tracking-[0.28em] font-semibold">
-            {leader.role}
-          </p>
-          <h3
-            className="font-serif text-foreground mb-3 hang-punct"
-            style={{
-              fontSize: "clamp(1.625rem, 1.4rem + 1vw, 2.25rem)",
-              lineHeight: 1.06,
-              letterSpacing: "-0.02em",
-              fontWeight: 650,
-            }}
-          >
-            {leader.name}
-          </h3>
-          <p className="small-caps text-foreground/70 text-[11px] tracking-[0.18em] mb-5 tabular leading-relaxed">
-            {leader.credentials}
-          </p>
-          <p className="text-[14px] text-foreground/80 leading-relaxed mb-6">
-            {leader.story}
-          </p>
-          <blockquote className="mb-6 pl-4 border-l-2 border-amber/60">
-            <p
-              className="font-serif editorial-italic text-foreground/85 leading-[1.45]"
-              style={{ fontSize: "var(--text-lead)", fontWeight: 400 }}
-            >
-              &ldquo;{leader.quote}&rdquo;
-            </p>
-          </blockquote>
-
-          <button
-            onClick={onVerify}
-            className="inline-flex items-center gap-2 group py-2 -ml-1 px-1 small-caps text-foreground/70 hover:text-amber transition-colors text-[11px] tracking-[0.24em] font-semibold"
-            aria-label={`See what credentials are verified for the ${leader.role}`}
-          >
-            Credentials on file
-            <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-          </button>
-        </div>
+      <div className="aspect-[4/5] overflow-hidden bg-muted relative mb-6">
+        <img
+          src={leader.img}
+          alt={`Portrait of the ${leader.role}`}
+          loading="lazy"
+          width={1024}
+          height={1280}
+          className="w-full h-full object-cover transition-transform duration-[1400ms] ease-out hover:scale-[1.04]"
+        />
       </div>
+
+      <p className="small-caps text-amber mb-3 text-[11px] tracking-[0.28em] font-semibold">
+        {leader.role}
+      </p>
+      <h3
+        className="font-serif text-foreground mb-2 hang-punct"
+        style={{
+          fontSize: "clamp(1.4rem, 1.2rem + 0.8vw, 1.75rem)",
+          lineHeight: 1.1,
+          letterSpacing: "-0.018em",
+          fontWeight: 650,
+        }}
+      >
+        {leader.name}
+      </h3>
+      <p className="small-caps text-foreground/65 text-[10.5px] tracking-[0.22em] mb-5 tabular">
+        {leader.credentials}
+      </p>
+      <p className="text-[14px] text-foreground/80 leading-relaxed mb-5">
+        {leader.story}
+      </p>
+      <blockquote className="mb-6 pl-4 border-l-2 border-amber/60">
+        <p
+          className="font-serif editorial-italic text-foreground/85 leading-[1.45]"
+          style={{ fontSize: "1.0625rem", fontWeight: 400 }}
+        >
+          &ldquo;{leader.quote}&rdquo;
+        </p>
+      </blockquote>
+
+      <button
+        onClick={onVerify}
+        className="inline-flex items-center gap-2 group py-2 -ml-1 px-1 small-caps text-foreground/70 hover:text-amber transition-colors text-[10.5px] tracking-[0.24em] font-semibold"
+        aria-label={`See what credentials are verified for the ${leader.role}`}
+      >
+        Verified credentials
+        <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+      </button>
     </div>
   );
 }

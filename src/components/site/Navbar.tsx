@@ -42,30 +42,45 @@ function scrollToId(id: string) {
  * underlying section.
  */
 function SanctuaryMark({ compact = false }: { compact?: boolean }) {
-  const arcSize = compact ? 26 : 32;
+  const arcSize = compact ? 28 : 34;
   return (
     <span className="flex items-center gap-3 group">
       <svg
         width={arcSize}
         height={arcSize}
-        viewBox="0 0 32 32"
+        viewBox="0 0 34 32"
         aria-hidden
         className="shrink-0"
       >
-        {/* The ridge — a hand-drawn upward arc + a small horizon mark */}
+        {/* v3.7 — Double Blue Ridge silhouette + first-light sunrise dot.
+            Back ridge sits softer (haze); front ridge crisp; tiny amber sun
+            partially eclipsed by the front ridge — first light over the mountain. */}
+        {/* sunrise dot, behind everything */}
+        <circle cx="17" cy="14" r="2.4" fill="var(--amber)" opacity="0.95" />
+        {/* back ridge — softer, hazier */}
         <path
-          d="M 3 22 Q 16 4, 29 22"
+          d="M 1 24 Q 10 10, 17 16 T 33 22"
+          fill="none"
+          stroke="var(--amber)"
+          strokeOpacity="0.42"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+        {/* front ridge — crisp */}
+        <path
+          d="M 2 26 Q 11 12, 17 18 T 32 24"
           fill="none"
           stroke="var(--amber)"
           strokeWidth="2"
           strokeLinecap="round"
         />
+        {/* horizon */}
         <path
-          d="M 8 26 L 24 26"
+          d="M 6 29 L 28 29"
           fill="none"
           stroke="var(--amber)"
-          strokeOpacity="0.55"
-          strokeWidth="1"
+          strokeOpacity="0.35"
+          strokeWidth="0.8"
           strokeLinecap="round"
         />
       </svg>
@@ -170,7 +185,7 @@ export function Navbar() {
               }`}
             />
             <span
-              className={`absolute left-0 right-0 h-px bg-amber transition-all duration-300 ${
+              className={`absolute left-0 right-0 h-px bg-current transition-all duration-300 ${
                 open ? "top-[6px] opacity-0" : "top-[6px] opacity-100"
               }`}
             />

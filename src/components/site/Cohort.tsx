@@ -3,6 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { matchPeer } from "@/server/cohort.functions";
 import { COHORT_ROLES } from "@/lib/cohort/roles";
 import { AIPresenceChip } from "@/components/site/AIPresenceChip";
+import { CohortRoomSheet } from "@/components/site/CohortRoomSheet";
 import cohortPortrait from "@/assets/cohort-portrait.jpg";
 
 /**
@@ -40,12 +41,12 @@ type Filament = {
 const VIEW_W_DESKTOP = 800;
 const VIEW_H_DESKTOP = 480;
 const VIEW_W_MOBILE = 480;
-const VIEW_H_MOBILE = 600;
+const VIEW_H_MOBILE = 480;
 
 function buildNodes(isMobile: boolean): Node[] {
   // Adapt grid to viewport so distribution is even on both shapes.
-  const cols = isMobile ? 5 : 8;
-  const rows = isMobile ? 8 : 5;
+  const cols = isMobile ? 6 : 8;
+  const rows = isMobile ? 7 : 5;
   const total = Math.min(40, ROLES.length);
   const out: Node[] = [];
   const round = (v: number) => Math.round(v * 10000) / 10000;
@@ -79,6 +80,7 @@ export function Cohort() {
   const [reduceMotion, setReduceMotion] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [badgePulse, setBadgePulse] = useState(0);
+  const [roomOpen, setRoomOpen] = useState(false);
   const manualUntilRef = useRef<number>(0);
 
   // v3.4 — matched peer (server function picks one role index that resonates
@@ -368,6 +370,36 @@ export function Cohort() {
           </div>
 
           <div className="lg:col-span-7">
+            {/* v3.7 — Mobile name plate ABOVE the constellation. Always-visible
+                focal point so visitors always know which archetype is lit. */}
+            <div className="lg:hidden mb-5 min-h-[88px]">
+              <div className="flex items-baseline gap-3 mb-2 flex-wrap">
+                <p
+                  className={`small-caps text-amber text-[10px] tracking-[0.32em] font-semibold transition-opacity duration-500 ${
+                    activeNode || matchedId != null ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  {activeNode && activeId === matchedId ? "✦ A quiet resonance" : "Recent resident"}
+                </p>
+                {activeNode && (
+                  <span
+                    key={`mp-${badgePulse}`}
+                    className="cohort-badge inline-flex items-center gap-1.5 px-2 py-[3px] border border-amber/40 text-[9px] tracking-[0.22em] uppercase text-amber/90"
+                  >
+                    <span aria-hidden className="block w-1.5 h-1.5 rounded-full bg-amber cohort-badge-dot" />
+                    In residence
+                  </span>
+                )}
+              </div>
+              <p
+                key={`mp-name-${activeId}-${badgePulse}`}
+                className="font-serif editorial-italic text-ivory cohort-role-rise leading-snug"
+                style={{ fontSize: "1.4rem", fontWeight: 400, minHeight: "1.4em" }}
+              >
+                {activeNode ? activeNode.role : "—"}
+              </p>
+            </div>
+
             <div className="relative w-full">
               <svg
                 viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
@@ -565,21 +597,40 @@ export function Cohort() {
                         const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
                         el?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
                       }}
-                      className="group inline-flex items-center gap-2 bg-amber text-amber-foreground px-5 py-3 small-caps text-[10px] tracking-[0.28em] hover:-translate-y-0.5 transition-transform duration-300 font-semibold"
+                      className="cta-flame group inline-flex items-center gap-2 bg-amber text-amber-foreground px-6 py-3.5 small-caps text-[10.5px] tracking-[0.28em] hover:-translate-y-0.5 transition-transform duration-300 font-semibold"
                     >
-                      Continue privately
+                      ✦ Continue privately
                       <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                     </button>
-                    <span className="hidden sm:inline-block">
-                      {/* AIPresenceChip rendered inline; ivory variant for navy bg */}
-                    </span>
+                    <AIPresenceChip variant="ivory" />
                   </div>
                 )}
+
+                {/* v3.7 — "View the room" chip — opens bottom sheet w/ all 40 archetypes */}
+                <button
+                  type="button"
+                  onClick={() => setRoomOpen(true)}
+                  className="mt-6 inline-flex items-center gap-2 small-caps text-[10px] tracking-[0.28em] text-ivory/65 hover:text-amber transition-colors group"
+                  aria-label="See all forty archetypes in the room"
+                >
+                  <span aria-hidden className="block w-1 h-1 rounded-full bg-amber" />
+                  View the room — 40
+                  <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* v3.7 — Bottom-sheet listing all 40 archetypes */}
+      <CohortRoomSheet
+        open={roomOpen}
+        onClose={() => setRoomOpen(false)}
+        matchedId={matchedId}
+        activeId={activeId}
+        onPick={(id) => handleNodeActivate(id)}
+      />
 
       <style>{`
         @keyframes cohortRoleRise {

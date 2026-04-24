@@ -54,7 +54,7 @@ export function Hero() {
   return (
     <section
       className="relative flex items-center overflow-hidden bg-navy"
-      style={{ minHeight: "100svh" }}
+      style={{ minHeight: "min(100svh, 760px)" }}
     >
       {/* Cinemagraph stack — three frames cross-fade with Ken Burns */}
       <div className="absolute inset-0">
@@ -110,19 +110,19 @@ export function Hero() {
             </p>
 
             <h1
-              className={`font-serif text-ivory mb-7 lg:mb-9 transition-all duration-1000 delay-150 hang-punct text-on-image-strong ${
+              className={`font-serif text-ivory mb-7 lg:mb-9 transition-all duration-1000 delay-150 hang-punct text-luxe ${
                 revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
               style={{
                 fontSize: "clamp(2.0rem, 1.2rem + 5.2vw, 5.75rem)",
-                lineHeight: 1.05,
-                letterSpacing: "-0.022em",
-                fontWeight: 500,
+                lineHeight: 1.04,
+                letterSpacing: "-0.028em",
+                fontWeight: 600,
               }}
             >
               <span className="block">The room is the medicine.</span>
               <span
-                className="block text-ivory/95 editorial-italic"
+                className="block text-ivory editorial-italic"
                 style={{ fontWeight: 400 }}
               >
                 Care, in the company of peers.
@@ -156,9 +156,9 @@ export function Hero() {
               <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
                 <button
                   onClick={() => scrollToId("concierge-form")}
-                  className="group cta-glow relative w-full sm:w-auto bg-amber text-amber-foreground px-8 py-[18px] sm:py-5 min-h-[52px] hover:-translate-y-0.5 transition-transform duration-500 overflow-hidden"
+                  className="group cta-glow cta-flame relative w-full sm:w-auto bg-amber text-amber-foreground px-8 py-[18px] sm:py-5 min-h-[52px] hover:-translate-y-0.5 transition-transform duration-300 overflow-hidden font-semibold"
                 >
-                  <span className="small-caps tracking-[0.22em] text-[12px] relative z-10">
+                  <span className="small-caps tracking-[0.24em] text-[12px] relative z-10">
                     Request the Clinical Dossier
                   </span>
                 </button>

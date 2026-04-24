@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { matchPeer } from "@/server/cohort.functions";
 import { COHORT_ROLES } from "@/lib/cohort/roles";
+import { AIPresenceChip } from "@/components/site/AIPresenceChip";
+import cohortPortrait from "@/assets/cohort-portrait.jpg";
 
 /**
  * v3.3 → v3.4 — "The Cohort"
@@ -175,9 +177,22 @@ export function Cohort() {
     };
   }, [visible, matchPeerFn]);
 
-  // Animation loop — drift + filament spawning
+  // v3.5 — IntersectionObserver gate: pause RAF when section is offscreen
+  const [isOnscreen, setIsOnscreen] = useState(false);
   useEffect(() => {
-    if (!visible || reduceMotion) return;
+    const el = sectionRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setIsOnscreen(entry.isIntersecting),
+      { threshold: 0, rootMargin: "200px 0px" },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  // Animation loop — drift + filament spawning (gated by visibility)
+  useEffect(() => {
+    if (!visible || reduceMotion || !isOnscreen) return;
     let raf = 0;
     let last = performance.now();
     let lastFilament = performance.now();
@@ -219,7 +234,7 @@ export function Cohort() {
     };
     raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
-  }, [visible, reduceMotion]);
+  }, [visible, reduceMotion, isOnscreen]);
 
   // Auto-tour on mobile: cycle through nodes every 2.4s
   // Tap takes over for 8s, then auto resumes.
@@ -315,7 +330,18 @@ export function Cohort() {
           }`}
         >
           <div className="lg:col-span-5">
-            <p className="eyebrow text-amber/90 mb-5">The Cohort</p>
+            {/* v3.5 — signature people-moment portrait above the headline */}
+            <div className="mb-7 overflow-hidden aspect-[16/9] bg-navy/50">
+              <img
+                src={cohortPortrait}
+                alt="A hand resting on the page of a leather journal in soft window light"
+                loading="lazy"
+                width={1920}
+                height={1080}
+                className="w-full h-full object-cover opacity-90"
+              />
+            </div>
+            <p className="eyebrow mb-5">The Cohort</p>
             <h2
               className="font-serif text-ivory mb-7 hang-punct"
               style={{
@@ -516,11 +542,38 @@ export function Cohort() {
                   <button
                     type="button"
                     onClick={() => handleNodeActivate(matchedId)}
-                    className="mt-3 inline-flex items-center gap-2 small-caps text-[10px] tracking-[0.28em] text-amber/80 hover:text-amber transition-colors group"
+                    className="mt-3 inline-flex items-center gap-2 small-caps text-[10px] tracking-[0.28em] text-amber hover:text-ivory transition-colors group"
                   >
-                    <span aria-hidden className="block w-2 h-2 rounded-full bg-amber/70 cohort-badge-dot" />
+                    <span aria-hidden className="block w-2 h-2 rounded-full bg-amber cohort-badge-dot" />
                     Someone in this room is carrying what you're carrying →
                   </button>
+                )}
+
+                {/* v3.5 — Continue privately handoff. Pre-seeds the role on the form. */}
+                {activeNode && activeId === matchedId && (
+                  <div className="mt-5 flex items-center gap-3 flex-wrap">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        // Map archetype to form role
+                        const role = activeNode.role;
+                        let seeded: string = "Principal";
+                        if (/Surgeon|Cardiologist|Anesthesiologist|Oncologist|Scientist|MD/i.test(role)) seeded = "Medical Professional";
+                        else if (/Trustee|Counsel|Partner|Advisor|GC|Chief of Staff|Manager|GP|Investor/i.test(role)) seeded = "Trusted Advisor";
+                        try { localStorage.setItem("ss_role_seed", seeded); } catch {}
+                        const el = document.getElementById("concierge-form");
+                        const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+                        el?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+                      }}
+                      className="group inline-flex items-center gap-2 bg-amber text-amber-foreground px-5 py-3 small-caps text-[10px] tracking-[0.28em] hover:-translate-y-0.5 transition-transform duration-300 font-semibold"
+                    >
+                      Continue privately
+                      <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                    </button>
+                    <span className="hidden sm:inline-block">
+                      {/* AIPresenceChip rendered inline; ivory variant for navy bg */}
+                    </span>
+                  </div>
                 )}
               </div>
             </div>

@@ -18,6 +18,9 @@ export const Route = createFileRoute("/professionals")({
         content:
           "A clinical reference page for licensed referring practitioners. We do not pay referral fees.",
       },
+      { property: "og:image", content: "/og-professionals.jpg" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "/og-professionals.jpg" },
     ],
   }),
   component: ProfessionalsPage,

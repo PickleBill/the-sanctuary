@@ -13,7 +13,9 @@
 
 /*
  * Sanctuary Southeast — Quiet Luxury Design System
- * Deep Navy / Soft White / Slate Gray / Warm Amber
+ * Deep Navy / Soft White / Slate Gray / Sanctuary Gold / Ember
+ *
+ * v3.5 — color duet: gold + ember. Headlines bolder. Letterpress on photos.
  */
 
 @theme inline {
@@ -67,23 +69,30 @@
 
   --color-amber: var(--amber);
   --color-amber-foreground: var(--amber-foreground);
+  --color-ember: var(--ember);
+  --color-ember-foreground: var(--ember-foreground);
   --color-navy: var(--navy);
   --color-slate-luxe: var(--slate-luxe);
   --color-ivory: var(--ivory);
 
   --shadow-luxe: 0 30px 80px -40px color-mix(in oklab, var(--navy) 60%, transparent);
-  --transition-luxe: all 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  /* v3.5 — sharper out-curve transition for snappier feel (was 600ms 0.22,1,0.36,1) */
+  --transition-luxe: all 380ms cubic-bezier(0.32, 0, 0.18, 1);
+  --ease-snap: cubic-bezier(0.32, 0, 0.18, 1);
+  --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 :root {
   --radius: 0px;
 
-  /* Brand tokens — exact hex mapped to oklch */
-  --navy: oklch(0.2 0.04 260);          /* #0F172A */
-  --ivory: oklch(0.985 0.003 250);       /* #F8FAFC */
-  --slate-luxe: oklch(0.71 0.027 255);   /* #94A3B8 */
-  --amber: oklch(0.55 0.142 55);         /* #B45309 */
-  --amber-foreground: oklch(0.985 0.003 250);
+  /* Brand tokens — v3.5 gold + ember duet */
+  --navy: oklch(0.18 0.045 265);          /* deepened from 0.2 0.04 260 — more contrast against gold */
+  --ivory: oklch(0.985 0.003 250);        /* #F8FAFC */
+  --slate-luxe: oklch(0.71 0.027 255);    /* #94A3B8 */
+  --amber: oklch(0.74 0.165 70);          /* SANCTUARY GOLD ~#E8A33E — warmer, brighter */
+  --amber-foreground: oklch(0.18 0.045 265); /* navy on gold for AA contrast */
+  --ember: oklch(0.62 0.20 35);           /* EMBER ~#E26B3F — used sparingly: AI-active, matched node, "you are here" */
+  --ember-foreground: oklch(0.985 0.003 250);
 
   --background: var(--ivory);
   --foreground: var(--navy);
@@ -100,16 +109,17 @@
   --secondary-foreground: var(--navy);
 
   --muted: oklch(0.94 0.005 250);
-  --muted-foreground: var(--slate-luxe);
+  /* v3.5 — was 0.71 (slate-luxe). Bumped darker for AA against ivory bg. */
+  --muted-foreground: oklch(0.5 0.025 255);
 
   --accent: var(--amber);
-  --accent-foreground: var(--ivory);
+  --accent-foreground: var(--amber-foreground);
 
   --destructive: oklch(0.55 0.2 27);
   --destructive-foreground: oklch(0.985 0.003 250);
 
-  --border: oklch(0.9 0.008 250);
-  --input: oklch(0.9 0.008 250);
+  --border: oklch(0.88 0.01 250);
+  --input: oklch(0.88 0.01 250);
   --ring: var(--amber);
 }
 
@@ -127,7 +137,7 @@
   --muted: oklch(0.28 0.04 260);
   --muted-foreground: var(--slate-luxe);
   --accent: var(--amber);
-  --accent-foreground: var(--ivory);
+  --accent-foreground: var(--amber-foreground);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: var(--amber);
@@ -175,35 +185,41 @@
 
   h1, h2, h3, h4, h5 {
     font-family: var(--font-display);
-    font-weight: 500;
-    letter-spacing: -0.018em;
-    line-height: 1.08;
+    /* v3.5 — was 500. Bolder so headlines stop "sitting back". */
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.06;
     /* Tabular figures + lining figures for headings; small opsz off (let opsz axis handle). */
-    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "lnum" 1;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "lnum" 1, "cv01" 1;
+  }
+
+  /* Mobile slightly less heavy so we don't crowd small screens */
+  @media (max-width: 768px) {
+    h1, h2, h3, h4, h5 { font-weight: 550; }
   }
 
   h1 { font-size: var(--text-h1); }
-  h2 { font-size: var(--text-h2); line-height: 1.1; }
-  h3 { font-size: var(--text-h3); line-height: 1.15; }
-  h4 { font-size: var(--text-h4); line-height: 1.25; }
+  h2 { font-size: var(--text-h2); line-height: 1.08; }
+  h3 { font-size: var(--text-h3); line-height: 1.14; }
+  h4 { font-size: var(--text-h4); line-height: 1.24; }
 
   /* Display class for hero-scale headlines that want maximum opsz expression. */
   .text-display {
     font-family: var(--font-display);
     font-size: var(--text-display);
-    font-weight: 400;
+    font-weight: 500;
     line-height: 1.02;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.028em;
   }
 
   /* Lead paragraph after a headline — slightly larger, looser. */
   .text-lead {
     font-size: var(--text-lead);
     line-height: 1.5;
-    color: color-mix(in oklab, var(--foreground) 78%, transparent);
+    color: color-mix(in oklab, var(--foreground) 82%, transparent);
   }
 
-  /* Legacy aliases — both now resolve to Literata. Kept so existing class names work. */
+  /* Legacy aliases — both now resolve to Literata. */
   .font-serif { font-family: var(--font-display); }
   .font-sans  { font-family: var(--font-text); font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1; }
 
@@ -229,10 +245,9 @@
   .eyebrow {
     font-family: var(--font-text);
     font-size: var(--text-micro);
-    font-weight: 500;
-    /* Optical letter-spacing — tighter at 11px than the previous uniform 0.32em
-     * which read heavy. Per /typeset: small caps want less tracking than uppercase. */
-    letter-spacing: 0.24em;
+    /* v3.5 — heavier + brighter. Eyebrows now read as navigation signposts. */
+    font-weight: 600;
+    letter-spacing: 0.32em;
     text-transform: uppercase;
     color: var(--color-amber);
     font-feature-settings: "kern" 1, "lnum" 1, "tnum" 1;
@@ -240,14 +255,9 @@
 
   /* When eyebrows must read as full uppercase (no small-caps), give them slightly
    * more tracking — the cap height carries more visual weight. */
-  .eyebrow-tall { letter-spacing: 0.28em; }
+  .eyebrow-tall { letter-spacing: 0.36em; }
 
-  /* .luxe-rule — RESERVED. v2.0 Subtraction Pass: do NOT add this class
-   * next to section eyebrows or inside repeating units (cards, list items).
-   * The eyebrow's small-caps amber tracking is already the typographic
-   * signal; an adjacent rule is redundant noise. Permitted only as a
-   * functional affordance (e.g., a hover-extending line on a single CTA).
-   * See: mem://design/subtraction-v2 */
+  /* .luxe-rule — RESERVED. */
   .luxe-rule {
     display: inline-block;
     width: 3rem;
@@ -271,11 +281,7 @@
     line-height: 0.85;
   }
 
-  /* Filament-draw — the brand's signature line motion. Used on synergy-map rows
-   * and section dividers. 1200ms ease-out per Phase B /animate spec.
-   * Origin is left so the line draws into existence rather than scaling from center.
-   * `backwards` fill mode holds the `from` state during the animation-delay so
-   * lines don't flash at full scale before the staggered draw kicks in. */
+  /* Filament-draw — the brand's signature line motion. */
   @keyframes filamentDraw {
     from { transform: scaleX(0); opacity: 0.4; }
     to   { transform: scaleX(1); opacity: 1; }
@@ -283,32 +289,26 @@
   .filament-draw {
     transform-origin: left center;
     transform: scaleX(0);
-    animation: filamentDraw 1200ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    animation: filamentDraw 1200ms var(--ease-luxe) backwards;
   }
 
   /* Selection styling — amber tint on navy text for editorial cohesion. */
   ::selection {
-    background-color: color-mix(in oklab, var(--amber) 25%, transparent);
+    background-color: color-mix(in oklab, var(--amber) 30%, transparent);
     color: var(--foreground);
   }
 
-  /* Honor reduced motion globally for our custom keyframes. */
   @media (prefers-reduced-motion: reduce) {
     .filament-draw { animation: none !important; transform: scaleX(1) !important; }
   }
 
   /* ──────────────────────────────────────────────────────────────────────
    * v3.3 — Section-boundary filaments
-   * A faint amber line draws horizontally at the top of any section that
-   * adds .section-filament-top, so the document reads as one breath. The
-   * line draws when the section enters view via IntersectionObserver — but
-   * we also accept a CSS-only auto draw for sections that don't wire up
-   * observers. Use sparingly — meant to be felt, not seen.
    * ────────────────────────────────────────────────────────────────────── */
   @keyframes sectionFilamentDraw {
-    0%   { transform: scaleX(0); opacity: 0; }
-    20%  { opacity: 0.55; }
-    100% { transform: scaleX(1); opacity: 0.45; }
+    0%   { transform: translateX(-50%) scaleX(0); opacity: 0; }
+    20%  { opacity: 0.6; }
+    100% { transform: translateX(-50%) scaleX(1); opacity: 0.5; }
   }
   .section-filament-top,
   .section-filament-bottom {
@@ -320,12 +320,12 @@
     background: linear-gradient(
       90deg,
       transparent 0%,
-      color-mix(in oklab, var(--amber) 75%, transparent) 50%,
+      color-mix(in oklab, var(--amber) 80%, transparent) 50%,
       transparent 100%
     );
     transform-origin: center;
     pointer-events: none;
-    animation: sectionFilamentDraw 1400ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both;
+    animation: sectionFilamentDraw 1400ms var(--ease-luxe) 200ms both;
     opacity: 0;
     z-index: 1;
   }
@@ -337,26 +337,22 @@
     .section-filament-bottom {
       animation: none !important;
       transform: translateX(-50%) scaleX(1) !important;
-      opacity: 0.35 !important;
+      opacity: 0.4 !important;
     }
   }
 
   /* ──────────────────────────────────────────────────────────────────────
-   * v3.3 — Scrim utility for text over imagery
-   * Drop on any element that sits over a photograph. Adds a soft radial
-   * navy wash beneath the text so type passes WCAG contrast against any
-   * image. Use .text-scrim-bottom for figcaption-style bottom anchored
-   * captions; .text-scrim-full for hero-style full-bleed copy.
+   * v3.3 / v3.5 — Scrim + text-on-image readability boosters
    * ────────────────────────────────────────────────────────────────────── */
   .text-scrim-bottom::before {
     content: "";
     position: absolute;
-    inset: 40% 0 0 0;
+    inset: 35% 0 0 0;
     background: linear-gradient(
       180deg,
       transparent 0%,
-      color-mix(in oklab, var(--navy) 65%, transparent) 55%,
-      color-mix(in oklab, var(--navy) 92%, transparent) 100%
+      color-mix(in oklab, var(--navy) 70%, transparent) 55%,
+      color-mix(in oklab, var(--navy) 95%, transparent) 100%
     );
     pointer-events: none;
     z-index: 0;
@@ -369,28 +365,95 @@
     inset: 0;
     background: radial-gradient(
       ellipse at 30% 60%,
-      color-mix(in oklab, var(--navy) 70%, transparent) 0%,
-      color-mix(in oklab, var(--navy) 30%, transparent) 55%,
-      color-mix(in oklab, var(--navy) 75%, transparent) 100%
+      color-mix(in oklab, var(--navy) 75%, transparent) 0%,
+      color-mix(in oklab, var(--navy) 35%, transparent) 55%,
+      color-mix(in oklab, var(--navy) 80%, transparent) 100%
     );
     pointer-events: none;
     z-index: 0;
   }
   .text-scrim-full > * { position: relative; z-index: 1; }
 
-  /* ──────────────────────────────────────────────────────────────────────
-   * v3.3 — Text-on-image readability boosters.
-   * For type rendered over photographs, a hair of luminance shadow keeps
-   * highlights legible without making letters look "set in lead."
-   * ────────────────────────────────────────────────────────────────────── */
+  /* v3.3 — Text-on-image readability boosters. */
   .text-on-image {
     text-shadow:
-      0 1px 1px color-mix(in oklab, var(--navy) 55%, transparent),
-      0 0 18px color-mix(in oklab, var(--navy) 35%, transparent);
+      0 1px 2px color-mix(in oklab, var(--navy) 70%, transparent),
+      0 0 24px color-mix(in oklab, var(--navy) 55%, transparent);
   }
   .text-on-image-strong {
     text-shadow:
-      0 1px 2px color-mix(in oklab, var(--navy) 75%, transparent),
-      0 0 24px color-mix(in oklab, var(--navy) 55%, transparent);
+      0 1px 3px color-mix(in oklab, var(--navy) 85%, transparent),
+      0 2px 8px color-mix(in oklab, var(--navy) 60%, transparent),
+      0 0 32px color-mix(in oklab, var(--navy) 70%, transparent);
+  }
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * v3.5 — .text-luxe — letterpress shadow for headlines over photographs.
+   * Combines a hairline ember-tinted highlight with deep navy drop, plus
+   * Literata's contextual alternates for a hand-set feel. WCAG-safe paired
+   * with text-scrim-* gradients beneath.
+   * ────────────────────────────────────────────────────────────────────── */
+  .text-luxe {
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "lnum" 1, "cv01" 1, "ss01" 1;
+    text-shadow:
+      0 -1px 0 color-mix(in oklab, var(--ember) 22%, transparent),
+      0 1px 0 color-mix(in oklab, var(--navy) 70%, transparent),
+      0 2px 6px color-mix(in oklab, var(--navy) 75%, transparent),
+      0 0 28px color-mix(in oklab, var(--navy) 55%, transparent);
+  }
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * v3.5 — Hero CTA conic ember halo (desktop only)
+   * Slowly rotates a gradient-conic ring around the primary CTA on hover.
+   * ────────────────────────────────────────────────────────────────────── */
+  @keyframes ctaConicSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  .cta-flame {
+    position: relative;
+    isolation: isolate;
+  }
+  .cta-flame::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    z-index: -1;
+    background: conic-gradient(
+      from 0deg,
+      color-mix(in oklab, var(--ember) 0%, transparent) 0deg,
+      color-mix(in oklab, var(--ember) 70%, transparent) 110deg,
+      color-mix(in oklab, var(--amber) 90%, transparent) 200deg,
+      color-mix(in oklab, var(--ember) 0%, transparent) 360deg
+    );
+    opacity: 0;
+    transition: opacity 500ms var(--ease-snap);
+    animation: ctaConicSpin 6s linear infinite;
+    pointer-events: none;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .cta-flame:hover::before { opacity: 0.85; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta-flame::before { animation: none !important; }
+  }
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * v3.5 — print stylesheet for the homepage as a one-page brief.
+   * If a referral pro prints the homepage to share with their client, it
+   * lays out as a beautifully restrained one-pager rather than the web view.
+   * ────────────────────────────────────────────────────────────────────── */
+  @media print {
+    body { background: white !important; color: black !important; font-size: 10pt; }
+    nav, .ambient-audio, .section-rail, .cursor-companion, button, [role="button"] {
+      display: none !important;
+    }
+    a { color: black !important; text-decoration: none !important; }
+    img { max-width: 50% !important; page-break-inside: avoid; }
+    section { page-break-inside: avoid; padding: 12pt 0 !important; }
+    h1, h2, h3 { page-break-after: avoid; color: black !important; }
+    .bg-navy, .bg-secondary, .bg-primary { background: white !important; color: black !important; }
+    .text-ivory, .text-amber, .text-foreground { color: black !important; }
+    .text-on-image, .text-on-image-strong, .text-luxe { text-shadow: none !important; }
   }
 }

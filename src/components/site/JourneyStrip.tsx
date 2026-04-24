@@ -145,10 +145,10 @@ export function JourneyStrip() {
                   {m.time}
                 </p>
                 <p
-                  className="font-serif editorial-italic text-on-image-strong"
+                  className="font-serif editorial-italic text-luxe"
                   style={{
                     fontSize: "clamp(1.5rem, 1.2rem + 1.6vw, 2rem)",
-                    fontWeight: 400,
+                    fontWeight: 500,
                     lineHeight: 1,
                   }}
                 >

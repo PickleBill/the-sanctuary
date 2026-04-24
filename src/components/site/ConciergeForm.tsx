@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { submitProspectus } from "@/server/resonance.functions";
 import { composePrivateReply } from "@/server/concierge.functions";
 import { TrustRail } from "@/components/site/TrustRail";
+import { AIPresenceChip } from "@/components/site/AIPresenceChip";
 
 /**
  * v3.3 — Conversational concierge stepper.
@@ -47,11 +48,24 @@ export function ConciergeForm() {
 
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState<1 | -1>(1);
+
+  // v3.5 — accept a pre-seeded role from the Cohort match handoff
+  const initialRole: FormData["role"] = (() => {
+    if (typeof window === "undefined") return "Principal";
+    try {
+      const seed = localStorage.getItem("ss_role_seed");
+      if (seed === "Principal" || seed === "Executive Assistant" || seed === "Medical Professional" || seed === "Trusted Advisor") {
+        return seed;
+      }
+    } catch {}
+    return "Principal";
+  })();
+
   const [data, setData] = useState<FormData>({
     name: "",
     contactMethod: "Email",
     contactValue: "",
-    role: "Principal",
+    role: initialRole,
     message: "",
   });
 
@@ -378,8 +392,8 @@ export function ConciergeForm() {
           from { opacity: 0; transform: translateX(-20px); }
           to   { opacity: 1; transform: translateX(0); }
         }
-        .step-enter-right { animation: stepEnterRight 320ms cubic-bezier(0.22, 1, 0.36, 1) both; }
-        .step-enter-left  { animation: stepEnterLeft  320ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+        .step-enter-right { animation: stepEnterRight 240ms cubic-bezier(0.32, 0, 0.18, 1) both; }
+        .step-enter-left  { animation: stepEnterLeft  240ms cubic-bezier(0.32, 0, 0.18, 1) both; }
         @media (prefers-reduced-motion: reduce) {
           .step-enter-right, .step-enter-left { animation: none !important; }
         }
@@ -609,7 +623,10 @@ function SuccessCard({
             {copied ? "Link copied" : "Forward to your advisor"}
           </button>
         </div>
-        <p className="mt-8 text-xs text-muted-foreground italic max-w-md leading-relaxed">
+        <div className="mt-6">
+          <AIPresenceChip variant="navy" />
+        </div>
+        <p className="mt-6 text-xs text-muted-foreground italic max-w-md leading-relaxed">
           For urgent matters, our 24/7 intake line is{" "}
           <a href="tel:+18005550199" className="text-foreground hover:text-amber transition-colors tabular">
             +1 (800) 555-0199

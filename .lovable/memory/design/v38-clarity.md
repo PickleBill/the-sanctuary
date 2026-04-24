@@ -13,7 +13,12 @@ type: design
 - Negative space is the design. Do not re-add a back ridge, horizon line, or eyebrow.
 
 ## Gallery
-- 6 panels in a 12-col mosaic: Suite (tall) · Grounds · Trail · Boardroom · Court · Clinical.
+- 8 panels in a 12-col mosaic (v3.9.1 restoration of v3.7 layout):
+  Suite (col 7×2 tall) · Grounds (col 5) · Horse (col 5)
+  · Trail (col 6) · Sauna (col 6) · Court (col 4) · Boardroom (col 4) · Clinical (col 4).
+- The horse tile (`journey-2-horse.jpg`) belongs in the gallery — do not drop it again.
+- Bottom "estate, briefly" strip in `Amenities.tsx` is a quiet 2×3 six-panel
+  recap (Suite · Grounds · Trail · Court · Boardroom · Clinic). No lightbox there.
 - Every image gets `.gallery-kenburns` (slow drift, paused on hover/reduced-motion).
 - Every panel exposes a clear "open" affordance:
   - Desktop: amber title underline draws on hover + ember-tinted plus icon.

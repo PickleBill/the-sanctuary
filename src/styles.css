@@ -2,20 +2,19 @@
 @source "../src";
 @import "tw-animate-css";
 /*
- * Literata — single-family typography (display + text + small-caps via opsz axis).
- * Selected per Impeccable framework + .impeccable.md design context.
- * opsz 7..72 lets us use the same family from microcopy to display headlines
- * with proper optical sizing — the hallmark of editorial / private-journal typography.
+ * Literata — single-family typography. opsz 7..72 lets us use the same family
+ * from microcopy to display headlines with proper optical sizing.
  */
-@import url("https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,300;0,7..72,400;0,7..72,500;0,7..72,600;0,7..72,700;1,7..72,400;1,7..72,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,300;0,7..72,400;0,7..72,500;0,7..72,600;0,7..72,650;0,7..72,700;1,7..72,400;1,7..72,500&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Sanctuary Southeast — Quiet Luxury Design System
- * Deep Navy / Soft White / Slate Gray / Sanctuary Gold / Ember
+ * The Sanctuary — Quiet Luxury Design System
  *
- * v3.5 — color duet: gold + ember. Headlines bolder. Letterpress on photos.
+ * v3.6 — Crisp, Bold, Alive.
+ * Three-tier accent ladder: GOLD (dominant), EMBER (active state), BLOOM (AI-only).
+ * Bolder type. Stronger letterpress. Zero decorative hairlines.
  */
 
 @theme inline {
@@ -27,24 +26,20 @@
   --radius-3xl: 0px;
   --radius-4xl: 0px;
 
-  /* Single-family typography. Use --font-display for headlines (large opsz),
-   * --font-text for body (small opsz), --font-mono only for tabular figures. */
   --font-display: "Literata", "Source Serif 4", Georgia, serif;
   --font-text: "Literata", "Source Serif 4", Georgia, serif;
-  --font-serif: var(--font-display); /* legacy alias */
-  --font-sans: var(--font-text);     /* legacy alias — same family now */
+  --font-serif: var(--font-display);
+  --font-sans: var(--font-text);
 
-  /* Fluid modular type scale (1.25 ratio, clamp-based per Impeccable typography).
-   * Used on marketing pages; keep fixed rems if we ever build app UIs. */
-  --text-micro: clamp(0.6875rem, 0.66rem + 0.15vw, 0.75rem);   /* 11–12 */
-  --text-small: clamp(0.8125rem, 0.78rem + 0.18vw, 0.9375rem); /* 13–15 */
-  --text-body:  clamp(1rem, 0.96rem + 0.22vw, 1.125rem);       /* 16–18 */
-  --text-lead:  clamp(1.125rem, 1.06rem + 0.35vw, 1.375rem);   /* 18–22 */
-  --text-h4:    clamp(1.375rem, 1.27rem + 0.55vw, 1.75rem);    /* 22–28 */
-  --text-h3:    clamp(1.75rem, 1.55rem + 1.0vw, 2.5rem);       /* 28–40 */
-  --text-h2:    clamp(2.25rem, 1.85rem + 2.0vw, 3.75rem);      /* 36–60 */
-  --text-h1:    clamp(3rem, 2.2rem + 4.0vw, 5.5rem);           /* 48–88 */
-  --text-display: clamp(3.75rem, 2.5rem + 6.25vw, 7.5rem);     /* 60–120 */
+  --text-micro: clamp(0.6875rem, 0.66rem + 0.15vw, 0.75rem);
+  --text-small: clamp(0.8125rem, 0.78rem + 0.18vw, 0.9375rem);
+  --text-body:  clamp(1rem, 0.96rem + 0.22vw, 1.125rem);
+  --text-lead:  clamp(1.125rem, 1.06rem + 0.35vw, 1.375rem);
+  --text-h4:    clamp(1.375rem, 1.27rem + 0.55vw, 1.75rem);
+  --text-h3:    clamp(1.75rem, 1.55rem + 1.0vw, 2.5rem);
+  --text-h2:    clamp(2.25rem, 1.85rem + 2.0vw, 3.75rem);
+  --text-h1:    clamp(3rem, 2.2rem + 4.0vw, 5.5rem);
+  --text-display: clamp(3.75rem, 2.5rem + 6.25vw, 7.5rem);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -68,16 +63,18 @@
   --color-ring-offset-background: var(--background);
 
   --color-amber: var(--amber);
+  --color-gold: var(--amber);              /* alias — both names work */
   --color-amber-foreground: var(--amber-foreground);
   --color-ember: var(--ember);
   --color-ember-foreground: var(--ember-foreground);
+  --color-bloom: var(--bloom);
+  --color-bloom-foreground: var(--bloom-foreground);
   --color-navy: var(--navy);
   --color-slate-luxe: var(--slate-luxe);
   --color-ivory: var(--ivory);
 
   --shadow-luxe: 0 30px 80px -40px color-mix(in oklab, var(--navy) 60%, transparent);
-  /* v3.5 — sharper out-curve transition for snappier feel (was 600ms 0.22,1,0.36,1) */
-  --transition-luxe: all 380ms cubic-bezier(0.32, 0, 0.18, 1);
+  --transition-luxe: all 320ms cubic-bezier(0.32, 0, 0.18, 1);
   --ease-snap: cubic-bezier(0.32, 0, 0.18, 1);
   --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -85,22 +82,24 @@
 :root {
   --radius: 0px;
 
-  /* Brand tokens — v3.5 gold + ember duet */
-  --navy: oklch(0.18 0.045 265);          /* deepened from 0.2 0.04 260 — more contrast against gold */
-  --ivory: oklch(0.985 0.003 250);        /* #F8FAFC */
-  --slate-luxe: oklch(0.71 0.027 255);    /* #94A3B8 */
-  --amber: oklch(0.74 0.165 70);          /* SANCTUARY GOLD ~#E8A33E — warmer, brighter */
-  --amber-foreground: oklch(0.18 0.045 265); /* navy on gold for AA contrast */
-  --ember: oklch(0.62 0.20 35);           /* EMBER ~#E26B3F — used sparingly: AI-active, matched node, "you are here" */
+  /* v3.6 — three-tier accent ladder */
+  --navy: oklch(0.18 0.045 265);
+  --ivory: oklch(0.985 0.003 250);
+  --slate-luxe: oklch(0.71 0.027 255);
+  --amber: oklch(0.78 0.175 75);            /* GOLD ~#F0AE3E — brighter, more saturated */
+  --amber-foreground: oklch(0.18 0.045 265);
+  --ember: oklch(0.66 0.225 32);            /* EMBER ~#EE6A38 — hotter, AI-active states */
   --ember-foreground: oklch(0.985 0.003 250);
+  --bloom: oklch(0.78 0.115 350);           /* BLOOM ~#EAA8BC — AI-moment color, used ONLY on Cohort match */
+  --bloom-foreground: oklch(0.18 0.045 265);
 
   --background: var(--ivory);
-  --foreground: var(--navy);
+  --foreground: oklch(0.16 0.045 265);      /* v3.6 — 8% darker for AA+ contrast */
 
   --card: oklch(1 0 0);
-  --card-foreground: var(--navy);
+  --card-foreground: var(--foreground);
   --popover: oklch(1 0 0);
-  --popover-foreground: var(--navy);
+  --popover-foreground: var(--foreground);
 
   --primary: var(--navy);
   --primary-foreground: var(--ivory);
@@ -109,8 +108,7 @@
   --secondary-foreground: var(--navy);
 
   --muted: oklch(0.94 0.005 250);
-  /* v3.5 — was 0.71 (slate-luxe). Bumped darker for AA against ivory bg. */
-  --muted-foreground: oklch(0.5 0.025 255);
+  --muted-foreground: oklch(0.46 0.025 255);
 
   --accent: var(--amber);
   --accent-foreground: var(--amber-foreground);
@@ -152,8 +150,6 @@
     scroll-behavior: smooth;
   }
 
-  /* Honor user motion preferences globally — overrides scroll-behavior:smooth
-   * and disables our keyframed motion. WCAG 2.3.3. */
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after {
@@ -173,29 +169,23 @@
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    /* Literata has true OpenType: enable contextual alternates, kerning,
-     * old-style figures for body, and discretionary ligatures sparingly. */
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1;
-    /* Optical sizing axis follows actual rendered size — the whole point of opsz. */
     font-optical-sizing: auto;
   }
 
-  /* Body paragraphs: cap line length (~65–75ch) per Impeccable typography rules. */
   p { max-width: 70ch; }
 
   h1, h2, h3, h4, h5 {
     font-family: var(--font-display);
-    /* v3.5 — was 500. Bolder so headlines stop "sitting back". */
-    font-weight: 600;
+    /* v3.6 — H2s to weight 650 desktop / 600 mobile. Headlines stop sitting back. */
+    font-weight: 650;
     letter-spacing: -0.02em;
     line-height: 1.06;
-    /* Tabular figures + lining figures for headings; small opsz off (let opsz axis handle). */
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "lnum" 1, "cv01" 1;
   }
 
-  /* Mobile slightly less heavy so we don't crowd small screens */
   @media (max-width: 768px) {
-    h1, h2, h3, h4, h5 { font-weight: 550; }
+    h1, h2, h3, h4, h5 { font-weight: 600; }
   }
 
   h1 { font-size: var(--text-h1); }
@@ -203,61 +193,52 @@
   h3 { font-size: var(--text-h3); line-height: 1.14; }
   h4 { font-size: var(--text-h4); line-height: 1.24; }
 
-  /* Display class for hero-scale headlines that want maximum opsz expression. */
   .text-display {
     font-family: var(--font-display);
     font-size: var(--text-display);
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.02;
     letter-spacing: -0.028em;
   }
 
-  /* Lead paragraph after a headline — slightly larger, looser. */
   .text-lead {
     font-size: var(--text-lead);
     line-height: 1.5;
-    color: color-mix(in oklab, var(--foreground) 82%, transparent);
+    color: color-mix(in oklab, var(--foreground) 84%, transparent);
   }
 
-  /* Legacy aliases — both now resolve to Literata. */
   .font-serif { font-family: var(--font-display); }
   .font-sans  { font-family: var(--font-text); font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1; }
 
-  /* Small-caps utility — Literata has a true small-caps cut via OpenType. */
   .small-caps {
     font-variant-caps: all-small-caps;
     letter-spacing: 0.08em;
     font-feature-settings: "smcp" 1, "c2sc" 1, "kern" 1;
   }
 
-  /* Tabular figures — for stat strips, ledgers, anything aligned in columns. */
   .tabular {
     font-variant-numeric: tabular-nums lining-nums;
     font-feature-settings: "tnum" 1, "lnum" 1, "kern" 1;
   }
 
-  /* Italic Literata — for affirmation threads (Phase 4) and editorial pull-quotes. */
   .editorial-italic {
     font-style: italic;
     font-weight: 400;
   }
 
+  /* v3.6 — Eyebrows are unmistakable section beacons. */
   .eyebrow {
     font-family: var(--font-text);
     font-size: var(--text-micro);
-    /* v3.5 — heavier + brighter. Eyebrows now read as navigation signposts. */
-    font-weight: 600;
-    letter-spacing: 0.32em;
+    font-weight: 700;
+    letter-spacing: 0.34em;
     text-transform: uppercase;
     color: var(--color-amber);
     font-feature-settings: "kern" 1, "lnum" 1, "tnum" 1;
   }
 
-  /* When eyebrows must read as full uppercase (no small-caps), give them slightly
-   * more tracking — the cap height carries more visual weight. */
   .eyebrow-tall { letter-spacing: 0.36em; }
 
-  /* .luxe-rule — RESERVED. */
   .luxe-rule {
     display: inline-block;
     width: 3rem;
@@ -266,14 +247,11 @@
     vertical-align: middle;
   }
 
-  /* Hung punctuation — pulls opening quotes / dashes into the margin so the
-   * text block aligns optically rather than mechanically. Per /typeset. */
   .hang-punct {
     hanging-punctuation: first last;
     text-indent: -0.4em;
   }
 
-  /* Drop-cap utility for editorial numerals (Process, etc.) */
   .drop-figure {
     font-family: var(--font-display);
     font-feature-settings: "lnum" 1, "kern" 1;
@@ -281,7 +259,8 @@
     line-height: 0.85;
   }
 
-  /* Filament-draw — the brand's signature line motion. */
+  /* Filament-draw — the brand's signature line motion (still allowed for
+     the ONE amber rule under hero headlines). */
   @keyframes filamentDraw {
     from { transform: scaleX(0); opacity: 0.4; }
     to   { transform: scaleX(1); opacity: 1; }
@@ -292,7 +271,6 @@
     animation: filamentDraw 1200ms var(--ease-luxe) backwards;
   }
 
-  /* Selection styling — amber tint on navy text for editorial cohesion. */
   ::selection {
     background-color: color-mix(in oklab, var(--amber) 30%, transparent);
     color: var(--foreground);
@@ -302,48 +280,15 @@
     .filament-draw { animation: none !important; transform: scaleX(1) !important; }
   }
 
-  /* ──────────────────────────────────────────────────────────────────────
-   * v3.3 — Section-boundary filaments
-   * ────────────────────────────────────────────────────────────────────── */
-  @keyframes sectionFilamentDraw {
-    0%   { transform: translateX(-50%) scaleX(0); opacity: 0; }
-    20%  { opacity: 0.6; }
-    100% { transform: translateX(-50%) scaleX(1); opacity: 0.5; }
-  }
+  /* v3.6 — Section-boundary filaments DELETED.
+     Stub class kept empty so legacy spans render nothing.
+     See mem://design/no-noisy-lines */
   .section-filament-top,
   .section-filament-bottom {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%) scaleX(0);
-    width: min(72%, 720px);
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      color-mix(in oklab, var(--amber) 80%, transparent) 50%,
-      transparent 100%
-    );
-    transform-origin: center;
-    pointer-events: none;
-    animation: sectionFilamentDraw 1400ms var(--ease-luxe) 200ms both;
-    opacity: 0;
-    z-index: 1;
-  }
-  .section-filament-top    { top: 0; }
-  .section-filament-bottom { bottom: 0; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .section-filament-top,
-    .section-filament-bottom {
-      animation: none !important;
-      transform: translateX(-50%) scaleX(1) !important;
-      opacity: 0.4 !important;
-    }
+    display: none !important;
   }
 
-  /* ──────────────────────────────────────────────────────────────────────
-   * v3.3 / v3.5 — Scrim + text-on-image readability boosters
-   * ────────────────────────────────────────────────────────────────────── */
+  /* Scrim utilities for text-on-image readability. */
   .text-scrim-bottom::before {
     content: "";
     position: absolute;
@@ -374,38 +319,29 @@
   }
   .text-scrim-full > * { position: relative; z-index: 1; }
 
-  /* v3.3 — Text-on-image readability boosters. */
   .text-on-image {
     text-shadow:
-      0 1px 2px color-mix(in oklab, var(--navy) 70%, transparent),
-      0 0 24px color-mix(in oklab, var(--navy) 55%, transparent);
+      0 1px 2px color-mix(in oklab, var(--navy) 80%, transparent),
+      0 0 24px color-mix(in oklab, var(--navy) 60%, transparent);
   }
   .text-on-image-strong {
     text-shadow:
-      0 1px 3px color-mix(in oklab, var(--navy) 85%, transparent),
-      0 2px 8px color-mix(in oklab, var(--navy) 60%, transparent),
-      0 0 32px color-mix(in oklab, var(--navy) 70%, transparent);
+      0 1px 3px color-mix(in oklab, var(--navy) 90%, transparent),
+      0 2px 8px color-mix(in oklab, var(--navy) 70%, transparent),
+      0 0 32px color-mix(in oklab, var(--navy) 75%, transparent);
   }
 
-  /* ──────────────────────────────────────────────────────────────────────
-   * v3.5 — .text-luxe — letterpress shadow for headlines over photographs.
-   * Combines a hairline ember-tinted highlight with deep navy drop, plus
-   * Literata's contextual alternates for a hand-set feel. WCAG-safe paired
-   * with text-scrim-* gradients beneath.
-   * ────────────────────────────────────────────────────────────────────── */
+  /* v3.6 — .text-luxe — chiseled letterpress. Drop the muddy ember tint;
+     deep navy stack only. Headlines on photos feel chiseled, not glowy. */
   .text-luxe {
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "lnum" 1, "cv01" 1, "ss01" 1;
     text-shadow:
-      0 -1px 0 color-mix(in oklab, var(--ember) 22%, transparent),
-      0 1px 0 color-mix(in oklab, var(--navy) 70%, transparent),
-      0 2px 6px color-mix(in oklab, var(--navy) 75%, transparent),
-      0 0 28px color-mix(in oklab, var(--navy) 55%, transparent);
+      0 2px 0 color-mix(in oklab, var(--navy) 85%, transparent),
+      0 4px 14px color-mix(in oklab, var(--navy) 80%, transparent),
+      0 0 24px color-mix(in oklab, var(--navy) 65%, transparent);
   }
 
-  /* ──────────────────────────────────────────────────────────────────────
-   * v3.5 — Hero CTA conic ember halo (desktop only)
-   * Slowly rotates a gradient-conic ring around the primary CTA on hover.
-   * ────────────────────────────────────────────────────────────────────── */
+  /* Hero CTA conic ember halo (desktop only) */
   @keyframes ctaConicSpin {
     from { transform: rotate(0deg); }
     to   { transform: rotate(360deg); }
@@ -438,22 +374,50 @@
     .cta-flame::before { animation: none !important; }
   }
 
-  /* v3.5 — "Tonight" line ember pulse in navbar */
+  /* Tonight pulse — dimmed 40% per v3.6 (was loud) */
   @keyframes tonightPulse {
-    0%, 100% { opacity: 0.55; transform: scale(1); }
-    50%      { opacity: 1;    transform: scale(1.6); box-shadow: 0 0 8px var(--ember); }
+    0%, 100% { opacity: 0.35; transform: scale(1); }
+    50%      { opacity: 0.7;  transform: scale(1.4); }
   }
-  .tonight-pulse { animation: tonightPulse 2.4s ease-in-out infinite; }
+  .tonight-pulse { animation: tonightPulse 3.4s ease-in-out infinite; }
   @media (prefers-reduced-motion: reduce) { .tonight-pulse { animation: none !important; } }
 
-  /* ──────────────────────────────────────────────────────────────────────
-   * v3.5 — print stylesheet for the homepage as a one-page brief.
-   * If a referral pro prints the homepage to share with their client, it
-   * lays out as a beautifully restrained one-pager rather than the web view.
-   * ────────────────────────────────────────────────────────────────────── */
+  /* v3.6 — Nav link underline draw on hover. The ONE permitted decorative line. */
+  .nav-link {
+    position: relative;
+    display: inline-block;
+    padding-block: 0.25rem;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 2px;
+    background: var(--amber);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 240ms var(--ease-snap);
+  }
+  .nav-link:hover::after,
+  .nav-link[aria-current="page"]::after,
+  .nav-link.is-active::after {
+    transform: scaleX(1);
+  }
+
+  /* v3.6 — Bloom-color halo for the Cohort matched node (AI-moment color) */
+  @keyframes bloomBreathe {
+    0%, 100% { opacity: 0.6; transform: scale(0.94); }
+    50%      { opacity: 1;   transform: scale(1.06); }
+  }
+  .bloom-halo { animation: bloomBreathe 3.4s var(--ease-luxe) infinite; transform-box: fill-box; }
+  @media (prefers-reduced-motion: reduce) { .bloom-halo { animation: none !important; } }
+
+  /* Print stylesheet */
   @media print {
     body { background: white !important; color: black !important; font-size: 10pt; }
-    nav, .ambient-audio, .section-rail, .cursor-companion, button, [role="button"] {
+    nav, .ambient-audio, button, [role="button"] {
       display: none !important;
     }
     a { color: black !important; text-decoration: none !important; }

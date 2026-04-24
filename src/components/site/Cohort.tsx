@@ -340,6 +340,7 @@ export function Cohort() {
                 src={cohortPortrait}
                 alt="A hand resting on the page of a leather journal in soft window light"
                 loading="lazy"
+                decoding="async"
                 width={1920}
                 height={1200}
                 className="w-full h-full object-cover opacity-90"

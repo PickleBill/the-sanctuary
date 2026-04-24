@@ -179,6 +179,7 @@ function LeaderCard({
           src={leader.img}
           alt={`Portrait of the ${leader.role}`}
           loading="lazy"
+          decoding="async"
           width={1024}
           height={1280}
           className="w-full h-full object-cover transition-transform duration-[1400ms] ease-out hover:scale-[1.04]"

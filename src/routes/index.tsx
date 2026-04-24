@@ -23,6 +23,7 @@ export const Route = createFileRoute("/")({
         content:
           "The room is the medicine. A private medical-wellness sanctuary in the Blue Ridge for executives, surgeons, judges, and founders.",
       },
+      { name: "robots", content: "index,follow,max-image-preview:large" },
       { property: "og:title", content: "The Sanctuary | Blue Ridge, North Carolina" },
       {
         property: "og:description",
@@ -30,9 +31,33 @@ export const Route = createFileRoute("/")({
           "Care, in the company of peers. One family in residence at a time, in the Blue Ridge.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "/og-home.jpg" },
+      { property: "og:url", content: "https://the-sanctuary.lovable.app/" },
+      { property: "og:image", content: "https://the-sanctuary.lovable.app/og-home.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "/og-home.jpg" },
+      { name: "twitter:image", content: "https://the-sanctuary.lovable.app/og-home.jpg" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://the-sanctuary.lovable.app/" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "MedicalBusiness",
+          name: "The Sanctuary",
+          description:
+            "A private medical-wellness retreat in the Blue Ridge of Western North Carolina. One family in residence at a time.",
+          url: "https://the-sanctuary.lovable.app/",
+          image: "https://the-sanctuary.lovable.app/og-home.jpg",
+          areaServed: {
+            "@type": "Place",
+            name: "Blue Ridge, North Carolina",
+          },
+          medicalSpecialty: ["Addiction", "Wellness", "PreventiveMedicine"],
+          priceRange: "$$$$",
+        }),
+      },
     ],
   }),
   component: Index,

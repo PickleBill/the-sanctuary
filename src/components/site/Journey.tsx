@@ -153,21 +153,21 @@ function MomentTile({
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "linear-gradient(180deg, transparent 48%, color-mix(in oklab, var(--navy) 78%, transparent) 100%)",
+              "linear-gradient(180deg, transparent 38%, color-mix(in oklab, var(--navy) 55%, transparent) 68%, color-mix(in oklab, var(--navy) 92%, transparent) 100%)",
           }}
           aria-hidden
         />
         <figcaption className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 lg:p-7 text-ivory">
-          <p className="small-caps text-amber/85 mb-1.5 text-[10px] tracking-[0.28em]">
+          <p className="small-caps text-amber mb-1.5 text-[10px] tracking-[0.28em] text-on-image">
             {moment.eyebrow}
           </p>
           <h3
-            className="font-serif text-lg sm:text-xl lg:text-2xl mb-1.5 hang-punct"
+            className="font-serif text-lg sm:text-xl lg:text-2xl mb-1.5 hang-punct text-on-image-strong"
             style={{ fontWeight: 500, lineHeight: 1.12, letterSpacing: "-0.012em" }}
           >
             {moment.title}
           </h3>
-          <p className="editorial-italic text-[13px] sm:text-[14px] text-ivory/85 max-w-md leading-snug">
+          <p className="editorial-italic text-[13px] sm:text-[14px] text-ivory max-w-md leading-snug text-on-image">
             {moment.caption}
           </p>
         </figcaption>
@@ -273,7 +273,8 @@ export function Journey() {
   const [openMoment, setOpenMoment] = useState<Moment | null>(null);
 
   return (
-    <section id="journey" className="py-24 lg:py-36 bg-background scroll-mt-24">
+    <section id="journey" className="relative py-24 lg:py-36 bg-background scroll-mt-24">
+      <span aria-hidden className="section-filament-top" />
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-12 lg:mb-16">
           <div className="lg:col-span-8">

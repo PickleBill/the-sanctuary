@@ -80,12 +80,12 @@ export function Hero() {
         ))}
       </div>
 
-      {/* Vignette stack — heavier left wash for headline contrast */}
+      {/* Vignette stack — heavier left wash + bottom navy floor for headline contrast */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, color-mix(in oklab, var(--navy) 72%, transparent) 0%, color-mix(in oklab, var(--navy) 38%, transparent) 42%, color-mix(in oklab, var(--navy) 88%, transparent) 100%)",
+            "linear-gradient(180deg, color-mix(in oklab, var(--navy) 78%, transparent) 0%, color-mix(in oklab, var(--navy) 48%, transparent) 42%, color-mix(in oklab, var(--navy) 92%, transparent) 100%)",
         }}
         aria-hidden
       />
@@ -93,7 +93,7 @@ export function Hero() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse at 22% 50%, color-mix(in oklab, var(--navy) 38%, transparent) 0%, transparent 55%, color-mix(in oklab, var(--navy) 55%, transparent) 100%)",
+            "radial-gradient(ellipse at 22% 50%, color-mix(in oklab, var(--navy) 55%, transparent) 0%, transparent 60%, color-mix(in oklab, var(--navy) 65%, transparent) 100%)",
         }}
         aria-hidden
       />
@@ -110,7 +110,7 @@ export function Hero() {
             </p>
 
             <h1
-              className={`font-serif text-ivory mb-7 lg:mb-9 transition-all duration-1000 delay-150 hang-punct ${
+              className={`font-serif text-ivory mb-7 lg:mb-9 transition-all duration-1000 delay-150 hang-punct text-on-image-strong ${
                 revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
               style={{
@@ -122,7 +122,7 @@ export function Hero() {
             >
               <span className="block">The room is the medicine.</span>
               <span
-                className="block text-ivory/85 editorial-italic"
+                className="block text-ivory/95 editorial-italic"
                 style={{ fontWeight: 400 }}
               >
                 Care, in the company of peers.
@@ -137,12 +137,12 @@ export function Hero() {
             />
 
             <p
-              className={`text-ivory/85 max-w-xl mb-10 sm:mb-12 transition-all duration-1000 delay-300 leading-relaxed ${
+              className={`text-ivory max-w-xl mb-10 sm:mb-12 transition-all duration-1000 delay-300 leading-relaxed text-on-image ${
                 revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
               style={{
                 fontSize: "var(--text-lead)",
-                color: "color-mix(in oklab, var(--ivory) 90%, transparent)",
+                color: "color-mix(in oklab, var(--ivory) 96%, transparent)",
               }}
             >
               A private medical-wellness sanctuary where executives, surgeons, judges, and founders restore in the company of peers who&rsquo;ve sat in the same chair.

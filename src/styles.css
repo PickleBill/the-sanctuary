@@ -296,4 +296,101 @@
   @media (prefers-reduced-motion: reduce) {
     .filament-draw { animation: none !important; transform: scaleX(1) !important; }
   }
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * v3.3 — Section-boundary filaments
+   * A faint amber line draws horizontally at the top of any section that
+   * adds .section-filament-top, so the document reads as one breath. The
+   * line draws when the section enters view via IntersectionObserver — but
+   * we also accept a CSS-only auto draw for sections that don't wire up
+   * observers. Use sparingly — meant to be felt, not seen.
+   * ────────────────────────────────────────────────────────────────────── */
+  @keyframes sectionFilamentDraw {
+    0%   { transform: scaleX(0); opacity: 0; }
+    20%  { opacity: 0.55; }
+    100% { transform: scaleX(1); opacity: 0.45; }
+  }
+  .section-filament-top,
+  .section-filament-bottom {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: min(72%, 720px);
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in oklab, var(--amber) 75%, transparent) 50%,
+      transparent 100%
+    );
+    transform-origin: center;
+    pointer-events: none;
+    animation: sectionFilamentDraw 1400ms cubic-bezier(0.22, 1, 0.36, 1) 200ms both;
+    opacity: 0;
+    z-index: 1;
+  }
+  .section-filament-top    { top: 0; }
+  .section-filament-bottom { bottom: 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .section-filament-top,
+    .section-filament-bottom {
+      animation: none !important;
+      transform: translateX(-50%) scaleX(1) !important;
+      opacity: 0.35 !important;
+    }
+  }
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * v3.3 — Scrim utility for text over imagery
+   * Drop on any element that sits over a photograph. Adds a soft radial
+   * navy wash beneath the text so type passes WCAG contrast against any
+   * image. Use .text-scrim-bottom for figcaption-style bottom anchored
+   * captions; .text-scrim-full for hero-style full-bleed copy.
+   * ────────────────────────────────────────────────────────────────────── */
+  .text-scrim-bottom::before {
+    content: "";
+    position: absolute;
+    inset: 40% 0 0 0;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      color-mix(in oklab, var(--navy) 65%, transparent) 55%,
+      color-mix(in oklab, var(--navy) 92%, transparent) 100%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+  .text-scrim-bottom > * { position: relative; z-index: 1; }
+
+  .text-scrim-full::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at 30% 60%,
+      color-mix(in oklab, var(--navy) 70%, transparent) 0%,
+      color-mix(in oklab, var(--navy) 30%, transparent) 55%,
+      color-mix(in oklab, var(--navy) 75%, transparent) 100%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+  .text-scrim-full > * { position: relative; z-index: 1; }
+
+  /* ──────────────────────────────────────────────────────────────────────
+   * v3.3 — Text-on-image readability boosters.
+   * For type rendered over photographs, a hair of luminance shadow keeps
+   * highlights legible without making letters look "set in lead."
+   * ────────────────────────────────────────────────────────────────────── */
+  .text-on-image {
+    text-shadow:
+      0 1px 1px color-mix(in oklab, var(--navy) 55%, transparent),
+      0 0 18px color-mix(in oklab, var(--navy) 35%, transparent);
+  }
+  .text-on-image-strong {
+    text-shadow:
+      0 1px 2px color-mix(in oklab, var(--navy) 75%, transparent),
+      0 0 24px color-mix(in oklab, var(--navy) 55%, transparent);
+  }
 }

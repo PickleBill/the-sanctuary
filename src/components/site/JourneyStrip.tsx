@@ -65,6 +65,7 @@ export function JourneyStrip() {
       id="journey-strip"
       className="relative bg-navy py-20 sm:py-24 lg:py-32 scroll-mt-24 overflow-hidden"
     >
+      <span aria-hidden className="section-filament-top" />
       <div className="mx-auto max-w-7xl px-6 lg:px-10 mb-10 lg:mb-14">
         <div
           className={`max-w-3xl transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] ${
@@ -136,15 +137,15 @@ export function JourneyStrip() {
                 className="absolute inset-0 pointer-events-none"
                 style={{
                   background:
-                    "linear-gradient(180deg, transparent 50%, color-mix(in oklab, var(--navy) 78%, transparent) 100%)",
+                    "linear-gradient(180deg, transparent 40%, color-mix(in oklab, var(--navy) 55%, transparent) 70%, color-mix(in oklab, var(--navy) 92%, transparent) 100%)",
                 }}
               />
               <figcaption className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 text-ivory">
-                <p className="small-caps text-amber/85 text-[10px] tracking-[0.28em] mb-1.5 tabular">
+                <p className="small-caps text-amber text-[10px] tracking-[0.28em] mb-1.5 tabular text-on-image">
                   {m.time}
                 </p>
                 <p
-                  className="font-serif editorial-italic"
+                  className="font-serif editorial-italic text-on-image-strong"
                   style={{
                     fontSize: "clamp(1.5rem, 1.2rem + 1.6vw, 2rem)",
                     fontWeight: 400,

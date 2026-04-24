@@ -321,12 +321,12 @@ export function Cohort() {
               </span>
             </h2>
             <p
-              className="text-ivory/80 leading-relaxed mb-6"
+              className="text-ivory/90 leading-relaxed mb-6"
               style={{ fontSize: "var(--text-lead)", lineHeight: 1.55 }}
             >
               Anonymous, by design. Each point on this map is a recent resident — a peer who walked in carrying weight you would recognize.
             </p>
-            <p className="mt-8 text-xs text-ivory/40 italic leading-relaxed max-w-sm">
+            <p className="mt-8 text-sm text-ivory/65 italic leading-relaxed max-w-sm">
               No names. No faces. We never confirm a particular guest. Some of them now refer their friends.
             </p>
           </div>

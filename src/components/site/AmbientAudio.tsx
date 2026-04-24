@@ -93,22 +93,30 @@ export function AmbientAudio() {
     <button
       type="button"
       onClick={toggle}
-      aria-label={playing ? "Mute ambient sound" : "Play ambient sound"}
+      aria-label={playing ? "Mute ambient sound — creek and woodstove" : "Play ambient sound — creek and woodstove"}
       aria-pressed={playing}
-      className="ambient-audio fixed bottom-4 left-4 lg:bottom-6 lg:left-6 z-30 w-11 h-11 flex items-center justify-center bg-navy/70 text-ivory/80 hover:text-amber backdrop-blur-md border border-ivory/15 hover:border-amber/60 transition-colors duration-500"
+      title={playing ? "Ambient sound on — tap to mute" : "Tap to hear the estate"}
+      className={`ambient-audio fixed bottom-4 left-4 lg:bottom-6 lg:left-6 z-30 inline-flex items-center gap-2 h-11 px-3.5 backdrop-blur-md transition-all duration-500 ${
+        playing
+          ? "bg-amber/95 text-amber-foreground border border-amber"
+          : "bg-navy/75 text-ivory/80 hover:text-amber border border-ivory/15 hover:border-amber/60"
+      }`}
     >
       {playing ? (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
           <path d="M11 5L6 9H2v6h4l5 4V5z" />
-          <path d="M15.54 8.46a5 5 0 010 7.07" />
-          <path d="M19.07 4.93a10 10 0 010 14.14" />
+          <path d="M15.54 8.46a5 5 0 010 7.07" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
+          <path d="M19.07 4.93a10 10 0 010 14.14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
         </svg>
       ) : (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden>
           <path d="M11 5L6 9H2v6h4l5 4V5z" />
           <path d="M22 9l-6 6M16 9l6 6" />
         </svg>
       )}
+      <span className="small-caps text-[10px] tracking-[0.24em] font-semibold hidden sm:inline">
+        {playing ? "Sound on" : "Sound"}
+      </span>
     </button>
   );
 }

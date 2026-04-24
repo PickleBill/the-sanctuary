@@ -105,6 +105,28 @@ export function Process() {
             <Step key={s.num} step={s} index={i} />
           ))}
         </ol>
+
+        {/* v3.7 — explicit close-the-loop CTA so the entire process has an obvious next step */}
+        <div className="mt-16 lg:mt-20 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+          <button
+            type="button"
+            onClick={() => {
+              const el = document.getElementById("concierge-form");
+              const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+              el?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+            }}
+            className="cta-flame group inline-flex items-center gap-3 bg-amber text-amber-foreground px-7 py-4 small-caps text-[11px] tracking-[0.28em] font-semibold hover:-translate-y-0.5 transition-transform duration-300"
+          >
+            Begin a private conversation
+            <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </button>
+          <a
+            href="tel:+18005550199"
+            className="small-caps text-[11px] tracking-[0.24em] text-primary-foreground/70 hover:text-amber transition-colors tabular"
+          >
+            Or speak with intake — 24/7 · +1 (800) 555-0199
+          </a>
+        </div>
       </div>
     </section>
   );

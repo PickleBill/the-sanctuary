@@ -1,27 +1,61 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * v3.7 — SynergyMap (restored, done right).
+ * v3.8 — SynergyMap with restored visual contrast + pair context.
  *
- * Six clinical/holistic pairs. Desktop: a quiet two-column weave with a
- * single connecting filament between the halves on hover. Mobile: a
- * swipeable card stack with pager — one pair per card, single connector
- * per card. The ONE place we keep an amber line — it's structural, not
- * decorative. WeekRhythm preserved as a footer strip in the same section.
+ * Mobile: literal split-stage card — top half navy/Clinical, bottom half
+ * ivory/Holistic, amber filament on the seam. Auto-advance 6s, tap-to-hold
+ * pauses the timer.
+ *
+ * Desktop: two-column weave with faint row dividers; rows are clickable and
+ * open a small modal with one line of pair context.
+ *
+ * WeekRhythm footer strip preserved.
  */
 
 type Pair = {
   clinical: string;
   holistic: string;
+  context: string;
 };
 
 const PAIRS: Pair[] = [
-  { clinical: "Genetic & metabolic panel",       holistic: "A long table, every night" },
-  { clinical: "Trauma-informed psychiatry",      holistic: "The cellist in the great room" },
-  { clinical: "Neurofeedback & HRV training",    holistic: "Fly-fishing on private water" },
-  { clinical: "Family conjoint, structured",     holistic: "The horse, twice a week" },
-  { clinical: "Integrative pharmacology",        holistic: "Painting in the studio" },
-  { clinical: "Vagal tone & sleep architecture", holistic: "Sauna at five, stars at nine" },
+  {
+    clinical: "Genetic & metabolic panel",
+    holistic: "A long table, every night",
+    context:
+      "The bloodwork tells us what to change; nutrition at the long table is how the markers actually move.",
+  },
+  {
+    clinical: "Trauma-informed psychiatry",
+    holistic: "The cellist in the great room",
+    context:
+      "The hard hour in the morning makes room for the soft one at night — and the cellist makes the soft one stick.",
+  },
+  {
+    clinical: "Neurofeedback & HRV training",
+    holistic: "Fly-fishing on private water",
+    context:
+      "HRV is the metric; standing in the river is the unsupervised practice that trains the same nervous system.",
+  },
+  {
+    clinical: "Family conjoint, structured",
+    holistic: "The horse, twice a week",
+    context:
+      "What you can't say in the conjoint room, you sometimes find next to a thousand pounds of patient animal.",
+  },
+  {
+    clinical: "Integrative pharmacology",
+    holistic: "Painting in the studio",
+    context:
+      "The dose finds the floor; the studio is where you remember you have a self that wants to make something.",
+  },
+  {
+    clinical: "Vagal tone & sleep architecture",
+    holistic: "Sauna at five, stars at nine",
+    context:
+      "Heat then cold then dark — the daily rhythm the clinic measures and the body remembers.",
+  },
 ];
 
 const WEEK = [
@@ -33,6 +67,8 @@ const WEEK = [
   { day: "Saturday",  short: "Sat", line: "A slow morning. Painting in the studio. The fire pit, late." },
   { day: "Sunday",    short: "Sun", line: "Walk before the bell. Brunch on the porch. The week, considered." },
 ];
+
+const AUTO_MS = 6000;
 
 function useInView<T extends HTMLElement>(threshold = 0.15) {
   const ref = useRef<T | null>(null);
@@ -49,21 +85,90 @@ function useInView<T extends HTMLElement>(threshold = 0.15) {
   return { ref, inView };
 }
 
+function PairModal({ pair, onClose }: { pair: Pair; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 lb-fade"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${pair.clinical} pairs with ${pair.holistic}`}
+    >
+      <button
+        className="absolute inset-0 bg-navy/85 lb-backdrop"
+        onClick={onClose}
+        aria-label="Close"
+      />
+      <div className="relative max-w-2xl w-full bg-background p-8 sm:p-12 lb-panel">
+        <p className="small-caps text-amber text-[11px] tracking-[0.32em] mb-6">
+          A pairing
+        </p>
+        <p
+          className="font-serif text-foreground mb-4"
+          style={{ fontSize: "clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem)", fontWeight: 500, lineHeight: 1.2 }}
+        >
+          {pair.clinical}
+        </p>
+        <div className="flex items-center gap-3 my-5" aria-hidden>
+          <span className="block h-px flex-1" style={{ background: "var(--amber)", opacity: 0.6 }} />
+          <span className="block w-1.5 h-1.5 rounded-full" style={{ background: "var(--amber)" }} />
+          <span className="block h-px flex-1" style={{ background: "var(--amber)", opacity: 0.6 }} />
+        </div>
+        <p
+          className="font-serif editorial-italic text-foreground/85 mb-8"
+          style={{ fontSize: "clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem)", fontWeight: 400, lineHeight: 1.2 }}
+        >
+          {pair.holistic}
+        </p>
+        <p className="text-muted-foreground leading-relaxed mb-8" style={{ fontSize: "var(--text-body)" }}>
+          {pair.context}
+        </p>
+        <button
+          onClick={onClose}
+          className="border border-border px-5 py-3 small-caps text-[11px] tracking-[0.24em] text-foreground/70 hover:border-foreground/40 hover:text-foreground transition-colors duration-300"
+        >
+          Close
+        </button>
+        <button
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center text-foreground/55 hover:text-amber transition-colors"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export function SynergyMap() {
   const { ref, inView } = useInView<HTMLDivElement>();
   const [activeRow, setActiveRow] = useState<number | null>(null);
+  const [openPair, setOpenPair] = useState<Pair | null>(null);
   const [mobileIdx, setMobileIdx] = useState(0);
+  const [held, setHeld] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
-  // Auto-advance mobile carousel until user interacts
+  // Auto-advance mobile carousel until user interacts (6s). Pauses while held.
   const autoLockRef = useRef(false);
   useEffect(() => {
-    if (autoLockRef.current) return;
+    if (autoLockRef.current || held) return;
     const id = window.setInterval(() => {
       setMobileIdx((i) => (i + 1) % PAIRS.length);
-    }, 3800);
+    }, AUTO_MS);
     return () => window.clearInterval(id);
-  }, []);
+  }, [held]);
 
   const lockAuto = () => {
     autoLockRef.current = true;
@@ -71,8 +176,10 @@ export function SynergyMap() {
 
   const onTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
+    setHeld(true);
   };
   const onTouchEnd = (e: React.TouchEvent) => {
+    setHeld(false);
     if (touchStartX.current == null) return;
     const dx = e.changedTouches[0].clientX - touchStartX.current;
     if (Math.abs(dx) > 40) {
@@ -139,29 +246,42 @@ export function SynergyMap() {
 
             {PAIRS.map((p, i) => {
               const active = activeRow === i;
+              const isLast = i === PAIRS.length - 1;
+              const divider = !isLast
+                ? "1px solid color-mix(in oklab, var(--ivory) 8%, transparent)"
+                : undefined;
               return (
-                <div
+                <button
                   key={i}
-                  className={`contents group cursor-default transition-opacity duration-700 ${
+                  type="button"
+                  className={`contents group cursor-pointer transition-opacity duration-700 ${
                     inView ? "opacity-100" : "opacity-0"
                   }`}
                   style={{ transitionDelay: `${i * 80}ms` }}
                   onMouseEnter={() => setActiveRow(i)}
                   onMouseLeave={() => setActiveRow(null)}
+                  onFocus={() => setActiveRow(i)}
+                  onBlur={() => setActiveRow(null)}
+                  onClick={() => setOpenPair(p)}
+                  aria-label={`Open pair: ${p.clinical} with ${p.holistic}`}
                 >
                   <div
-                    className="col-span-5 py-5 font-serif text-ivory/95 transition-colors duration-300"
+                    className="col-span-5 py-5 font-serif text-ivory/95 transition-colors duration-300 text-left"
                     style={{
                       fontSize: "clamp(1.05rem, 0.95rem + 0.45vw, 1.35rem)",
                       fontWeight: 500,
                       color: active ? "var(--amber)" : undefined,
+                      borderBottom: divider,
                     }}
                   >
                     {p.clinical}
                   </div>
 
                   {/* connector — single short amber filament that grows on hover */}
-                  <div className="col-span-2 flex items-center justify-center py-5">
+                  <div
+                    className="col-span-2 flex items-center justify-center py-5 relative"
+                    style={{ borderBottom: divider }}
+                  >
                     <div
                       aria-hidden
                       className="h-px transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
@@ -183,85 +303,105 @@ export function SynergyMap() {
                   </div>
 
                   <div
-                    className="col-span-5 py-5 font-serif editorial-italic text-ivory/95 transition-colors duration-300"
+                    className="col-span-5 py-5 font-serif editorial-italic text-ivory/95 transition-colors duration-300 text-left"
                     style={{
                       fontSize: "clamp(1.05rem, 0.95rem + 0.45vw, 1.35rem)",
                       fontWeight: 400,
                       color: active ? "var(--amber)" : undefined,
+                      borderBottom: divider,
                     }}
                   >
                     {p.holistic}
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>
+          <p className="small-caps text-ivory/45 text-[10px] tracking-[0.32em] mt-6">
+            Tap a pair to read why it holds.
+          </p>
         </div>
 
-        {/* ── Mobile swipe stack ── */}
+        {/* ── Mobile split-stage card ── */}
         <div className="lg:hidden">
+          <div className="flex items-center justify-between mb-4">
+            <p className="small-caps text-amber text-[10px] tracking-[0.32em] tabular">
+              {String(mobileIdx + 1).padStart(2, "0")} / {String(PAIRS.length).padStart(2, "0")}
+            </p>
+            <p className="small-caps text-ivory/45 text-[10px] tracking-[0.28em]">
+              {held ? "Holding…" : "Hold to pause · Swipe ↔"}
+            </p>
+          </div>
+
           <div
-            className="relative bg-navy/40 p-7 sm:p-9 select-none touch-pan-y"
+            className="relative select-none touch-pan-y"
             style={{
-              boxShadow: "inset 0 0 0 1px color-mix(in oklab, var(--amber) 14%, transparent)",
+              boxShadow: "0 0 0 1px color-mix(in oklab, var(--amber) 20%, transparent)",
             }}
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
+            onTouchCancel={() => setHeld(false)}
           >
-            <div className="flex items-center justify-between mb-6">
-              <p className="small-caps text-amber text-[10px] tracking-[0.32em] tabular">
-                {String(mobileIdx + 1).padStart(2, "0")} / {String(PAIRS.length).padStart(2, "0")}
-              </p>
-              <p className="small-caps text-ivory/45 text-[10px] tracking-[0.28em]">
-                Swipe ↔
-              </p>
-            </div>
-
             <div key={mobileIdx} className="synergy-card-rise">
-              <p className="small-caps text-ivory/60 text-[10px] tracking-[0.32em] mb-3">
-                Clinical
-              </p>
-              <p
-                className="font-serif text-ivory leading-snug mb-7"
-                style={{ fontSize: "1.35rem", fontWeight: 500 }}
-              >
-                {PAIRS[mobileIdx].clinical}
-              </p>
-
-              {/* connector */}
-              <div className="flex items-center gap-3 my-5">
-                <span
-                  aria-hidden
-                  className="block h-px flex-1"
-                  style={{ background: "var(--amber)", opacity: 0.6 }}
-                />
-                <span
-                  aria-hidden
-                  className="block w-1.5 h-1.5 rounded-full"
-                  style={{ background: "var(--amber)" }}
-                />
-                <span
-                  aria-hidden
-                  className="block h-px flex-1"
-                  style={{ background: "var(--amber)", opacity: 0.6 }}
-                />
+              {/* Top half — Clinical, navy on navy with ivory text */}
+              <div className="bg-navy px-7 pt-7 pb-9 sm:px-9 relative">
+                <p className="small-caps text-amber/80 text-[10px] tracking-[0.32em] mb-3">
+                  Clinical
+                </p>
+                <p
+                  className="font-serif text-ivory leading-snug"
+                  style={{ fontSize: "1.4rem", fontWeight: 500 }}
+                >
+                  {PAIRS[mobileIdx].clinical}
+                </p>
               </div>
 
-              <p className="small-caps text-ivory/60 text-[10px] tracking-[0.32em] mb-3">
-                Holistic
-              </p>
-              <p
-                className="font-serif editorial-italic text-ivory leading-snug"
-                style={{ fontSize: "1.35rem", fontWeight: 400 }}
-              >
-                {PAIRS[mobileIdx].holistic}
-              </p>
-            </div>
+              {/* The seam — amber filament + dot, structurally connecting the halves */}
+              <div className="relative h-0">
+                <div
+                  className="absolute left-0 right-0 -translate-y-1/2 flex items-center gap-3 px-7 sm:px-9"
+                  style={{ top: 0 }}
+                  aria-hidden
+                >
+                  <span
+                    className="block h-px flex-1"
+                    style={{ background: "var(--amber)", opacity: 0.7 }}
+                  />
+                  <span
+                    className="block w-2 h-2 rounded-full"
+                    style={{ background: "var(--amber)", boxShadow: "0 0 12px color-mix(in oklab, var(--amber) 50%, transparent)" }}
+                  />
+                  <span
+                    className="block h-px flex-1"
+                    style={{ background: "var(--amber)", opacity: 0.7 }}
+                  />
+                </div>
+              </div>
 
-            {/* Pager + arrows */}
-            <div className="mt-8 flex items-center justify-between">
-              <div className="flex items-center gap-1.5">
-                {PAIRS.map((_, i) => (
+              {/* Bottom half — Holistic, ivory on ivory with navy text. Real contrast. */}
+              <div className="bg-ivory px-7 pt-9 pb-7 sm:px-9">
+                <p className="small-caps text-navy/65 text-[10px] tracking-[0.32em] mb-3">
+                  Holistic
+                </p>
+                <p
+                  className="font-serif editorial-italic text-navy leading-snug"
+                  style={{ fontSize: "1.4rem", fontWeight: 400 }}
+                >
+                  {PAIRS[mobileIdx].holistic}
+                </p>
+                <p className="text-navy/65 leading-relaxed mt-4 text-[14px]">
+                  {PAIRS[mobileIdx].context}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Pager + arrows */}
+          <div className="mt-6 flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              {PAIRS.map((_, i) => {
+                const active = i === mobileIdx;
+                return (
                   <button
                     key={i}
                     type="button"
@@ -272,37 +412,38 @@ export function SynergyMap() {
                     }}
                     className="block transition-all duration-300"
                     style={{
-                      width: i === mobileIdx ? 18 : 6,
+                      width: active ? 18 : 6,
                       height: 6,
-                      background: i === mobileIdx ? "var(--amber)" : "color-mix(in oklab, var(--ivory) 35%, transparent)",
+                      background: active ? "var(--amber)" : "color-mix(in oklab, var(--ivory) 35%, transparent)",
+                      boxShadow: active ? "0 0 10px color-mix(in oklab, var(--ember) 60%, transparent)" : undefined,
                     }}
                   />
-                ))}
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  aria-label="Previous pair"
-                  onClick={() => {
-                    lockAuto();
-                    setMobileIdx((i) => (i - 1 + PAIRS.length) % PAIRS.length);
-                  }}
-                  className="w-10 h-10 flex items-center justify-center text-ivory/70 hover:text-amber transition-colors"
-                >
-                  ←
-                </button>
-                <button
-                  type="button"
-                  aria-label="Next pair"
-                  onClick={() => {
-                    lockAuto();
-                    setMobileIdx((i) => (i + 1) % PAIRS.length);
-                  }}
-                  className="w-10 h-10 flex items-center justify-center text-ivory/70 hover:text-amber transition-colors"
-                >
-                  →
-                </button>
-              </div>
+                );
+              })}
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                aria-label="Previous pair"
+                onClick={() => {
+                  lockAuto();
+                  setMobileIdx((i) => (i - 1 + PAIRS.length) % PAIRS.length);
+                }}
+                className="w-10 h-10 flex items-center justify-center text-ivory/70 hover:text-amber transition-colors"
+              >
+                ←
+              </button>
+              <button
+                type="button"
+                aria-label="Next pair"
+                onClick={() => {
+                  lockAuto();
+                  setMobileIdx((i) => (i + 1) % PAIRS.length);
+                }}
+                className="w-10 h-10 flex items-center justify-center text-ivory/70 hover:text-amber transition-colors"
+              >
+                →
+              </button>
             </div>
           </div>
         </div>
@@ -361,13 +502,15 @@ export function SynergyMap() {
         </div>
       </div>
 
+      {openPair && <PairModal pair={openPair} onClose={() => setOpenPair(null)} />}
+
       <style>{`
         @keyframes synergyCardRise {
           from { opacity: 0; transform: translateY(8px); }
           to   { opacity: 1; transform: translateY(0); }
         }
         .synergy-card-rise {
-          animation: synergyCardRise 380ms cubic-bezier(0.22, 1, 0.36, 1) both;
+          animation: synergyCardRise 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
         }
         @media (prefers-reduced-motion: reduce) {
           .synergy-card-rise { animation: none !important; }

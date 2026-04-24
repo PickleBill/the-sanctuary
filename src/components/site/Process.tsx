@@ -118,6 +118,11 @@ function Step({
   index: number;
 }) {
   const { ref, inView } = useInView<HTMLLIElement>(0.25);
+  const jumpToForm = () => {
+    const el = document.getElementById("concierge-form");
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    el?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  };
   return (
     <li
       ref={ref}
@@ -126,15 +131,20 @@ function Step({
       }`}
       style={{ transitionDelay: `${index * 120}ms` }}
     >
-      {/* Numeral plate — /typeset drop-figure: tabular lining numerals at display scale */}
-      <div className="absolute left-0 top-0 w-[52px] md:w-[64px] h-[52px] md:h-[64px] flex items-center justify-center bg-primary border border-amber/35">
+      {/* Numeral plate — now a button that jumps to the concierge form */}
+      <button
+        type="button"
+        onClick={jumpToForm}
+        aria-label={`Begin ${step.title}`}
+        className="group absolute left-0 top-0 w-[52px] md:w-[64px] h-[52px] md:h-[64px] flex items-center justify-center bg-primary border border-amber/35 hover:border-amber hover:bg-amber transition-all duration-300"
+      >
         <span
-          className="drop-figure text-amber"
+          className="drop-figure text-amber group-hover:text-amber-foreground transition-colors duration-300"
           style={{ fontSize: "clamp(1.5rem, 1.1rem + 1.4vw, 2rem)", fontWeight: 400 }}
         >
           {step.num}
         </span>
-      </div>
+      </button>
 
       <h3
         className="font-serif text-primary-foreground mb-3 hang-punct"

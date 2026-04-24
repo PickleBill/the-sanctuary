@@ -188,10 +188,10 @@
     h1, h2, h3, h4, h5 { font-weight: 600; }
   }
 
-  h1 { font-size: var(--text-h1); }
-  h2 { font-size: var(--text-h2); line-height: 1.08; }
-  h3 { font-size: var(--text-h3); line-height: 1.14; }
-  h4 { font-size: var(--text-h4); line-height: 1.24; }
+  h1 { font-size: var(--text-h1); text-wrap: balance; }
+  h2 { font-size: var(--text-h2); line-height: 1.08; text-wrap: balance; }
+  h3 { font-size: var(--text-h3); line-height: 1.14; text-wrap: balance; }
+  h4 { font-size: var(--text-h4); line-height: 1.24; text-wrap: balance; }
 
   .text-display {
     font-family: var(--font-display);

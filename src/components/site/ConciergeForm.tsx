@@ -482,7 +482,7 @@ function InlineInput({
       placeholder={placeholder}
       autoComplete={autoComplete}
       size={size}
-      className="bg-transparent border-b-2 border-amber/60 focus:border-amber outline-none px-1 pb-1 text-foreground placeholder:text-muted-foreground/50 transition-colors min-w-[140px]"
+      className="bg-amber/5 border-b-2 border-amber/60 focus:border-amber focus:bg-amber/10 outline-none px-2 pb-1 text-foreground placeholder:text-muted-foreground/50 transition-colors min-w-[140px]"
       style={{ fontSize: "inherit", fontWeight: "inherit", lineHeight: "inherit", maxWidth: "100%" }}
     />
   );

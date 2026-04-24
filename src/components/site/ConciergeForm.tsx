@@ -104,14 +104,8 @@ export function ConciergeForm() {
               className="text-muted-foreground leading-relaxed max-w-md"
               style={{ fontSize: "var(--text-body)" }}
             >
-              A real clinician — not an intake form — picks up the next step. Tell us only what feels useful, in whatever language you would tell a friend. The compliance posture is in the rail above; this is the human part.
+              A clinician — not an intake form — picks up the next step. Reply within four hours, often sooner. Encrypted channels on request.
             </p>
-
-            <div className="mt-10 space-y-3 text-[14px] text-muted-foreground">
-              <p className="flex gap-3"><span className="text-amber" aria-hidden>◆</span> Reply within four hours, often sooner</p>
-              <p className="flex gap-3"><span className="text-amber" aria-hidden>◆</span> Encrypted channels available on request</p>
-              <p className="flex gap-3"><span className="text-amber" aria-hidden>◆</span> One conversation, one principal — no call centers</p>
-            </div>
           </div>
 
           <div className="lg:col-span-7">

@@ -53,12 +53,6 @@ const frames: Frame[] = [
   },
 ];
 
-const stats = [
-  { value: "212", label: "Private Acres" },
-  { value: "2,400ft", label: "Elevation" },
-  { value: "45 min", label: "From AVL · 2hr from CLT" },
-  { value: "One", label: "Family in residence" },
-];
 
 function useInView<T extends HTMLElement>() {
   const ref = useRef<T | null>(null);
@@ -311,23 +305,6 @@ export function Gallery() {
           }
         `}</style>
 
-        <div className="mt-16 lg:mt-24">
-          <dl className="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-8">
-            {stats.map((s) => (
-              <div key={s.label}>
-                <dd
-                  className="font-serif text-foreground tabular mb-3"
-                  style={{ fontSize: "var(--text-h3)", lineHeight: 1, fontWeight: 500 }}
-                >
-                  {s.value}
-                </dd>
-                <dt className="small-caps text-muted-foreground/70 text-[11px] tracking-[0.24em]">
-                  {s.label}
-                </dt>
-              </div>
-            ))}
-          </dl>
-        </div>
       </div>
 
       {openFrame && <Lightbox frame={openFrame} onClose={() => setOpenFrame(null)} />}

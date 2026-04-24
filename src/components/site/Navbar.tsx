@@ -39,6 +39,7 @@ function scrollToId(id: string) {
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const tonight = useMemo(() => tonightLine(), []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -59,16 +60,22 @@ export function Navbar() {
           scrolled ? "max-h-10 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 h-9 flex items-center justify-end gap-6">
-          <span className="text-[10px] tracking-[0.32em] uppercase text-muted-foreground">
-            Discreet · Encrypted · 24/7
+        <div className="mx-auto max-w-7xl px-6 lg:px-10 h-9 flex items-center justify-between gap-6">
+          <span className="hidden xl:inline-flex items-center gap-2 text-[10px] tracking-[0.18em] uppercase text-amber/85">
+            <span aria-hidden className="block w-1 h-1 rounded-full bg-ember tonight-pulse" />
+            <span className="text-foreground/70 normal-case tracking-normal italic font-serif text-[12px]">{tonight}</span>
           </span>
-          <a
-            href="tel:+18005550199"
-            className="text-[11px] tracking-[0.24em] uppercase font-medium text-foreground hover:text-amber transition-colors tabular"
-          >
-            +1 (800) 555-0199
-          </a>
+          <div className="flex items-center gap-6 ml-auto">
+            <span className="text-[10px] tracking-[0.32em] uppercase text-muted-foreground">
+              Discreet · Encrypted · 24/7
+            </span>
+            <a
+              href="tel:+18005550199"
+              className="text-[11px] tracking-[0.24em] uppercase font-medium text-foreground hover:text-amber transition-colors tabular"
+            >
+              +1 (800) 555-0199
+            </a>
+          </div>
         </div>
       </div>
 

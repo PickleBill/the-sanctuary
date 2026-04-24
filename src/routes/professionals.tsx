@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { LEADERS } from "@/components/site/Leadership";
+import { ReferralNoteComposer } from "@/components/site/ReferralNoteComposer";
 
 export const Route = createFileRoute("/professionals")({
   head: () => ({
@@ -146,6 +147,9 @@ function ProfessionalsPage() {
             </p>
           </div>
         </section>
+
+        {/* 3.5 — Referral Note Composer (v3.5) */}
+        <ReferralNoteComposer />
 
         {/* 4 — Contact */}
         <section className="py-24 lg:py-32 bg-primary text-primary-foreground">

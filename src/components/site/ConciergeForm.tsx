@@ -131,6 +131,15 @@ export function ConciergeForm() {
         });
         if (result.ok) {
           setSubmittedName(submittedFirstName);
+          setReplyPayload({
+            firstName: submittedFirstName,
+            role: parsed.data.role,
+            contactMethod: parsed.data.contactMethod,
+            message: parsed.data.message,
+            resonanceText,
+            resonanceReading,
+            intentSignal,
+          });
           setSubmitted(true);
           setDossierUrl(result.dossierUrl);
         } else {

@@ -70,6 +70,9 @@ export function Amenities() {
             >
               Five quiet commitments — some clinical, some hospitable, all designed to make a serious month of work feel like a place you would want to come back to.
             </p>
+            <p className="mt-5 font-serif editorial-italic text-foreground/60 max-w-xl" style={{ fontSize: "var(--text-body)" }}>
+              You will rise to a quiet bell.
+            </p>
           </div>
         </div>
 

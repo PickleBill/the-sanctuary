@@ -3,12 +3,28 @@ import { useServerFn } from "@tanstack/react-start";
 import { generateResonance } from "@/server/resonance.functions";
 import type { ResonanceReading } from "@/lib/resonance/prompt";
 
+const PREFILLS = [
+  {
+    label: "For myself",
+    seed: "I am the one who would come. I have been carrying ",
+  },
+  {
+    label: "For someone I love",
+    seed: "It's not me. It's someone I love. They have been ",
+  },
+  {
+    label: "For a client I refer",
+    seed: "I am a referring professional. My client is a ",
+  },
+];
+
 export function Resonance() {
   const generate = useServerFn(generateResonance);
   const [text, setText] = useState("");
   const [reading, setReading] = useState<ResonanceReading | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [activePrefill, setActivePrefill] = useState<string | null>(null);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,6 +85,30 @@ export function Resonance() {
           </div>
         </div>
 
+        {/* Pre-fill chips — three quiet doorways into the reading */}
+        <div className="flex flex-wrap gap-2 sm:gap-3 mb-6">
+          {PREFILLS.map((p) => {
+            const active = activePrefill === p.label;
+            return (
+              <button
+                key={p.label}
+                type="button"
+                onClick={() => {
+                  setText(p.seed);
+                  setActivePrefill(p.label);
+                }}
+                className={`small-caps text-[11px] tracking-[0.24em] px-4 py-2.5 min-h-[40px] border transition-colors duration-500 ${
+                  active
+                    ? "border-amber text-amber bg-amber/5"
+                    : "border-border text-muted-foreground hover:border-amber/60 hover:text-foreground"
+                }`}
+              >
+                {p.label}
+              </button>
+            );
+          })}
+        </div>
+
         <form onSubmit={onSubmit} className="mb-10">
           <label className="block group">
             <span className="small-caps text-[11px] tracking-[0.24em] text-muted-foreground mb-3 block">
@@ -79,7 +119,10 @@ export function Resonance() {
             <div className="relative pb-1">
               <textarea
                 value={text}
-                onChange={(e) => setText(e.target.value)}
+                onChange={(e) => {
+                  setText(e.target.value);
+                  if (activePrefill) setActivePrefill(null);
+                }}
                 maxLength={600}
                 rows={4}
                 placeholder="What would a good week here look like?"

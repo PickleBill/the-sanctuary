@@ -532,74 +532,40 @@ export function Cohort() {
               </svg>
 
               {/*
-                v3.9 reset — duplicate name plate removed. The plate above
-                the SVG is the only source of truth for the active archetype.
-                What lives here now is action + context only:
-                  - matched-rationale (when AI match is active)
-                  - "Continue privately" CTA (when matched node is active)
-                  - quiet hint + "View the room" chip
+                Phase 1 closeout — Cohort sprawl removed.
+                One inline interaction (the constellation), one secondary
+                path (the room sheet). The matched rationale + the
+                "Continue privately" handoff now live INSIDE the sheet, so
+                the section is no longer a stack of competing surfaces.
               */}
-              <div className="mt-6 min-h-[2.5rem]">
-
-                {/* v3.4 — When matched node is active, show the whisper rationale */}
-                {activeNode && activeId === matchedId && matchRationale && (
-                  <p
-                    key={`m-${matchedId}`}
-                    className="mt-3 max-w-md text-ivory/75 leading-relaxed editorial-italic cohort-role-rise"
-                    style={{ fontSize: "0.95rem", lineHeight: 1.55 }}
-                  >
-                    "{matchRationale}"
-                  </p>
-                )}
-
-                {/* v3.4 — Quiet hint when a match exists but visitor hasn't tapped it yet */}
-                {matchedId != null && activeId !== matchedId && (
-                  <button
-                    type="button"
-                    onClick={() => handleNodeActivate(matchedId)}
-                    className="mt-3 inline-flex items-center gap-2 small-caps text-[10px] tracking-[0.28em] text-amber hover:text-ivory transition-colors group"
-                  >
-                    <span aria-hidden className="block w-2 h-2 rounded-full bg-amber cohort-badge-dot" />
-                    Someone in this room is carrying what you're carrying →
-                  </button>
-                )}
-
-                {/* v3.5 — Continue privately handoff. Pre-seeds the role on the form. */}
-                {activeNode && activeId === matchedId && (
-                  <div className="mt-5 flex items-center gap-3 flex-wrap">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        // Map archetype to form role
-                        const role = activeNode.role;
-                        let seeded: string = "Principal";
-                        if (/Surgeon|Cardiologist|Anesthesiologist|Oncologist|Scientist|MD/i.test(role)) seeded = "Medical Professional";
-                        else if (/Trustee|Counsel|Partner|Advisor|GC|Chief of Staff|Manager|GP|Investor/i.test(role)) seeded = "Trusted Advisor";
-                        try { localStorage.setItem("ss_role_seed", seeded); } catch {}
-                        const el = document.getElementById("concierge-form");
-                        const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-                        el?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
-                      }}
-                      className="cta-flame group inline-flex items-center gap-2 bg-amber text-amber-foreground px-6 py-3.5 small-caps text-[10.5px] tracking-[0.28em] hover:-translate-y-0.5 transition-transform duration-300 font-semibold"
-                    >
-                      ✦ Continue privately
-                      <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                    </button>
-                    <AIPresenceChip variant="ivory" />
-                  </div>
-                )}
-
-                {/* v3.7 — "View the room" chip — opens bottom sheet w/ all 40 archetypes */}
+              <div className="mt-6 flex items-center justify-between gap-4 flex-wrap">
                 <button
                   type="button"
                   onClick={() => setRoomOpen(true)}
-                  className="mt-6 inline-flex items-center gap-2 small-caps text-[10px] tracking-[0.28em] text-ivory/65 hover:text-amber transition-colors group"
+                  className="inline-flex items-center gap-2 small-caps text-[11px] tracking-[0.28em] text-amber hover:text-ivory transition-colors group"
                   aria-label="See all forty archetypes in the room"
                 >
                   <span aria-hidden className="block w-1 h-1 rounded-full bg-amber" />
                   View the room — 40
                   <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </button>
+
+                {/* Quiet hint when an AI match exists but visitor hasn't tapped it yet.
+                    Tapping opens the sheet so the rationale + CTA are presented
+                    together, not as a third surface stacked on the page. */}
+                {matchedId != null && activeId !== matchedId && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleNodeActivate(matchedId);
+                      setRoomOpen(true);
+                    }}
+                    className="inline-flex items-center gap-2 small-caps text-[10px] tracking-[0.28em] text-ivory/65 hover:text-amber transition-colors group"
+                  >
+                    <span aria-hidden className="block w-1.5 h-1.5 rounded-full" style={{ background: "var(--bloom)" }} />
+                    A quiet resonance — open
+                  </button>
+                )}
               </div>
             </div>
           </div>

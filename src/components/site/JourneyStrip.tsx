@@ -7,11 +7,10 @@ import day5 from "@/assets/day-5-table.jpg";
 import day6 from "@/assets/day-6-stars.jpg";
 
 /**
- * v3.3 — JourneyStrip — "A day, told in six pictures."
+ * v3.6 — JourneyStrip — "A day, told in six pictures."
  *
- * Horizontal full-bleed rail of 6 portrait moments stitched by a single amber
- * filament that draws as the rail scrolls. Mobile snap-scrolls one card at a
- * time. Desktop drifts under parallax. Six images. Twelve words. No paragraph.
+ * No filaments. No dot ledger. No section-boundary line. Just the snap-rail
+ * — the cards themselves are the progress.
  */
 
 const moments = [
@@ -26,7 +25,6 @@ const moments = [
 export function JourneyStrip() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const railRef = useRef<HTMLDivElement | null>(null);
-  const [progress, setProgress] = useState(0);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -40,7 +38,7 @@ export function JourneyStrip() {
     return () => obs.disconnect();
   }, []);
 
-  // v3.5 — throttled scroll observer (~16ms) + next-image pre-decode
+  // Throttled pre-decode of next images so snap stays buttery
   useEffect(() => {
     const rail = railRef.current;
     if (!rail) return;
@@ -55,8 +53,6 @@ export function JourneyStrip() {
       raf = requestAnimationFrame(() => {
         const max = rail.scrollWidth - rail.clientWidth;
         const p = max > 0 ? Math.min(1, Math.max(0, rail.scrollLeft / max)) : 0;
-        setProgress(p);
-        // pre-decode the next two images so snap is buttery
         const idx = Math.min(moments.length - 1, Math.round(p * (moments.length - 1)) + 1);
         for (let i = idx; i < Math.min(moments.length, idx + 2); i++) {
           if (decoded.has(i)) continue;
@@ -81,50 +77,32 @@ export function JourneyStrip() {
       id="journey-strip"
       className="relative bg-navy py-20 sm:py-24 lg:py-32 scroll-mt-24 overflow-hidden"
     >
-      <span aria-hidden className="section-filament-top" />
       <div className="mx-auto max-w-7xl px-6 lg:px-10 mb-10 lg:mb-14">
         <div
           className={`max-w-3xl transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] ${
             visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-          <p className="eyebrow text-amber/90 mb-5">A Day in Residence</p>
+          <p className="eyebrow text-amber mb-5">A Day in Residence</p>
           <h2
-            className="font-serif text-ivory hang-punct"
+            className="font-serif text-ivory hang-punct text-luxe"
             style={{
-              fontSize: "clamp(1.875rem, 1.4rem + 2.6vw, 3.25rem)",
-              lineHeight: 1.06,
-              letterSpacing: "-0.02em",
-              fontWeight: 500,
+              fontSize: "clamp(2rem, 1.4rem + 2.8vw, 3.5rem)",
+              lineHeight: 1.04,
+              letterSpacing: "-0.024em",
+              fontWeight: 650,
             }}
           >
             Sunrise to stars.
-            <span className="block editorial-italic text-ivory/70" style={{ fontWeight: 400 }}>
+            <span className="block editorial-italic text-ivory/85" style={{ fontWeight: 400 }}>
               Six moments. Twelve words.
             </span>
           </h2>
         </div>
       </div>
 
-      {/* Full-bleed rail */}
+      {/* Full-bleed rail — no decorative filament, no progress dots */}
       <div className="relative">
-        {/* Single amber filament drawn as you scroll */}
-        <div
-          aria-hidden
-          className="absolute left-0 right-0 top-1/2 h-px bg-amber/30 pointer-events-none"
-          style={{ transform: "translateY(-50%)" }}
-        >
-          <span
-            className="block h-px bg-amber origin-left"
-            style={{
-              width: "100%",
-              transform: `scaleX(${0.06 + progress * 0.94})`,
-              transformOrigin: "left center",
-              transition: "transform 200ms cubic-bezier(0.22,1,0.36,1)",
-            }}
-          />
-        </div>
-
         <div
           ref={railRef}
           className="journey-rail flex gap-4 sm:gap-5 lg:gap-6 overflow-x-auto snap-x snap-mandatory px-6 lg:px-10 pb-4"
@@ -164,7 +142,7 @@ export function JourneyStrip() {
                   className="font-serif editorial-italic text-luxe"
                   style={{
                     fontSize: "clamp(1.5rem, 1.2rem + 1.6vw, 2rem)",
-                    fontWeight: 500,
+                    fontWeight: 600,
                     lineHeight: 1,
                   }}
                 >
@@ -173,30 +151,7 @@ export function JourneyStrip() {
               </figcaption>
             </figure>
           ))}
-          {/* Trailing spacer so the last card can snap nicely */}
           <div aria-hidden className="shrink-0 w-2 sm:w-6 lg:w-10" />
-        </div>
-
-        {/* Progress dots — small ledger of where you are in the day */}
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 mt-8 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            {moments.map((_, i) => {
-              const active = Math.round(progress * (moments.length - 1)) === i;
-              return (
-                <span
-                  key={i}
-                  aria-hidden
-                  className={`h-px transition-all duration-500 ${
-                    active ? "w-8 bg-amber" : "w-4 bg-ivory/25"
-                  }`}
-                />
-              );
-            })}
-          </div>
-          <p className="hidden sm:block small-caps text-ivory/45 text-[10px] tracking-[0.28em] tabular">
-            <span className="text-amber/80">{String(Math.round(progress * (moments.length - 1)) + 1).padStart(2, "0")}</span>
-            <span className="text-ivory/30"> / {String(moments.length).padStart(2, "0")}</span>
-          </p>
         </div>
       </div>
 

@@ -4,23 +4,21 @@ import medical from "@/assets/leader-medical-director-v2.jpg";
 import clinical from "@/assets/leader-clinical-director-v2.jpg";
 
 /**
- * v1.5 — Leadership configured via a single LEADERS object so swapping in real
- * names + photos later is a one-line change. Path B: identity withheld but
- * verification posture made explicit (board cert, DEA, state license — all
- * checked, available to licensed referring clinicians under NDA).
+ * v3.6 — Clinical Leadership.
+ *
+ * Rewritten copy: warm, human, peer-not-judge framing. The clinicians
+ * are people you'd want at the dinner table — not credentials being
+ * displayed. Verification on file is still available; it just isn't the
+ * loudest thing on the page.
  */
 
 type Leader = {
   role: string;
-  name: string;            // "[Name forthcoming]" until signed
-  credentials: string;     // visible
-  formerly: string;        // visible
+  name: string;
+  credentials: string;
+  story: string;     // human one-liner about who they are, not what they've done
   quote: string;
   img: string;
-  /**
-   * Items we have verified internally — shown in the credentials modal so a
-   * referring clinician can see exactly what is on file before requesting NDA.
-   */
   verified: string[];
 };
 
@@ -28,8 +26,9 @@ export const LEADERS: Leader[] = [
   {
     role: "Medical Director",
     name: "[Name forthcoming]",
-    credentials: "MD, Diplomate ABAM · Board-certified, Internal Medicine & Addiction Medicine",
-    formerly: "Formerly affiliated with the Hazelden Betty Ford Foundation",
+    credentials: "MD, Diplomate ABAM",
+    story:
+      "Two decades caring for surgeons, founders, and federal judges. Keeps a small fly-fishing journal and refuses to take calls before sunrise.",
     quote:
       "Discretion and clinical excellence are not in tension. They are the same standard, expressed in different rooms.",
     img: medical,
@@ -44,8 +43,9 @@ export const LEADERS: Leader[] = [
   {
     role: "Clinical Director",
     name: "[Name forthcoming]",
-    credentials: "PhD, Licensed Clinical Psychologist · Trauma-Informed Care, Family Systems",
-    formerly: "Two decades caring for executives, surgeons, and public figures",
+    credentials: "PhD, Licensed Clinical Psychologist",
+    story:
+      "Trauma-informed care, family systems. Plays cello on Sunday afternoons. Has held one of these chairs herself — that is part of why she's here.",
     quote:
       "We design one program for one family at a time. There is no cohort to fit into — only the work in front of us.",
     img: clinical,
@@ -79,28 +79,28 @@ export function Leadership() {
   return (
     <section
       id="leadership"
-      className="py-28 lg:py-40 bg-secondary scroll-mt-24"
+      className="py-24 lg:py-36 bg-secondary scroll-mt-24"
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16 lg:mb-20">
-          <div className="lg:col-span-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-14 lg:mb-20">
+          <div className="lg:col-span-9">
             <p className="eyebrow mb-5">Clinical Leadership</p>
             <h2
-              className="font-serif text-foreground mb-7 hang-punct"
+              className="font-serif text-foreground hang-punct"
               style={{
-                fontSize: "clamp(2rem, 1.5rem + 3vw, 3.75rem)",
-                lineHeight: 1.06,
-                letterSpacing: "-0.02em",
-                fontWeight: 500,
+                fontSize: "clamp(2rem, 1.4rem + 2.8vw, 3.75rem)",
+                lineHeight: 1.04,
+                letterSpacing: "-0.024em",
+                fontWeight: 650,
               }}
             >
-              The people
+              Two clinicians.
               <span className="block editorial-italic text-foreground/70" style={{ fontWeight: 400 }}>
-                are the program.
+                Both, on the estate.
               </span>
             </h2>
-            <p className="text-muted-foreground leading-relaxed max-w-xl" style={{ fontSize: "var(--text-body)" }}>
-              We do not sell a building. We sell the judgment of the two clinicians who personally compose your care — present on the estate, not on a quarterly visit.
+            <p className="text-foreground/80 leading-relaxed max-w-2xl mt-7" style={{ fontSize: "var(--text-body)" }}>
+              You meet them on day one. They write your program by hand. They are the people you'll have coffee with on Tuesday mornings — not a quarterly visiting consultant.
             </p>
           </div>
         </div>
@@ -116,12 +116,12 @@ export function Leadership() {
           ))}
         </div>
 
-        <div className="mt-12 max-w-3xl space-y-3">
-          <p className="text-xs lg:text-sm text-muted-foreground italic leading-relaxed">
-            Identity disclosed under mutual NDA. Verification available to licensed referring clinicians on request via our{" "}
+        <div className="mt-12 max-w-3xl">
+          <p className="text-sm text-muted-foreground italic leading-relaxed">
+            Identities disclosed under mutual NDA. Credentials available to licensed referring clinicians on request via our{" "}
             <Link
               to="/professionals"
-              className="not-italic underline decoration-amber/50 underline-offset-4 hover:text-foreground transition-colors"
+              className="not-italic text-foreground underline decoration-amber underline-offset-4 decoration-2 hover:text-amber transition-colors"
             >
               encrypted document exchange
             </Link>
@@ -170,45 +170,42 @@ function LeaderCard({
         </div>
 
         <div className="flex-1">
-          <p className="small-caps text-amber mb-3 text-[11px] tracking-[0.24em]">
+          <p className="small-caps text-amber mb-3 text-[11px] tracking-[0.28em] font-semibold">
             {leader.role}
           </p>
           <h3
-            className="font-serif text-foreground mb-5 hang-punct"
+            className="font-serif text-foreground mb-3 hang-punct"
             style={{
               fontSize: "clamp(1.625rem, 1.4rem + 1vw, 2.25rem)",
-              lineHeight: 1.08,
-              letterSpacing: "-0.018em",
-              fontWeight: 500,
+              lineHeight: 1.06,
+              letterSpacing: "-0.02em",
+              fontWeight: 650,
             }}
           >
             {leader.name}
           </h3>
-          <p className="small-caps text-foreground/75 text-[11px] tracking-[0.18em] mb-2 tabular leading-relaxed">
+          <p className="small-caps text-foreground/70 text-[11px] tracking-[0.18em] mb-5 tabular leading-relaxed">
             {leader.credentials}
           </p>
-          <p className="text-[13px] text-muted-foreground italic leading-relaxed mb-6">
-            {leader.formerly}
+          <p className="text-[14px] text-foreground/80 leading-relaxed mb-6">
+            {leader.story}
           </p>
-          <blockquote className="mb-6">
+          <blockquote className="mb-6 pl-4 border-l-2 border-amber/60">
             <p
-              className="font-serif editorial-italic text-foreground/85 leading-[1.5] pl-1"
+              className="font-serif editorial-italic text-foreground/85 leading-[1.45]"
               style={{ fontSize: "var(--text-lead)", fontWeight: 400 }}
             >
               &ldquo;{leader.quote}&rdquo;
             </p>
           </blockquote>
 
-          {/* Credentials Verified badge — opens modal listing what is on file */}
           <button
             onClick={onVerify}
-            className="inline-flex items-center gap-3 group py-2 -ml-1 px-1"
+            className="inline-flex items-center gap-2 group py-2 -ml-1 px-1 small-caps text-foreground/70 hover:text-amber transition-colors text-[11px] tracking-[0.24em] font-semibold"
             aria-label={`See what credentials are verified for the ${leader.role}`}
           >
-            <span className="luxe-rule group-hover:w-16 transition-all duration-500" aria-hidden />
-            <span className="small-caps text-foreground/65 group-hover:text-amber transition-colors text-[10px] tracking-[0.28em]">
-              Credentials Verified · See What's on File
-            </span>
+            Credentials on file
+            <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </button>
         </div>
       </div>
@@ -217,7 +214,6 @@ function LeaderCard({
 }
 
 function CredentialsModal({ leader, onClose }: { leader: Leader; onClose: () => void }) {
-  // Close on escape
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", onKey);
@@ -236,18 +232,18 @@ function CredentialsModal({ leader, onClose }: { leader: Leader; onClose: () => 
       aria-labelledby="credentials-title"
     >
       <button
-        className="absolute inset-0 bg-navy/70 backdrop-blur-sm"
+        className="absolute inset-0 bg-navy/80 backdrop-blur-sm"
         onClick={onClose}
         aria-label="Close"
       />
       <div className="relative bg-background border border-border max-w-lg w-full p-8 lg:p-10 shadow-luxe">
-        <p className="small-caps text-amber text-[11px] tracking-[0.28em] mb-3">
+        <p className="small-caps text-amber text-[11px] tracking-[0.28em] mb-3 font-semibold">
           {leader.role} · Verified
         </p>
         <h3
           id="credentials-title"
           className="font-serif text-foreground mb-5"
-          style={{ fontSize: "var(--text-h4)", lineHeight: 1.15, fontWeight: 500 }}
+          style={{ fontSize: "var(--text-h4)", lineHeight: 1.15, fontWeight: 650 }}
         >
           What is on file.
         </h3>
@@ -266,7 +262,7 @@ function CredentialsModal({ leader, onClose }: { leader: Leader; onClose: () => 
           <Link
             to="/professionals"
             onClick={onClose}
-            className="flex-1 text-center border border-amber/60 px-5 py-3 small-caps text-[11px] tracking-[0.24em] text-foreground hover:bg-amber hover:text-amber-foreground transition-colors duration-500"
+            className="flex-1 text-center bg-amber text-amber-foreground px-5 py-3 small-caps text-[11px] tracking-[0.24em] font-semibold hover:bg-ember hover:text-ember-foreground transition-colors duration-300"
           >
             Request Under NDA
           </Link>

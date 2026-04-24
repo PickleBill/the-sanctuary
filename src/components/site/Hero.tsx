@@ -1,17 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import frame1 from "@/assets/hero-frame-1-meditation.jpg";
 import frame2 from "@/assets/hero-frame-2-golf.jpg";
 import frame3 from "@/assets/hero-frame-3-sauna.jpg";
 
 /**
- * v3.3 — Cinemagraph Hero
+ * v3.6 — Cinemagraph Hero
  *
- * 3 generated still frames cross-fading on a 14s cycle, each panning slowly
- * (Ken Burns). Looks like a video, ships like 3 JPEGs. Reduced-motion holds
- * on frame 1.
- *
- * Headline locked: "The room is the medicine. / Care, in the company of peers."
- * Mini-network whisper preserved at bottom-left.
+ * 3 frames cross-fading. Headline at weight 700. No frame-indicator dots.
+ * No mini-network. Just type, photo, and one CTA.
  */
 
 const FRAMES = [
@@ -42,7 +38,6 @@ export function Hero() {
     setReduce(!!mq?.matches);
   }, []);
 
-  // Cycle frames every ~5s (14s for full 3-frame round)
   useEffect(() => {
     if (reduce) return;
     const t = window.setInterval(() => {
@@ -56,7 +51,6 @@ export function Hero() {
       className="relative flex items-center overflow-hidden bg-navy"
       style={{ minHeight: "min(100svh, 760px)" }}
     >
-      {/* Cinemagraph stack — three frames cross-fade with Ken Burns */}
       <div className="absolute inset-0">
         {FRAMES.map((f, i) => (
           <img
@@ -80,7 +74,6 @@ export function Hero() {
         ))}
       </div>
 
-      {/* Vignette stack — heavier left wash + bottom navy floor for headline contrast */}
       <div
         className="absolute inset-0"
         style={{
@@ -114,21 +107,22 @@ export function Hero() {
                 revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
               style={{
-                fontSize: "clamp(2.0rem, 1.2rem + 5.2vw, 5.75rem)",
-                lineHeight: 1.04,
-                letterSpacing: "-0.028em",
-                fontWeight: 600,
+                fontSize: "clamp(2.0rem, 1.2rem + 5.4vw, 6rem)",
+                lineHeight: 1.02,
+                letterSpacing: "-0.03em",
+                fontWeight: 700,
               }}
             >
               <span className="block">The room is the medicine.</span>
               <span
                 className="block text-ivory editorial-italic"
-                style={{ fontWeight: 400 }}
+                style={{ fontWeight: 400, letterSpacing: "-0.022em" }}
               >
                 Care, in the company of peers.
               </span>
             </h1>
 
+            {/* The ONE permitted decorative hairline — amber rule under hero headline */}
             <span
               aria-hidden
               className={`block h-px bg-amber mb-8 lg:mb-9 transition-all duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] delay-500 ${
@@ -188,9 +182,8 @@ export function Hero() {
 
               <button
                 onClick={() => scrollToId("cohort")}
-                className="mt-8 sm:mt-9 text-ivory/55 hover:text-amber transition-colors duration-500 small-caps text-[11px] tracking-[0.24em] flex items-center gap-3 group"
+                className="mt-8 sm:mt-9 text-ivory/70 hover:text-amber transition-colors duration-500 small-caps text-[11px] tracking-[0.24em] flex items-center gap-3 group"
               >
-                <span aria-hidden className="block w-6 h-px bg-ivory/30 group-hover:bg-amber transition-colors" />
                 <span>Meet the room</span>
                 <span aria-hidden className="inline-block transition-transform duration-500 group-hover:translate-x-1">→</span>
               </button>
@@ -199,22 +192,6 @@ export function Hero() {
           <div className="hidden lg:block lg:col-span-4 xl:col-span-5" aria-hidden />
         </div>
       </div>
-
-      {/* Frame indicator dots — bottom-right whisper */}
-      <div className="absolute bottom-6 right-6 lg:bottom-10 lg:right-10 z-20 flex items-center gap-1.5">
-        {FRAMES.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setActiveFrame(i)}
-            aria-label={`Show scene ${i + 1}`}
-            className={`h-px transition-all duration-500 ${
-              i === activeFrame ? "w-6 bg-amber" : "w-3 bg-ivory/30"
-            }`}
-          />
-        ))}
-      </div>
-
-      <MiniNetwork />
 
       <style>{`
         @keyframes heroFrameDrift {
@@ -238,101 +215,5 @@ export function Hero() {
         }
       `}</style>
     </section>
-  );
-}
-
-/**
- * Mini-network whisper — 5 amber nodes drift bottom-left, single filament
- * connecting two at a time. ~30% opacity. Hint of the Cohort below.
- */
-function MiniNetwork() {
-  const [reduce, setReduce] = useState(false);
-  const [, setTick] = useState(0);
-  const nodesRef = useRef(
-    [0, 1, 2, 3, 4].map((i) => ({
-      x: 0.1 + i * 0.18 + Math.sin(i * 1.7) * 0.04,
-      y: 0.4 + Math.cos(i * 2.3) * 0.3,
-      vx: 0.005 + (i % 3) * 0.002,
-      vy: (i % 2 === 0 ? 1 : -1) * 0.003,
-    })),
-  );
-  const linkRef = useRef({ a: 0, b: 2, born: 0, duration: 3600 });
-
-  useEffect(() => {
-    const mq = window.matchMedia?.("(prefers-reduced-motion: reduce)");
-    setReduce(!!mq?.matches);
-  }, []);
-
-  useEffect(() => {
-    if (reduce) return;
-    let raf = 0;
-    let last = performance.now();
-    const step = (now: number) => {
-      const dt = Math.min(64, now - last) / 1000;
-      last = now;
-      const ns = nodesRef.current;
-      for (const n of ns) {
-        n.x += n.vx * dt;
-        n.y += n.vy * dt;
-        if (n.x < 0.05 || n.x > 0.95) n.vx *= -1;
-        if (n.y < 0.15 || n.y > 0.85) n.vy *= -1;
-      }
-      const link = linkRef.current;
-      if (now - link.born > link.duration) {
-        link.a = Math.floor(Math.random() * ns.length);
-        link.b = (link.a + 1 + Math.floor(Math.random() * (ns.length - 1))) % ns.length;
-        link.born = now;
-      }
-      setTick((t) => (t + 1) % 1_000_000);
-      raf = requestAnimationFrame(step);
-    };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [reduce]);
-
-  const ns = nodesRef.current;
-  const link = linkRef.current;
-  const t = reduce ? 0.5 : Math.min(1, (performance.now() - link.born) / link.duration);
-  let op = 0;
-  if (t < 0.4) op = t / 0.4;
-  else if (t < 0.7) op = 1;
-  else op = 1 - (t - 0.7) / 0.3;
-  op = Math.max(0, Math.min(1, op)) * 0.5;
-
-  const W = 280;
-  const H = 100;
-  const a = ns[link.a];
-  const b = ns[link.b];
-
-  return (
-    <svg
-      aria-hidden
-      className="absolute bottom-6 left-6 lg:bottom-10 lg:left-10 z-10 pointer-events-none opacity-30"
-      viewBox={`0 0 ${W} ${H}`}
-      width={W}
-      height={H}
-    >
-      {a && b && (
-        <line
-          x1={a.x * W}
-          y1={a.y * H}
-          x2={b.x * W}
-          y2={b.y * H}
-          stroke="var(--amber)"
-          strokeWidth={0.6}
-          opacity={op}
-        />
-      )}
-      {ns.map((n, i) => (
-        <circle
-          key={i}
-          cx={n.x * W}
-          cy={n.y * H}
-          r={2.5}
-          fill="var(--amber)"
-          opacity={0.85}
-        />
-      ))}
-    </svg>
   );
 }

@@ -46,7 +46,7 @@ function scrollToTop() {
 function SanctuaryMark({ compact = false }: { compact?: boolean }) {
   const size = compact ? 30 : 36;
   return (
-    <span className="flex items-center gap-3">
+    <span className="flex items-center gap-2 sm:gap-3">
       <svg
         width={size}
         height={(size * 32) / 40}

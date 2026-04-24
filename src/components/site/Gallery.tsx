@@ -5,14 +5,28 @@ import grounds from "@/assets/gallery-grounds-v2.jpg";
 import clinical from "@/assets/gallery-clinical-v2.jpg";
 import trail from "@/assets/day-3-trail.jpg";
 import court from "@/assets/amenity-pickleball.jpg";
+import horse from "@/assets/journey-2-horse.jpg";
+import sauna from "@/assets/day-4-sauna.jpg";
 
 /**
- * v3.8 — Six-panel Estate gallery.
- * - Panels: Suite (tall) · Grounds · Trail · Boardroom · Court · Clinical (trio).
- * - Slow Ken Burns drift on every panel (paused for prefers-reduced-motion).
- * - Hover: title underline draws, caption lifts, sibling-desaturate stays.
- * - Mobile: persistent "Open" chip so touch users see the affordance.
- * - Lightbox preserved.
+ * v3.9.1 — Eight-panel Estate mosaic (restored from v3.7).
+ *
+ * Layout (12-col, lg+):
+ *   Row A: Suite (col 7, row-span-2, tall) · Grounds (col 5)
+ *   Row B: ↑ Suite continues             · Horse  (col 5)
+ *   Row C: Trail (col 6)                 · Sauna  (col 6)
+ *   Row D: Court (col 3) · Boardroom (col 3) · Clinical (col 3) · empty (col 3)
+ *     → on lg we use col 4/4/4 across the bottom row to keep tiles
+ *       wide enough to read. Final layout below.
+ *
+ * Mobile collapses to a single column with each tile at aspect-[4/5].
+ *
+ * Polish kept from v3.8:
+ *   - Slow Ken Burns drift (paused for prefers-reduced-motion).
+ *   - Sibling-desaturate-on-hover magic moment.
+ *   - Title underline draws on hover; corner expand glyph on desktop.
+ *   - Mobile-persistent amber "Open →" chip top-right.
+ *   - Lightbox unchanged.
  */
 
 type Frame = {
@@ -40,6 +54,14 @@ const frames: Frame[] = [
       "Two hundred and twelve acres of mature white-oak canopy, a stocked pond, three miles of soft-surface walking trails, and a meditation pavilion sited where the morning mist breaks across the ridge. You will walk this ridge more than you expect to. The land does most of the work.",
   },
   {
+    src: horse,
+    title: "Morning Ride",
+    caption:
+      "A small string of quiet horses, an unhurried hour at the ridgeline.",
+    long:
+      "A short ride before breakfast — a quiet, well-mannered string, an hour out and back on the south ridgeline. Coffee waiting at the trailhead. For some guests it becomes the favorite hour of the week; for others, never opted into. Available on request, never on a clock.",
+  },
+  {
     src: trail,
     title: "The Trail",
     caption:
@@ -48,12 +70,12 @@ const frames: Frame[] = [
       "The trail is the program's quiet spine. Three soft-surface miles, marked at the half-mile and looped twice for an unhurried hour. Walked alone before breakfast or with a clinician at noon — most of the breakthroughs in any week here happen somewhere along it. The land does most of the work.",
   },
   {
-    src: boardroom,
-    title: "Executive Boardroom",
+    src: sauna,
+    title: "Sauna & Recovery",
     caption:
-      "Sound-proofed, encrypted spaces for uninterrupted leadership.",
+      "Cedar sauna, cold plunge, and a long room for nothing in particular.",
     long:
-      "Acoustically sealed, hardened against signal interception, with redundant fiber and a secure video stack vetted by an outside firm. Built for the principal who cannot disappear. Scheduled use windows protect the rest of the program — for the calls you can't miss, and the discipline to use it sparingly.",
+      "A finished cedar sauna sits at the lower garden, paired with a cold plunge and a long, sun-lit recovery room with reformer mats and one good chair. Used after the trail, before dinner, or simply when the day deserves a pause.",
   },
   {
     src: court,
@@ -62,6 +84,14 @@ const frames: Frame[] = [
       "Pickleball at golden hour, with a peer who outranks the small talk.",
     long:
       "A private court tucked beyond the orchard, fenced in cedar so it disappears from the main lawns. Played at golden hour with a small circle of peers in residence — the kind of game that ends with a long conversation on the bench, not a scoreboard. Paddles waiting; we'll bring the cold towels.",
+  },
+  {
+    src: boardroom,
+    title: "Executive Boardroom",
+    caption:
+      "Sound-proofed, encrypted spaces for uninterrupted leadership.",
+    long:
+      "Acoustically sealed, hardened against signal interception, with redundant fiber and a secure video stack vetted by an outside firm. Built for the principal who cannot disappear. Scheduled use windows protect the rest of the program — for the calls you can't miss, and the discipline to use it sparingly.",
   },
   {
     src: clinical,
@@ -300,18 +330,21 @@ export function Gallery() {
         </div>
 
         {/*
-          v3.8 mosaic, 12-col on desktop:
+          v3.9.1 mosaic, 12-col on desktop:
           Row A: Suite (7, row-span-2, tall) · Grounds (5)
-          Row B: ↑ Suite continues       · Trail (5)
-          Row C: Boardroom (4) · Court (4) · Clinical (4)
+          Row B: ↑ Suite continues          · Horse  (5)
+          Row C: Trail (6)                  · Sauna  (6)
+          Row D: Court (4) · Boardroom (4) · Clinical (4)
         */}
-        <div className="gallery-grid grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
+        <div className="gallery-grid grid grid-cols-1 lg:grid-cols-12 auto-rows-auto gap-4 lg:gap-6">
+          {/* 1 — Suite (tall) */}
           <FramePanel
             frame={frames[0]}
             className="lg:col-span-7 lg:row-span-2 aspect-[4/5] lg:aspect-auto lg:min-h-[680px]"
             driftDelay={0}
             onOpen={() => setOpenFrame(frames[0])}
           />
+          {/* 2 — Grounds */}
           <FramePanel
             frame={frames[1]}
             className="lg:col-span-5 aspect-[4/3]"
@@ -319,6 +352,7 @@ export function Gallery() {
             driftDelay={3}
             onOpen={() => setOpenFrame(frames[1])}
           />
+          {/* 3 — Horse */}
           <FramePanel
             frame={frames[2]}
             className="lg:col-span-5 aspect-[4/3]"
@@ -326,26 +360,45 @@ export function Gallery() {
             driftDelay={6}
             onOpen={() => setOpenFrame(frames[2])}
           />
+          {/* 4 — Trail */}
           <FramePanel
             frame={frames[3]}
-            className="lg:col-span-4 aspect-[4/3]"
+            className="lg:col-span-6 aspect-[4/3]"
             delay={280}
             driftDelay={9}
             onOpen={() => setOpenFrame(frames[3])}
           />
+          {/* 5 — Sauna */}
           <FramePanel
             frame={frames[4]}
-            className="lg:col-span-4 aspect-[4/3]"
+            className="lg:col-span-6 aspect-[4/3]"
             delay={360}
             driftDelay={12}
             onOpen={() => setOpenFrame(frames[4])}
           />
+          {/* 6 — Court */}
           <FramePanel
             frame={frames[5]}
             className="lg:col-span-4 aspect-[4/3]"
             delay={440}
             driftDelay={15}
             onOpen={() => setOpenFrame(frames[5])}
+          />
+          {/* 7 — Boardroom */}
+          <FramePanel
+            frame={frames[6]}
+            className="lg:col-span-4 aspect-[4/3]"
+            delay={520}
+            driftDelay={18}
+            onOpen={() => setOpenFrame(frames[6])}
+          />
+          {/* 8 — Clinical */}
+          <FramePanel
+            frame={frames[7]}
+            className="lg:col-span-4 aspect-[4/3]"
+            delay={600}
+            driftDelay={21}
+            onOpen={() => setOpenFrame(frames[7])}
           />
         </div>
 

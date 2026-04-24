@@ -4,6 +4,7 @@ import grounds from "@/assets/gallery-grounds-v2.jpg";
 import boardroom from "@/assets/gallery-boardroom-v2.jpg";
 import clinical from "@/assets/gallery-clinical-v2.jpg";
 import pickleball from "@/assets/amenity-pickleball.jpg";
+import trail from "@/assets/day-3-trail.jpg";
 
 /**
  * v3.3 — Amenities + Building deck
@@ -46,6 +47,7 @@ const items = [
 const buildings = [
   { src: suite, label: "The Suite", caption: "Where the day begins.", alt: "A serene private suite with mountain light" },
   { src: grounds, label: "The Grounds", caption: "Forty acres, one family.", alt: "The Blue Ridge grounds at golden hour" },
+  { src: trail, label: "The Trail", caption: "Three soft miles, white-oak canopy.", alt: "A soft-surface walking trail through the white-oak canopy" },
   { src: pickleball, label: "The Court", caption: "Pickleball at golden hour.", alt: "A private pickleball court at sunset, paddles waiting on a wooden bench" },
   { src: boardroom, label: "The Office", caption: "Conference-grade fiber, hardened comms.", alt: "A private executive office with warm wood paneling" },
   { src: clinical, label: "The Clinic", caption: "Hospitality, dressed as medicine.", alt: "A discreet clinical wellness suite" },
@@ -184,10 +186,13 @@ export function Amenities() {
           <div className="flex items-baseline justify-between mb-8 lg:mb-10">
             <p className="eyebrow">The estate, briefly</p>
             <p className="hidden sm:block small-caps text-foreground/45 text-[10px] tracking-[0.28em] tabular">
-              Five rooms · One estate
+              Six rooms · One estate
             </p>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
+          {/* v3.9.1 — Quiet 2×3 recap. Mobile: 2 cols × 3 rows.
+              Desktop: 3 cols × 2 rows. No lightbox; primary gallery
+              owns the deep interaction. */}
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5">
             {buildings.map((b, i) => (
               <figure
                 key={b.label}

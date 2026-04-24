@@ -65,6 +65,7 @@ export function JourneyStrip() {
       id="journey-strip"
       className="relative bg-navy py-20 sm:py-24 lg:py-32 scroll-mt-24 overflow-hidden"
     >
+      <span aria-hidden className="section-filament-top" />
       <div className="mx-auto max-w-7xl px-6 lg:px-10 mb-10 lg:mb-14">
         <div
           className={`max-w-3xl transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] ${

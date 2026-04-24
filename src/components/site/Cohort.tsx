@@ -370,6 +370,36 @@ export function Cohort() {
           </div>
 
           <div className="lg:col-span-7">
+            {/* v3.7 — Mobile name plate ABOVE the constellation. Always-visible
+                focal point so visitors always know which archetype is lit. */}
+            <div className="lg:hidden mb-5 min-h-[88px]">
+              <div className="flex items-baseline gap-3 mb-2 flex-wrap">
+                <p
+                  className={`small-caps text-amber text-[10px] tracking-[0.32em] font-semibold transition-opacity duration-500 ${
+                    activeNode || matchedId != null ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  {activeNode && activeId === matchedId ? "✦ A quiet resonance" : "Recent resident"}
+                </p>
+                {activeNode && (
+                  <span
+                    key={`mp-${badgePulse}`}
+                    className="cohort-badge inline-flex items-center gap-1.5 px-2 py-[3px] border border-amber/40 text-[9px] tracking-[0.22em] uppercase text-amber/90"
+                  >
+                    <span aria-hidden className="block w-1.5 h-1.5 rounded-full bg-amber cohort-badge-dot" />
+                    In residence
+                  </span>
+                )}
+              </div>
+              <p
+                key={`mp-name-${activeId}-${badgePulse}`}
+                className="font-serif editorial-italic text-ivory cohort-role-rise leading-snug"
+                style={{ fontSize: "1.4rem", fontWeight: 400, minHeight: "1.4em" }}
+              >
+                {activeNode ? activeNode.role : "—"}
+              </p>
+            </div>
+
             <div className="relative w-full">
               <svg
                 viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}

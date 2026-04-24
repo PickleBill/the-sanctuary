@@ -413,7 +413,8 @@ export function Cohort() {
                 {nodes.map((n) => {
                   const isActive = activeId === n.id;
                   const isNeighbor = activeNeighbors.includes(n.id);
-                  const dim = activeId != null && !isActive && !isNeighbor;
+                  const isMatched = matchedId === n.id;
+                  const dim = activeId != null && !isActive && !isNeighbor && !isMatched;
                   const cx = n.x * VIEW_W;
                   const cy = n.y * VIEW_H;
                   return (
@@ -422,7 +423,7 @@ export function Cohort() {
                       style={{
                         cursor: "pointer",
                         transition: "opacity 500ms cubic-bezier(0.22,1,0.36,1)",
-                        opacity: dim ? 0.28 : 1,
+                        opacity: dim ? 0.32 : 1,
                       }}
                       onMouseEnter={() => {
                         if (!isMobile) handleNodeActivate(n.id);
@@ -431,6 +432,17 @@ export function Cohort() {
                       onFocus={() => handleNodeActivate(n.id)}
                       tabIndex={-1}
                     >
+                      {/* Persistent matched halo — quietly pulses */}
+                      {isMatched && !isActive && (
+                        <circle
+                          cx={cx}
+                          cy={cy}
+                          r={HALO_R * 0.9}
+                          fill="url(#cohort-node-glow)"
+                          className="cohort-match-halo"
+                          style={{ transformOrigin: `${cx}px ${cy}px` }}
+                        />
+                      )}
                       {isActive && (
                         <circle
                           cx={cx}
@@ -446,9 +458,9 @@ export function Cohort() {
                       <circle
                         cx={cx}
                         cy={cy}
-                        r={isActive ? NODE_R_HOVER : isNeighbor ? NODE_R_NEIGHBOR : NODE_R_BASE}
-                        fill={isActive || isNeighbor ? "var(--amber)" : "var(--ivory)"}
-                        opacity={isActive ? 1 : isNeighbor ? 0.95 : 0.85}
+                        r={isActive ? NODE_R_HOVER : isNeighbor || isMatched ? NODE_R_NEIGHBOR : NODE_R_BASE}
+                        fill={isActive || isNeighbor || isMatched ? "var(--amber)" : "var(--ivory)"}
+                        opacity={isActive ? 1 : isMatched ? 1 : isNeighbor ? 0.95 : 0.85}
                         style={{
                           transition: "r 500ms cubic-bezier(0.22,1,0.36,1), fill 500ms ease",
                         }}

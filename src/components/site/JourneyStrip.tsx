@@ -136,15 +136,15 @@ export function JourneyStrip() {
                 className="absolute inset-0 pointer-events-none"
                 style={{
                   background:
-                    "linear-gradient(180deg, transparent 50%, color-mix(in oklab, var(--navy) 78%, transparent) 100%)",
+                    "linear-gradient(180deg, transparent 40%, color-mix(in oklab, var(--navy) 55%, transparent) 70%, color-mix(in oklab, var(--navy) 92%, transparent) 100%)",
                 }}
               />
               <figcaption className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 text-ivory">
-                <p className="small-caps text-amber/85 text-[10px] tracking-[0.28em] mb-1.5 tabular">
+                <p className="small-caps text-amber text-[10px] tracking-[0.28em] mb-1.5 tabular text-on-image">
                   {m.time}
                 </p>
                 <p
-                  className="font-serif editorial-italic"
+                  className="font-serif editorial-italic text-on-image-strong"
                   style={{
                     fontSize: "clamp(1.5rem, 1.2rem + 1.6vw, 2rem)",
                     fontWeight: 400,

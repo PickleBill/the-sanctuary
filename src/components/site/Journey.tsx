@@ -153,21 +153,21 @@ function MomentTile({
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "linear-gradient(180deg, transparent 48%, color-mix(in oklab, var(--navy) 78%, transparent) 100%)",
+              "linear-gradient(180deg, transparent 38%, color-mix(in oklab, var(--navy) 55%, transparent) 68%, color-mix(in oklab, var(--navy) 92%, transparent) 100%)",
           }}
           aria-hidden
         />
         <figcaption className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 lg:p-7 text-ivory">
-          <p className="small-caps text-amber/85 mb-1.5 text-[10px] tracking-[0.28em]">
+          <p className="small-caps text-amber mb-1.5 text-[10px] tracking-[0.28em] text-on-image">
             {moment.eyebrow}
           </p>
           <h3
-            className="font-serif text-lg sm:text-xl lg:text-2xl mb-1.5 hang-punct"
+            className="font-serif text-lg sm:text-xl lg:text-2xl mb-1.5 hang-punct text-on-image-strong"
             style={{ fontWeight: 500, lineHeight: 1.12, letterSpacing: "-0.012em" }}
           >
             {moment.title}
           </h3>
-          <p className="editorial-italic text-[13px] sm:text-[14px] text-ivory/85 max-w-md leading-snug">
+          <p className="editorial-italic text-[13px] sm:text-[14px] text-ivory max-w-md leading-snug text-on-image">
             {moment.caption}
           </p>
         </figcaption>

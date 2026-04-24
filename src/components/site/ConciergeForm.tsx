@@ -620,10 +620,61 @@ function SuccessCard({
       <style>{`
         @keyframes successFilament { from { transform: scaleX(0); } to { transform: scaleX(1); } }
         .success-filament { animation: successFilament 900ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+        @keyframes replyWordIn {
+          from { opacity: 0; transform: translateY(3px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .reply-word {
+          display: inline-block;
+          opacity: 0;
+          animation: replyWordIn 240ms cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        .reply-loading::after {
+          content: "…";
+          display: inline-block;
+          animation: replyWordIn 800ms ease-in-out infinite alternate;
+        }
         @media (prefers-reduced-motion: reduce) {
           .success-filament { animation: none !important; transform: scaleX(1); }
+          .reply-word { animation: none !important; opacity: 1; transform: none; }
         }
       `}</style>
+    </div>
+  );
+}
+
+/**
+ * v3.4 — Word-by-word reveal for the AI acknowledgment.
+ * ~32ms cascade, capped at 90 words so a longer reply never drags.
+ * Preserves paragraph breaks so the two-paragraph format reads correctly.
+ */
+function StreamedReply({ text }: { text: string }) {
+  const paragraphs = text.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
+  let cursor = 0;
+  const cap = 90;
+  return (
+    <div className="space-y-4">
+      {paragraphs.map((para, pIdx) => {
+        const words = para.split(/(\s+)/);
+        return (
+          <p
+            key={pIdx}
+            className="font-serif text-foreground leading-relaxed"
+            style={{ fontSize: "var(--text-body)", lineHeight: 1.55, fontWeight: 400 }}
+          >
+            {words.map((w, i) => {
+              if (/^\s+$/.test(w)) return <span key={i}>{w}</span>;
+              const delay = Math.min(cursor, cap) * 32;
+              cursor += 1;
+              return (
+                <span key={i} className="reply-word" style={{ animationDelay: `${delay}ms` }}>
+                  {w}
+                </span>
+              );
+            })}
+          </p>
+        );
+      })}
     </div>
   );
 }

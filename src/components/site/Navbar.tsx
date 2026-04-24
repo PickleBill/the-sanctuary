@@ -52,56 +52,27 @@ function SanctuaryMark({ compact = false }: { compact?: boolean }) {
         aria-hidden
         className="shrink-0"
       >
-        {/* v3.7 — Double Blue Ridge silhouette + first-light sunrise dot.
-            Back ridge sits softer (haze); front ridge crisp; tiny amber sun
-            partially eclipsed by the front ridge — first light over the mountain. */}
-        {/* sunrise dot, behind everything */}
-        <circle cx="17" cy="14" r="2.4" fill="var(--amber)" opacity="0.95" />
-        {/* back ridge — softer, hazier */}
+        {/* v3.8 — One ridge, one sun, real negative space.
+            Sun sits upper-right, fully clear of the silhouette. */}
+        <circle cx="26" cy="9" r="2.6" fill="var(--amber)" />
         <path
-          d="M 1 24 Q 10 10, 17 16 T 33 22"
+          d="M 2 25 Q 9 14, 15 19 T 32 23"
           fill="none"
           stroke="var(--amber)"
-          strokeOpacity="0.42"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-        />
-        {/* front ridge — crisp */}
-        <path
-          d="M 2 26 Q 11 12, 17 18 T 32 24"
-          fill="none"
-          stroke="var(--amber)"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        {/* horizon */}
-        <path
-          d="M 6 29 L 28 29"
-          fill="none"
-          stroke="var(--amber)"
-          strokeOpacity="0.35"
-          strokeWidth="0.8"
+          strokeWidth="1.75"
           strokeLinecap="round"
         />
       </svg>
-      <span className="flex flex-col leading-none">
-        <span
-          className="text-[8px] tracking-[0.36em] uppercase font-semibold text-amber/85"
-          style={{ marginBottom: 2 }}
-        >
-          Blue Ridge
-        </span>
-        <span
-          className="font-serif text-ivory"
-          style={{
-            fontSize: compact ? "1.05rem" : "1.2rem",
-            fontWeight: 600,
-            letterSpacing: "0.01em",
-            fontFeatureSettings: '"cv01" 1, "ss01" 1, "kern" 1',
-          }}
-        >
-          The Sanctuary
-        </span>
+      <span
+        className="font-serif text-ivory leading-none"
+        style={{
+          fontSize: compact ? "1.1rem" : "1.28rem",
+          fontWeight: 600,
+          letterSpacing: "0.005em",
+          fontFeatureSettings: '"cv01" 1, "ss01" 1, "kern" 1',
+        }}
+      >
+        The Sanctuary
       </span>
     </span>
   );
